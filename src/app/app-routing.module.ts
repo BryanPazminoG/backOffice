@@ -9,9 +9,12 @@ import { PersonaComponent } from './Paginas/backOffice/clientes/persona/persona.
 import { ConsultaComponent } from './Paginas/backOffice/clientes/consulta/consulta.component';
 import { EditarComponent } from './Paginas/backOffice/clientes/editar/editar.component';
 import { EstadoComponent } from './Paginas/backOffice/clientes/estado/estado.component';
+import { LoginComponent } from './Paginas/login/login.component';
+
 
 const routes: Routes = [
-  //{ path:'' , component: HomeComponent, pathMatch: 'full' },
+  { path:'' , component: LoginComponent, pathMatch: 'full' },
+  { path:'login' , component: LoginComponent, pathMatch: 'full' },
   { path:'usuarios' , component : UsuariosComponent},
   { path:'clientes', component: ClientesComponent},
   { path: 'clientes/crear', component: CrearComponent }, 

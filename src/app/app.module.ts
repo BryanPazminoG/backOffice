@@ -18,6 +18,7 @@ import { PersonaComponent } from './Paginas/backOffice/clientes/persona/persona.
 import { ConsultaComponent } from './Paginas/backOffice/clientes/consulta/consulta.component';
 import { EditarComponent } from './Paginas/backOffice/clientes/editar/editar.component';
 import { EstadoComponent } from './Paginas/backOffice/clientes/estado/estado.component';
+import { LoginComponent } from './Paginas/login/login.component';
 
 
 
@@ -35,6 +36,7 @@ import { EstadoComponent } from './Paginas/backOffice/clientes/estado/estado.com
     ConsultaComponent,
     EditarComponent,
     EstadoComponent,
+    LoginComponent,
 
   ],
   imports: [
