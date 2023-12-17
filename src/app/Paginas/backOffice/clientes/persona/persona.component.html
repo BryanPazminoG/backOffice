@@ -18,29 +18,32 @@
             <div class="container">
                 <div class="container-fluid">
                     <div class="row title mt-5">
-                        <h4>Nuevo Usuario</h4>
+                        <h4>Nuevo Cliente</h4>
                     </div>
                     <div class="row contenido my-3 p-5 rounded-4">
-                        <h5>Datos de Usuario</h5>
+                        <h5>Datos del cliente</h5>
                         <hr>
                         <form action="">
                             <div class="form-group">
-                                <select class="form-select">
-                                    <option selected>Rol</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <select class="form-select" disabled>
+                                    <option selected>Natural</option>
                                 </select>
+                                <select class="form-select my-2">
+                                    <option selected>Cedula</option>
+                                    <option selected>Pasaporte</option>
+                                </select>
+                                <input type="text" class="form-control my-2" placeholder="No. Identificacion">
+                                <input type="text" class="form-control my-2" placeholder="Apellidos">
                                 <input type="text" class="form-control my-2" placeholder="Nombres">
-                                <input type="text" class="form-control my-2" placeholder="Apellido">
+                                <input type="date" class="form-control my-2" placeholder="Fecha Nacimiento">
+                                <input type="text" class="form-control my-2" placeholder="Direccion">
                                 <input type="text" class="form-control my-2" placeholder="Correo Electronico">
-                                <input type="text" class="form-control my-2" placeholder="Usuario">
-                                <input type="text" class="form-control my-2" placeholder="Password">
+                                <input type="text" class="form-control my-2" placeholder="Telefono">
                             </div>
                         </form>
                         <div class="px-4 mt-3">
-                            <button type="button" class="btn btn-success mx-1" >Continuar</button>
-                            <button type="button" class="btn btn-secondary mx-1" (click)="mensaje()">Regresar</button>
+                            <button type="button" class="btn btn-success mx-1"><i class="bi bi-plus-circle"></i> Crear</button>
+                            <button type="button" class="btn btn-secondary mx-1" routerLink="/clientes/crear">Regresar</button>
                         </div>
                     </div>
                 </div>

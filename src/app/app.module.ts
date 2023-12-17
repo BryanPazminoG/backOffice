@@ -10,9 +10,16 @@ import { SideBarComponent} from './Bloques/backOffice/sidebar/sidebar.component'
 
 
 import { ErrorComponent } from './Paginas/error/error.component';
-import { ClientesComponent } from './Paginas/backOffice/clientes/clientes.component';
+import { ClientesComponent } from './Paginas/backOffice/clientes/inicio/clientes.component';
 import { UsuariosComponent } from './Paginas/backOffice/usuarios/usuarios.component';
 import { CuentasComponent } from './Paginas/backOffice/cuentas/cuentas.component';
+import { CrearComponent } from './Paginas/backOffice/clientes/crear/crear.component';
+import { PersonaComponent } from './Paginas/backOffice/clientes/persona/persona.component';
+import { ConsultaComponent } from './Paginas/backOffice/clientes/consulta/consulta.component';
+import { EditarComponent } from './Paginas/backOffice/clientes/editar/editar.component';
+import { EstadoComponent } from './Paginas/backOffice/clientes/estado/estado.component';
+
+
 
 @NgModule({
   declarations: [
@@ -23,6 +30,12 @@ import { CuentasComponent } from './Paginas/backOffice/cuentas/cuentas.component
     SideBarComponent,
     ClientesComponent,
     CuentasComponent,
+    CrearComponent,
+    PersonaComponent,
+    ConsultaComponent,
+    EditarComponent,
+    EstadoComponent,
+
   ],
   imports: [
     BrowserModule,
