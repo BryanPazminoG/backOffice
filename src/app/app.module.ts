@@ -4,30 +4,25 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './Bloques/navbar/navbar.component';
-import { MenuComponent } from './Componentes/menu/menu.component';
-import { ComponentesComponent } from './Plantillas/componentes/componentes.component';
-import { FormulariosComponent } from './Plantillas/formularios/formularios.component';
-import { RutasComponent } from './Plantillas/rutas/rutas.component';
-import { ServiciosComponent } from './Plantillas/servicios/servicios.component';
-import { ErrorComponent } from './Plantillas/error/error.component';
-import { HomeComponent } from './Plantillas/home/home.component';
-import { FooterComponent } from './Bloques/footer/footer.component';
-import { HeaderComponent } from './Bloques/header/header.component';
+
+import { NavbarComponent } from './Bloques/backOffice/navbar/navbar.component';
+import { SideBarComponent} from './Bloques/backOffice/sidebar/sidebar.component';
+
+
+import { ErrorComponent } from './Paginas/error/error.component';
+import { ClientesComponent } from './Paginas/backOffice/clientes/clientes.component';
+import { UsuariosComponent } from './Paginas/backOffice/usuarios/usuarios.component';
+import { CuentasComponent } from './Paginas/backOffice/cuentas/cuentas.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    MenuComponent,
-    ComponentesComponent,
-    FormulariosComponent,
-    RutasComponent,
-    ServiciosComponent,
     ErrorComponent,
-    HomeComponent,
-    FooterComponent,
-    HeaderComponent
+    UsuariosComponent,
+    SideBarComponent,
+    ClientesComponent,
+    CuentasComponent,
   ],
   imports: [
     BrowserModule,
