@@ -1,0 +1,66 @@
+<div class="container-fluid p-0">
+    <div class="row">
+        <!-- Navbar -->
+        <div class="col-12 px-0" class="borde-ancho">
+            <app-navbar></app-navbar>
+        </div>
+    </div>
+
+    <div class="row m-0">
+        <!-- Sidebar -->
+        <div class="sidebar-container col-2 p-0 d-flex flex-column vh-100">
+            <app-sidebar class="flex-grow-1"></app-sidebar>
+        </div>
+    
+        <!-- Main Content -->
+
+        <div class="col-10 p-0 d-flex">
+            
+            <!-- Aquí puedes colocar el contenido principal -->
+            <div class="p-4 flex-grow-1" style="background-color: #DBD8D8;">
+                <router-outlet></router-outlet>
+                <h1 class="ms-5 mt-5" style="color: #159768; font-size: 24px; font-weight: bold; padding-left:100px;">Gestión de clientes</h1>
+                <div class="container d-flex flex-column align-items-center mt-5">
+                    <div class="d-flex justify-content-center">
+                        
+                        <div class="white-box-custom bigger-box">
+                            <a href="/clientes/crear" style="display: block; text-decoration: none; color: inherit;">
+                                <div class="row">
+                                    <img class="logo img-fluid pt-3" src="../../../assets/img/clientes/crear.png" alt="Logo">
+                                </div>
+                                <div class="row text-center pt-4" style="color: #159768; font-size: 18px; font-weight: bold;">
+                                    <a>Crear Nuevo Cliente</a>
+                                </div>   
+                            </a>
+                        </div>                        
+                        
+                        <div class="white-box-custom bigger-box">
+                            <a href="/clientes/consultas" style="display: block; text-decoration: none; color: inherit;">
+                                <div class="row">
+                                    <img class="logo img-fluid pt-3" src="../../../assets/img/clientes/consultas.png" alt="Logo">
+                                </div>
+                                <div class="row text-center pt-4" style="color: #159768; font-size: 18px; font-weight: bold;">
+                                    <p>Consultas</p>
+                                </div>
+                            </a>   
+                        </div>
+
+                        <div class="white-box-custom bigger-box">
+                            <a href="/clientes/estado" style="display: block; text-decoration: none; color: inherit;">
+                                <div class="row">
+                                    <img class="logo img-fluid pt-4" src="../../../assets/img/clientes/acti_desa.png" alt="Logo">
+                                </div>
+                                <div class="row text-center pt-2 ps-1 pe-1" style="color: #159768; font-size: 17px; font-weight: bold;">
+                                    <p>Activacion / Desactivación de clientes</p>
+                                </div> 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>

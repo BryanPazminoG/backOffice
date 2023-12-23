@@ -1,0 +1,56 @@
+<div class="container-fluid p-0">
+    <div class="row">
+    <!-- Navbar -->
+    <div class="col-12 px-0" class="borde-ancho">
+        <app-navbar></app-navbar>
+    </div>
+    </div>
+    <div class="row m-0">
+        <!-- Sidebar -->
+        <div class="col-2 p-0 d-flex flex-column vh-100">
+        <app-sidebar class="flex-grow-1"></app-sidebar>
+    </div>
+    <!-- Main Content -->
+    
+    <div class="col-10 p-0 d-flex">
+        <!-- Aquí puedes colocar el contenido principal -->
+        <div class="p-4 flex-grow-1" style="background-color: #DBD8D8;">
+            <div class="container">
+                <div class="container-fluid">
+                    <div class="row title mt-5">
+                        <h4>Nuevo Cliente</h4>
+                    </div>
+                    <div class="row contenido my-3 p-5 rounded-4">
+                        <h5>Datos del cliente</h5>
+                        <hr>
+                        <form action="">
+                            <div class="form-group">
+                                <select class="form-select" disabled>
+                                    <option selected>Natural</option>
+                                </select>
+                                <select class="form-select my-2">
+                                    <option selected>Cedula</option>
+                                    <option selected>Pasaporte</option>
+                                </select>
+                                <input type="text" class="form-control my-2" placeholder="No. Identificacion">
+                                <input type="text" class="form-control my-2" placeholder="Apellidos">
+                                <input type="text" class="form-control my-2" placeholder="Nombres">
+                                <input type="date" class="form-control my-2" placeholder="Fecha Nacimiento">
+                                <input type="text" class="form-control my-2" placeholder="Direccion">
+                                <input type="text" class="form-control my-2" placeholder="Correo Electronico">
+                                <input type="text" class="form-control my-2" placeholder="Telefono">
+                            </div>
+                        </form>
+                        <div class="px-4 mt-3">
+                            <button type="button" class="btn btn-success mx-1"><i class="bi bi-plus-circle"></i> Crear</button>
+                            <button type="button" class="btn btn-secondary mx-1" routerLink="/clientes/crear">Regresar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+</div>
