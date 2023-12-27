@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './Bloques/navbar/navbar.component';
 import { SideBarComponent} from './Bloques/sidebar/sidebar.component';
 
+import { FormsModule } from '@angular/forms';
 
 import { ErrorComponent } from './Paginas/error/error.component';
 import { ClientesComponent } from './Paginas/clientes/inicio/clientes.component';
@@ -42,7 +43,8 @@ import { LoginComponent } from './Paginas/login/login.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
