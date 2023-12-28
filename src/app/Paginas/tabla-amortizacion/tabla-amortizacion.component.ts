@@ -1,7 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2'
-import html2canvas  from 'html2canvas'; // Librería que convierte código HTML a imagenes
-
+import html2canvas from 'html2canvas';
+import { Router } from '@angular/router';
+import jsPDF from 'jspdf';
+import { FlujoDatosService } from 'src/app/Servicios/flujo-datos.service';
 
 
 @Component({
@@ -9,10 +11,43 @@ import html2canvas  from 'html2canvas'; // Librería que convierte código HTML 
   templateUrl: './tabla-amortizacion.component.html',
   styleUrls: ['./tabla-amortizacion.component.css']
 })
-export class TablaAmortizacionComponent {
+export class TablaAmortizacionComponent implements OnInit {
+
+  participePrincipal = {
+    'cod_cliente': '',
+    'numero_identificacion': '',
+    'apellidos': '',
+    'nombres': '',
+    'direccion': '',
+    'telefono': '',
+    'correo_electronico': '',
+
+  }
+  participeSecundario = [{
+    'cod_cliente': '',
+    'numero_identificacion': '',
+    'apellidos': '',
+    'nombres': '',
+  }]
+  credito = {
+    'cod_cliente': 0,
+    'fecha_creacion': '',
+    'monto': 0,
+    'plazo': 0,
+  }
+
   @ViewChild('contenedor', { static: false }) tablaAmortizacion!: ElementRef; // Hace una referencia de una parte del html para el uso en la lógica
 
-  constructor() {
+  constructor(private router: Router, private flujoDatosService: FlujoDatosService) {
+  }
+  ngOnInit(): void {
+    this.cargarDatos();
+  }
+
+  cargarDatos() {
+    this.participePrincipal = <any>this.flujoDatosService.getParticipePrincipal();
+    this.participeSecundario = <any>this.flujoDatosService.getParticipeSecundario();
+    this.credito = <any>this.flujoDatosService.getCredito();
   }
 
   crearCredito() {
@@ -21,9 +56,17 @@ export class TablaAmortizacionComponent {
       title: "Listo",
       text: "El credito se ha creado satisfactoriamente",
       showConfirmButton: false,
-      timer: 1500
+      timer: 2500
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        this.router.navigate(["creditos"]);
+      }
     });
     this.imprimirTabla();
+  }
+
+  regresar(){
+    this.router.navigate(["creditos"]);
   }
 
   async imprimirTabla() { // Función para imprimir contenido HTML
@@ -43,7 +86,7 @@ export class TablaAmortizacionComponent {
     const numImg = Math.ceil(cardContainer.offsetHeight / imgHeight);
     //Auxiliar: posicion eje Y de cada img con respecto al html 
     let pageY = 0;
-    //const pdf = new jsPDF('p', 'mm', 'a4'); // Configuraciones del documento PDF
+    const pdf = new jsPDF('p', 'mm', 'a4'); // Configuraciones del documento PDF
 
     for (let index = 0; index < numImg; index++) {
       await html2canvas(cardContainer, {
@@ -69,12 +112,12 @@ export class TablaAmortizacionComponent {
           const imageX = margin + (maxWidth - imgWidthAjustado) / 2;
           const imageY = topMargin + (maxHeight - imgHeightAjustado) / 2;
 
-          //if (index > 0) pdf.addPage();
-          //pdf.addImage(imgData, 'SVG', imageX, imageY, imgWidthAjustado, imgHeightAjustado);
-          //pageY += imgHeight;
+          if (index > 0) pdf.addPage();
+          pdf.addImage(imgData, 'SVG', imageX, imageY, imgWidthAjustado, imgHeightAjustado);
+          pageY += imgHeight;
         }
       );
     }
-    //pdf.save('tabla-amortizacion.pdf');
+    pdf.save('tabla-amortizacion.pdf');
   }
 }
