@@ -10,6 +10,8 @@ import { ConsultaComponent } from './Paginas/clientes/consulta/consulta.componen
 import { EditarComponent } from './Paginas/clientes/editar/editar.component';
 import { EstadoComponent } from './Paginas/clientes/estado/estado.component';
 import { LoginComponent } from './Paginas/login/login.component';
+import { CreditosComponent } from './Paginas/creditos/creditos.component';
+import { TablaAmortizacionComponent } from './Paginas/tabla-amortizacion/tabla-amortizacion.component';
 
 
 const routes: Routes = [
@@ -23,6 +25,8 @@ const routes: Routes = [
   { path: 'clientes/editar', component: EditarComponent }, 
   { path: 'clientes/estado', component: EstadoComponent },
   { path:'cuentas', component: CuentasComponent}, 
+  { path:'creditos', component: CreditosComponent}, 
+  { path:'creditos/amortizacion', component: TablaAmortizacionComponent}, 
   { path:'**' , component : ErrorComponent},
 
 ];

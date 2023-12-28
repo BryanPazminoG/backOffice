@@ -1,0 +1,153 @@
+<div class="container-fluid p-0">
+    <div class="row">
+        <!-- Navbar -->
+        <div class="col-12 px-0" class="borde-ancho">
+            <app-navbar></app-navbar>
+        </div>
+    </div>
+    <div class="row m-0">
+        <!-- Sidebar -->
+        <div class="col-2 p-0 d-flex flex-column vh-100">
+            <app-sidebar class="flex-grow-1"></app-sidebar>
+        </div>
+        <!-- Main Content -->
+
+        <div class="col-10 p-0 d-flex">
+            <!-- Aquí puedes colocar el contenido principal -->
+            <div class="p-4 flex-grow-1" style="background-color: #DBD8D8;">
+                <div class="container">
+                    <div class="container-fluid">
+                        <div class="row title mt-5">
+                            <h4>Nuevo Credito</h4>
+                        </div>
+                        <div class="row contenido my-3 p-5 rounded-4">
+                            <h5>Datos de Solicitante (Principal)</h5>
+                            <hr>
+                            <form action="">
+                                <div class="form-group">
+                                    <select class="form-select">
+                                        <option selected>Tipo de Identificacion</option>
+                                        <option value="1">Cedula</option>
+                                        <option value="2">Pasaporte</option>
+                                        <option value="3">RUC</option>
+                                    </select>
+                                    <input type="text" class="form-control my-2" placeholder="No. de identificacion">
+                                    <hr>
+                                    <input type="text" class="form-control my-4" placeholder="____" readonly>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row contenido my-3 p-5 rounded-4">
+                            <h5>Datos de Participes</h5>
+                            <hr>
+                            <form action="">
+                                <div class="form-group">
+                                    <select class="form-select">
+                                        <option selected>Tipo de Identificacion</option>
+                                        <option value="1">Cedula</option>
+                                        <option value="2">Pasaporte</option>
+                                        <option value="3">RUC</option>
+                                    </select>
+                                    <input type="text" class="form-control my-2" placeholder="No. de identificacion">
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-11">
+                                            <input type="text" class="form-control my-3" placeholder="____" readonly>
+                                        </div>
+                                        <div class="col-1 text-center d-flex align-items-center">
+                                            <a type="button" class="btn btn-dark">
+                                                <i class="bi bi-plus-lg"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-sm-12 mt-4">
+                                    <div id="ListadoMedicamentoConsumoContainer" class="col">
+                                        <table id="tblListadoMedicamentoConsumo"
+                                            class="table table-hover table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Tipo</th>
+                                                    <th scope="col">Identificacion</th>
+                                                    <th scope="col">Nombres</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row contenido my-3 p-5 rounded-4">
+                            <h5>Datos del Credito</h5>
+                            <hr>
+                            <form action="">
+                                <div class="form-group row">
+                                    <label for="producto" class="col-sm-2 col-form-label">Producto: </label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="producto"
+                                            placeholder="CRÉDITO DE CONSUMO">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-2">
+                                    <label for="monto" class="col-sm-2 col-form-label">Monto: </label>
+
+                                    <div class="col-sm-10 row">
+                                        <div class="col-sm-4">
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="number" class="form-control" min=0 max=50000 id="monto"
+                                                    value="00">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1 text-center">
+                                            <p style="font-size: 25px;">.</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="number" class="form-control" min=0 max=99 id="decimal"
+                                                value="00">
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <span id="monto" class="form-text">
+                                                Monto desde 1000 a 10000.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label for="plazo" class="col-sm-2 col-form-label">Plazo (meses): </label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" min=0 max=99 id="plazo">
+                                        <div id="mensajePlazo" class="form-text ">El plazo para el credito es de 15 a 30 meses.</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-2">
+                                    <label for="calculo" class="col-sm-2 col-form-label">Tipo de cálculo: </label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select">
+                                            <option selected>CUOTA FIJA - FRANCES</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="px-4 mt-4">
+                                <button type="button" class="btn btn-success mx-1"
+                                    (click)="amortizacion()">Continuar</button>
+                                <button type="button" class="btn btn-secondary mx-1">Regresar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

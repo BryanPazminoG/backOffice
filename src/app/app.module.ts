@@ -20,6 +20,8 @@ import { ConsultaComponent } from './Paginas/clientes/consulta/consulta.componen
 import { EditarComponent } from './Paginas/clientes/editar/editar.component';
 import { EstadoComponent } from './Paginas/clientes/estado/estado.component';
 import { LoginComponent } from './Paginas/login/login.component';
+import { CreditosComponent } from './Paginas/creditos/creditos.component';
+import { TablaAmortizacionComponent } from './Paginas/tabla-amortizacion/tabla-amortizacion.component';
 
 
 
@@ -38,6 +40,8 @@ import { LoginComponent } from './Paginas/login/login.component';
     EditarComponent,
     EstadoComponent,
     LoginComponent,
+    CreditosComponent,
+    TablaAmortizacionComponent,
 
   ],
   imports: [
