@@ -1,0 +1,72 @@
+<div class="container-fluid p-0">
+    <div class="row">
+        <!-- Navbar -->
+        <div class="col-12 px-0" class="borde-ancho">
+            <app-navbar></app-navbar>
+        </div>
+    </div>
+    <div class="row m-0">
+        <!-- Sidebar -->
+        <div class="col-2 p-0 d-flex flex-column vh-100">
+            <app-sidebar class="flex-grow-1"></app-sidebar>
+        </div>
+        <!-- Main Content -->
+
+        <div class="col-10 p-0 d-flex">
+            <!-- Aquí puedes colocar el contenido principal -->
+            <div class="p-4 flex-grow-1" style="background-color: #DBD8D8;">
+                <div class="container">
+                    <div class="container-fluid">
+                        <div class="container-fluid">
+                            <div class="row contenido my-3 rounded-4">
+                                <div class="p-5">
+                                    <h5>Tabla de amortizacion</h5>
+                                    <hr>
+                                    <table class="table table-hover" #contenedor>
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th scope="col">No</th>
+                                                <th scope="col">Fecha vencimiento</th>
+                                                <th scope="col">Capital Amortizado</th>
+                                                <th scope="col">Interes</th>
+                                                <th scope="col">Cuotas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+    
+                                    <div class="px-4 mt-3">
+                                        <button type="button" class="btn btn-success mx-1" (click)="crearCredito()">Generar credito</button>
+                                        <button type="button" class="btn btn-secondary mx-1">Regresar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

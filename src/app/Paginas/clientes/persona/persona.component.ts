@@ -14,7 +14,6 @@ export class PersonaComponent {
   constructor(private clienteService: ClienteService) { }
 
   usuario: string = 'BryanP98';
-  
   identificacion: string = '';
   apellidos: string = '';
   nombres: string = '';
@@ -24,6 +23,7 @@ export class PersonaComponent {
   telefono: string = '';
 
   enviarDatosCliente(): void {
+
     const datosCliente = {
       codigo : 12,
       tipoCliente: "NAT",
@@ -31,19 +31,14 @@ export class PersonaComponent {
       numeroIdentificacion: this.identificacion,
       apellidos: this.apellidos,
       nombres: this.nombres,
-
       fechaNacimiento: this.fechaNacimiento,
       fechaConstitucion: "0000-00-00",
-
       razonSocial: "",
       nombreComercial: "",
-
       direccion: this.direccion,
       correoElectronico: this.correoElectronico,
       telefono: this.telefono,
-
       fechaModificacion: "2023-12-26T00:00:00", 
-
       version: 1
     };
 

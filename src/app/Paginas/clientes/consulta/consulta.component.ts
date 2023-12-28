@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ClienteService } from '../../../Servicios/cliente.service';
+import { FlujoDatosService } from '../../../Servicios/flujo-datos.service';
 
 @Component({
   selector: 'app-consulta',
@@ -11,13 +12,17 @@ export class ConsultaComponent {
   numeroIdentificacion: string = '';
   clienteEncontrado: any;
 
-  constructor(private clienteService: ClienteService) { }
+  constructor(
+    private clienteService: ClienteService,
+    private flujoDatosService: FlujoDatosService // Agrega FlujoDatosService aquí
+  ) { }
 
   buscarCliente(): void {
     this.clienteService.buscarClientePorParametros(this.tipoIdentificacion, this.numeroIdentificacion).subscribe(
       (data) => {
         console.log('Cliente encontrado:', data);
-        this.clienteEncontrado = data; // Asigna los datos del cliente a la variable clienteEncontrado
+        this.clienteEncontrado = data;
+        this.flujoDatosService.setDatos(data); 
       },
       (error) => {
         console.error('Error al buscar cliente:', error);

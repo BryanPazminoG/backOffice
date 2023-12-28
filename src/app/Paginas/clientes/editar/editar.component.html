@@ -20,22 +20,22 @@
                     <div class="row contenido my-3 p-5 rounded-4">
                         <h5>Edición de datos del cliente</h5>
                         <hr>
-                        <form action="">
+                        <form #myForm="ngForm">
                             <div class="form-group">
                                 <input type="text" class="form-control my-2" placeholder="Persona" disabled>
                                 <input type="text" class="form-control my-2" placeholder="Cedula" disabled>
-                                <input type="text" class="form-control my-2" placeholder="17245327816" disabled>
-                                <input type="text" class="form-control my-2" placeholder="Loachamin De La Cruz" disabled>
-                                <input type="text" class="form-control my-2" placeholder="Gisselle Estefanía" disabled>
-
-                                <input type="date" class="form-control my-2" placeholder="Fecha Nacimineto" value="2000-02-01">
-                                <input type="text" class="form-control my-2" placeholder="Direccion" value="Av Huancavilca km 2, calle san Gabrial, casa 123 Lote N34">
-                                <input type="text" class="form-control my-2" placeholder="Correo Electronico" value="gisselleldc12@gmail.com">
-                                <input type="text" class="form-control my-2" placeholder="Telefono" value="0987271342">
+                                <input type="text" class="form-control my-2" placeholder="Nro. Identificacion" [value]="datosCliente?.numeroIdentificacion" disabled>
+                                <input type="text" class="form-control my-2" placeholder="Apellidos" [value]="datosCliente?.apellidos" disabled>
+                                <input type="text" class="form-control my-2" placeholder="Nombres" [value]="datosCliente?.nombres" disabled>
+                                
+                                <input type="date" class="form-control my-2" placeholder="Fecha Nacimineto" name="fechaNacimiento" [(ngModel)]="datosCliente.fechaNacimiento">
+                                <input type="text" class="form-control my-2" placeholder="Direccion" name="direccion" [(ngModel)]="datosCliente.direccion">
+                                <input type="text" class="form-control my-2" placeholder="Correo Electronico" name="correoElectronico" [(ngModel)]="datosCliente.correoElectronico">
+                                <input type="text" class="form-control my-2" placeholder="Telefono" name="telefono" [(ngModel)]="datosCliente.telefono">
                             </div>
                         </form>
                         <div class="px-4 mt-3">
-                            <button type="button" class="btn btn-success mx-1 custom-width-btn"><i class="bi bi-plus-circle me-2"></i>Guardar</button>
+                            <button type="button" class="btn btn-success mx-1 custom-width-btn" (click)="actualizarDatosCliente()"><i class="bi bi-plus-circle me-2"></i>Guardar</button>
                             <button type="button" class="btn btn-secondary mx-1" routerLink="/clientes/consultas">Regresar</button>
                         </div>
 

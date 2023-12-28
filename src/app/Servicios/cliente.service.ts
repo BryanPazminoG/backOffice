@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 
-
 export class ClienteService {
 
   private crearClienteApi = "http://localhost:8080/cliente/guardar";
   private buscarClienteApi = "http://localhost:8080/cliente/buscar";
+  private actualizarClientePersonaApi = "http://localhost:8080/cliente/actualizar/persona";
 
   constructor(private http: HttpClient) { }
 
@@ -22,4 +22,9 @@ export class ClienteService {
     let params = new HttpParams().set('tipo', tipo).set('numero', numero);
     return this.http.get<any>(this.buscarClienteApi, { params: params });
   }
+
+  actualizarCliente(datos: any): Observable<any> {
+    return this.http.put<any>(this.actualizarClientePersonaApi, datos);
+  }
+
 }
