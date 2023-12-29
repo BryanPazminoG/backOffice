@@ -25,15 +25,23 @@
                             <hr>
                             <form action="">
                                 <div class="form-group">
-                                    <select class="form-select">
-                                        <option selected>Tipo de Identificacion</option>
-                                        <option value="1">Cedula</option>
-                                        <option value="2">Pasaporte</option>
-                                        <option value="3">RUC</option>
+                                    <select class="form-select" name="tipo-identificacion" [(ngModel)]="participePrincipal.tipo_identificacion">
+                                        <option value="">Seleccione el credito</option>
+                                        <option value="CED">Cedula</option>
+                                        <option value="PAS">Pasaporte</option>
+                                        <option value="RUC">RUC</option>
                                     </select>
-                                    <input type="text" class="form-control my-2" placeholder="No. de identificacion">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <input type="text" class="form-control my-2" placeholder="No. de identificacion" name="numero_identificacion" [(ngModel)]="participePrincipal.numero_identificacion">
+                                            <small id="mensajeIdentificacionP" class="form-text text-danger" *ngIf="!identPFirst && !identPValidacion">Identificacion Incorrecta</small>
+                                        </div>
+                                        <div class="col-2 d-flex align-items-center justify-content-center">
+                                            <button type="button" class="btn btn-success" (click)="getClienteP()">Validar</button>
+                                        </div>
+                                    </div>
                                     <hr>
-                                    <input type="text" class="form-control my-4" placeholder="____" readonly>
+                                    <input type="text" class="form-control my-4" placeholder="____" name="nombres" value="{{participePrincipal.apellidos}} {{participePrincipal.nombres}}" readonly>
                                 </div>
                             </form>
                         </div>
@@ -42,17 +50,26 @@
                             <hr>
                             <form action="">
                                 <div class="form-group">
-                                    <select class="form-select" name="tipoIdentificacion" [(ngModel)]="participantes['tipoIdentificacion']">
-                                        <option selected>Tipo de Identificacion</option>
-                                        <option value="Cedula">Cedula</option>
-                                        <option value="Pasaporte">Pasaporte</option>
+                                    <select class="form-select" name="tipoIdentificacion" [(ngModel)]="participantes.tipo_identificacion">
+                                        <option value="">Tipo de Identificacion</option>
+                                        <option value="CED">Cedula</option>
+                                        <option value="PAS">Pasaporte</option>
                                         <option value="RUC">RUC</option>
                                     </select>
-                                    <input type="text" class="form-control my-2" name="identificacion" placeholder="No. de identificacion" [(ngModel)]="participantes['identificacion']">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <input type="text" class="form-control my-2" name="identificacion" placeholder="No. de identificacion" [(ngModel)]="participantes.numero_identificacion">
+                                            <small id="mensajeIdentificacion" class="form-text text-danger" *ngIf="!identSFirst && !identSValidacion">Identificacion Incorrecta</small>
+                                        </div>
+                                        <div class="col-2 d-flex align-items-center justify-content-center">
+                                            <button type="button" class="btn btn-success" (click)="getClienteS()">Validar</button>
+                                        </div>
+                                    </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-11">
-                                            <input type="text" class="form-control my-3" name="nombres" placeholder="____" [(ngModel)]="participantes['nombres']">
+                                            <input type="text" class="form-control my-3" name="nombres" placeholder="____" value="{{participantes.apellidos}} {{participantes.nombres}}" readonly>
+                                            <small id="mensajeExistencia" class="form-text text-danger" *ngIf="existencia">El cliente y existe</small>
                                         </div>
                                         <div class="col-1 text-center d-flex align-items-center">
                                             <a type="button" class="btn btn-dark" (click)="addParticipante()">
