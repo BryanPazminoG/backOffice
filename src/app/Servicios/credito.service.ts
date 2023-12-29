@@ -11,6 +11,7 @@ export class CreditoService {
   private getByIdTipoCreApi: string = "http://localhost:8081/tipocredito/getbyid";
   private getByIdTasaIntApi: string = "http://localhost:8081/tasainteres/getbyid";
   private getCalculoTasaIntApi: string = "http://localhost:8081/tasainteres/calcular";
+  private getPreTablaPagoApi: string = "http://localhost:8081/creditotablapagos/pretablapagos";
 
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
 
@@ -28,5 +29,9 @@ export class CreditoService {
   getCalculoTasaIntAPI(id: string, monto: number, plazo: number): Observable<any> {
     let params = new HttpParams().set('id', id).set('monto', monto).set('plazo', plazo);
     return this.http.get<any>(this.getCalculoTasaIntApi, { params: params });
+  }
+  getPreTablaPagoAPI(tasaInteres: number, montoPrestamo: number, numeroPagos: number): Observable<any> {
+    let params = new HttpParams().set('tasaInteres', tasaInteres).set('montoPrestamo', montoPrestamo).set('numeroPagos', numeroPagos);
+    return this.http.get<any>(this.getPreTablaPagoApi, { params: params });
   }
 }

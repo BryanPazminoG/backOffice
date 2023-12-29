@@ -75,34 +75,20 @@
                                     <table class="table table-hover">
                                         <thead class="table-dark">
                                             <tr>
-                                                <th scope="col">No</th>
-                                                <th scope="col">Fecha vencimiento</th>
-                                                <th scope="col">Capital Amortizado</th>
-                                                <th scope="col">Interes</th>
-                                                <th scope="col">Cuotas</th>
+                                                <th scope="col">Periodo</th>
+                                                <th scope="col">Cuota</th>
+                                                <th scope="col">InteresPeriodo</th>
+                                                <th scope="col">AmortizacionPeriodo</th>
+                                                <th scope="col">CapitalPendiente</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                                <td>@mdo</td>
+                                            <tr *ngFor="let fila of preTablaPagos">
+                                                <th scope="row">{{fila.periodo}}</th>
+                                                <td>{{fila.cuota}}</td>
+                                                <td>{{fila.interesPeriodo}}</td>
+                                                <td>{{fila.amortizacionPeriodo}}</td>
+                                                <td>{{fila.capitalPendiente}}</td>
                                             </tr>
                                         </tbody>
                                     </table>

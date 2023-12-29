@@ -4,6 +4,7 @@ import html2canvas from 'html2canvas';
 import { Router } from '@angular/router';
 import jsPDF from 'jspdf';
 import { FlujoDatosService } from 'src/app/Servicios/flujo-datos.service';
+import { CreditoService } from 'src/app/Servicios/credito.service';
 
 
 @Component({
@@ -22,13 +23,14 @@ export class TablaAmortizacionComponent implements OnInit {
     'telefono': '',
     'correo_electronico': '',
 
-  }
+  };
   participeSecundario = [{
     'cod_cliente': '',
     'numero_identificacion': '',
     'apellidos': '',
     'nombres': '',
-  }]
+  }];
+
   credito = {
     'cod_cliente': 0,
     'fecha_creacion': '',
@@ -37,24 +39,48 @@ export class TablaAmortizacionComponent implements OnInit {
     'plazo': 0,
   };
 
+  preTablaPagos = [{
+    'periodo': 0,
+    'cuota': '',
+    'interesPeriodo': '',
+    'amortizacionPeriodo': '',
+    'capitalPendiente': ''
+  }];
+
   @ViewChild('contenedor', { static: false }) tablaAmortizacion!: ElementRef; // Hace una referencia de una parte del html para el uso en la lógica
 
-  constructor(private router: Router, private flujoDatosService: FlujoDatosService) {
+  constructor(private router: Router, private creditoService:CreditoService, private flujoDatosService: FlujoDatosService) {
   }
   ngOnInit(): void {
     this.cargarDatos();
+    this.cargarTablaAmortizacion();
   }
 
   cargarDatos() {
     this.participePrincipal = <any>this.flujoDatosService.getParticipePrincipal();
     this.participeSecundario = <any>this.flujoDatosService.getParticipeSecundario();
     this.credito = <any>this.flujoDatosService.getCredito();
-
-    console.log(this.participePrincipal);
-    console.log(this.participeSecundario);
-    console.log(this.credito);
   }
 
+  cargarTablaAmortizacion(){
+
+    let tasaInteres = this.credito.tasaInteres;
+    let montoPrestamo = this.credito.monto;
+    let numeroPagos = this.credito.plazo;
+    if(tasaInteres > 0 && montoPrestamo > 0 && numeroPagos > 0){
+
+      this.creditoService.getPreTablaPagoAPI(tasaInteres, montoPrestamo, numeroPagos).subscribe(
+        (data) => {
+          if (data) {
+            this.preTablaPagos = data;
+          }
+        },
+        (error) => {
+          console.error('Error al hacer la solicitud:', error);
+        }
+      );
+    }
+  }
   crearCredito() {
     Swal.fire({
       icon: "success",
