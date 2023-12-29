@@ -25,20 +25,21 @@
                         <div class="row contenido my-3 p-5 rounded-4">
                             <h5>Agregar Persona</h5>
                             <hr>
-                            <form action="">
+                            <form (ngSubmit)="crearTipoCliente()">
                                 <div class="row">
                                     <div class="col-12">
-                                        <select class="form-select">
-                                            <option >Natural</option>
-                                            <option value="1">Juridico</option>
+                                        <select class="form-select" name="tipoPersona" [(ngModel)]="tipoPersona" (change)="onChangeTipoPersona()">
+                                            <option value="NAT">Natural</option>
+                                            <option value="JUR">Juridico</option>
                                         </select>
                                     </div>
                                 </div>
+                                <div class="px-4 mt-3 pt-5">
+                                    <button type="submit" class="btn btn-success mx-1">Siguiente</button>
+                                    <button type="button" class="btn btn-secondary mx-1" routerLink="/clientes">Regresar</button>
+                                </div>
                             </form>
-                            <div class="px-4 mt-3 pt-5">
-                                <button type="button" class="btn btn-success mx-1" routerLink="/clientes/crear/persona">Siguiente</button>
-                                <button type="button" class="btn btn-secondary mx-1" routerLink="/clientes">Regresar</button>
-                            </div>
+
                         </div>
                     </div>
                 </div>

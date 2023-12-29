@@ -20,11 +20,14 @@ export class FlujoDatosService {
   getDatos() {
     return this.datosCompartidos;
   }
-  
+    
   public setUsuarioLogin(usuario: object){
     this.usuarioLogin = usuario;
   }
+
   public getUsuarioLogin(): object{
     return this.usuarioLogin;
   }
+
+
 }
