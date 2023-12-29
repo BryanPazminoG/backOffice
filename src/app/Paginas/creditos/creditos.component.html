@@ -25,15 +25,23 @@
                             <hr>
                             <form action="">
                                 <div class="form-group">
-                                    <select class="form-select">
-                                        <option selected>Tipo de Identificacion</option>
-                                        <option value="1">Cedula</option>
-                                        <option value="2">Pasaporte</option>
-                                        <option value="3">RUC</option>
+                                    <select class="form-select" name="tipo-identificacion" [(ngModel)]="participePrincipal.tipo_identificacion">
+                                        <option value="">Seleccione el credito</option>
+                                        <option value="CED">Cedula</option>
+                                        <option value="PAS">Pasaporte</option>
+                                        <option value="RUC">RUC</option>
                                     </select>
-                                    <input type="text" class="form-control my-2" placeholder="No. de identificacion">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <input type="text" class="form-control my-2" placeholder="No. de identificacion" name="numero_identificacion" [(ngModel)]="participePrincipal.numero_identificacion">
+                                            <small id="mensajeIdentificacionP" class="form-text text-danger" *ngIf="!identPFirst && !identPValidacion">Identificacion Incorrecta</small>
+                                        </div>
+                                        <div class="col-2 d-flex align-items-center justify-content-center">
+                                            <button type="button" class="btn btn-success" (click)="getClienteP()">Validar</button>
+                                        </div>
+                                    </div>
                                     <hr>
-                                    <input type="text" class="form-control my-4" placeholder="____" readonly>
+                                    <input type="text" class="form-control my-4" placeholder="____" name="nombres" value="{{participePrincipal.apellidos}} {{participePrincipal.nombres}}" readonly>
                                 </div>
                             </form>
                         </div>
@@ -42,20 +50,29 @@
                             <hr>
                             <form action="">
                                 <div class="form-group">
-                                    <select class="form-select">
-                                        <option selected>Tipo de Identificacion</option>
-                                        <option value="1">Cedula</option>
-                                        <option value="2">Pasaporte</option>
-                                        <option value="3">RUC</option>
+                                    <select class="form-select" name="tipoIdentificacion" [(ngModel)]="participantes.tipo_identificacion">
+                                        <option value="">Tipo de Identificacion</option>
+                                        <option value="CED">Cedula</option>
+                                        <option value="PAS">Pasaporte</option>
+                                        <option value="RUC">RUC</option>
                                     </select>
-                                    <input type="text" class="form-control my-2" placeholder="No. de identificacion">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <input type="text" class="form-control my-2" name="identificacion" placeholder="No. de identificacion" [(ngModel)]="participantes.numero_identificacion">
+                                            <small id="mensajeIdentificacion" class="form-text text-danger" *ngIf="!identSFirst && !identSValidacion">Identificacion Incorrecta</small>
+                                        </div>
+                                        <div class="col-2 d-flex align-items-center justify-content-center">
+                                            <button type="button" class="btn btn-success" (click)="getClienteS()">Validar</button>
+                                        </div>
+                                    </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-11">
-                                            <input type="text" class="form-control my-3" placeholder="____" readonly>
+                                            <input type="text" class="form-control my-3" name="nombres" placeholder="____" value="{{participantes.apellidos}} {{participantes.nombres}}" readonly>
+                                            <small id="mensajeExistencia" class="form-text text-danger" *ngIf="existencia">El cliente y existe</small>
                                         </div>
                                         <div class="col-1 text-center d-flex align-items-center">
-                                            <a type="button" class="btn btn-dark">
+                                            <a type="button" class="btn btn-dark" (click)="addParticipante()">
                                                 <i class="bi bi-plus-lg"></i>
                                             </a>
                                         </div>
@@ -64,8 +81,8 @@
                             </form>
                             <div class="row">
                                 <div class="col-12 col-md-12 col-sm-12 mt-4">
-                                    <div id="ListadoMedicamentoConsumoContainer" class="col">
-                                        <table id="tblListadoMedicamentoConsumo"
+                                    <div class="col">
+                                        <table id="tbParticipante"
                                             class="table table-hover table-bordered">
                                             <thead>
                                                 <tr>
@@ -87,10 +104,10 @@
                             <form action="">
                                 <div class="form-group row">
                                     <label for="producto" class="col-sm-2 col-form-label">Producto: </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="producto"
-                                            placeholder="CRÉDITO DE CONSUMO">
-                                    </div>
+                                    <select class="form-select" name="producto" (change)="getIdTipoCredito($event)">
+                                        <option value=0 selected>Seleccione el credito</option>
+                                        <option *ngFor="let opcion of listaTipoCredito" [value]="opcion.cod_tipo_credito">{{ opcion.nombre }}</option>
+                                    </select>
                                 </div>
 
                                 <div class="form-group row mt-2">
@@ -102,18 +119,20 @@
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">$</div>
                                                 </div>
-                                                <input type="number" placeholder="numero" class="form-control" min=0 max=50000 id="monto" value="00">
+                                                <input type="number" class="form-control" min={{tipoCredito.monto_minimo}} max={{tipoCredito.monto_maximo}} id="monto" name="monto"
+                                                    value={{tipoCredito.monto_minimo}} (change)="validacionesEnteros($event, tipoCredito.monto_minimo, tipoCredito.monto_maximo)" [(ngModel)]="credito.monto">
                                             </div>
                                         </div>
                                         <div class="col-sm-1 text-center">
                                             <p style="font-size: 25px;">.</p>
                                         </div>
                                         <div class="col-sm-2">
-                                            <input type="number" placeholder="monto" class="form-control" min=0 max=99 id="decimal" value="00">
+                                            <input type="number" class="form-control" id="decimal"
+                                                value="00" readonly>
                                         </div>
                                         <div class="col-sm-5">
                                             <span id="monto" class="form-text">
-                                                Monto desde 1000 a 10000.
+                                                Monto desde {{tipoCredito.monto_minimo}} a {{tipoCredito.monto_maximo}}.
                                             </span>
                                         </div>
                                     </div>
@@ -123,8 +142,8 @@
                                 <div class="form-group row">
                                     <label for="plazo" class="col-sm-2 col-form-label">Plazo (meses): </label>
                                     <div class="col-sm-10">
-                                        <input type="number" class="form-control" min=0 max=99 id="plazo">
-                                        <div id="mensajePlazo" class="form-text ">El plazo para el credito es de 15 a 30 meses.</div>
+                                        <input type="number" class="form-control" name="plazo" min={{tipoCredito.plazo_minimo}} max={{tipoCredito.plazo_maximo}} id="plazo" (change)="validacionesEnteros($event, tipoCredito.plazo_minimo, tipoCredito.plazo_maximo)" [(ngModel)]="credito.plazo">
+                                        <div id="mensajePlazo" class="form-text ">El plazo para el credito es de {{tipoCredito.plazo_minimo}} a {{tipoCredito.plazo_maximo}} meses.</div>
                                     </div>
                                 </div>
 
@@ -139,8 +158,8 @@
                             </form>
                             <div class="px-4 mt-4">
                                 <button type="button" class="btn btn-success mx-1"
-                                    (click)="amortizacion()">Continuar</button>
-                                <button type="button" class="btn btn-secondary mx-1">Regresar</button>
+                                    (click)="continuar()">Continuar</button>
+                                <button type="button" class="btn btn-secondary mx-1" (click)="regresar()">Regresar</button>
                             </div>
                         </div>
                     </div>
