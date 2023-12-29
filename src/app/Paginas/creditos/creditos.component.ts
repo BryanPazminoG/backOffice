@@ -127,13 +127,7 @@ export class CreditosComponent implements OnInit {
         return JSON.stringify(objeto) === JSON.stringify(this.participantes);
       });
 
-      if (objetoEncontrado) {
-        console.log('Objeto encontrado:', objetoEncontrado);
-      } else {
-        console.log('Objeto no encontrado', objetoEncontrado);
-      }
-
-      if (!objetoEncontrado) {
+      if (!objetoEncontrado && this.participePrincipal.numero_identificacion !== this.participantes.numero_identificacion) {
         this.existencia = false;
         this.participeSecundario.push({ ...this.participantes });
 
@@ -148,6 +142,7 @@ export class CreditosComponent implements OnInit {
         let textP2 = document.createElement('p');
         let cell3 = document.createElement('td');
         let textP3 = document.createElement('p');
+        let cell4 = document.createElement('td');
         let numberOfRows = tableBody.rows.length;
         textP.innerHTML = numberOfRows.toString();
         cell.appendChild(textP);
@@ -164,6 +159,20 @@ export class CreditosComponent implements OnInit {
         textP3.innerHTML = this.participantes.apellidos + " " + this.participantes.nombres;
         cell3.appendChild(textP3);
         row.appendChild(cell3);
+
+        var boton = document.createElement("button");
+        boton.type = "button";
+        boton.className = "btn btn-dark w-100";
+
+        boton.onclick  = () => {
+          this.EliminarFila(boton);
+      };
+        var icono = document.createElement("i");
+        icono.className = "bi bi-x-lg";
+
+        boton.appendChild(icono);
+        cell4.appendChild(boton);
+        row.appendChild(cell4);
         tableBody.appendChild(row);
 
         this.participantes['cod_cliente'] = '';
@@ -175,11 +184,32 @@ export class CreditosComponent implements OnInit {
       } else this.existencia = true;
     }
   }
+
+  EliminarFila(event: any){
+    var fila = event.closest('tr');
+    if(fila){
+      var cuartaColumnaElement = fila.querySelector('td:nth-child(3)');
+      if (cuartaColumnaElement !== null) {
+        var cuartaColumna = cuartaColumnaElement.textContent;
+
+        let objetoLista = this.participeSecundario.findIndex(objeto => {
+          return JSON.stringify(objeto).includes(cuartaColumna);
+        });
+        if (objetoLista !== -1) {
+            this.participeSecundario.splice(objetoLista, 1);
+        }
+      }
+
+    }
+    fila.remove();
+    console.log({...this.participeSecundario});
+  }
+
   getAllTipoCredito() {
     this.serviceCredito.getAllAPI().subscribe(
       (data) => {
-        if (data){
-          this.listaTipoCredito = data;        
+        if (data) {
+          this.listaTipoCredito = data;
         }
       },
       (error) => {
@@ -190,8 +220,8 @@ export class CreditosComponent implements OnInit {
   getIdTipoCredito(event: any) {
     const valorSeleccionado = event.target.value;
     console.log('Valor seleccionado:', valorSeleccionado);
-    
-    if(valorSeleccionado != 0){
+
+    if (valorSeleccionado != 0) {
       this.serviceCredito.getByIdAPI(valorSeleccionado).subscribe(
         (data) => {
           this.tipoCredito = data;
