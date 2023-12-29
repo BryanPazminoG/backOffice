@@ -7,16 +7,26 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CreditoService {
-  private getAllApi: string = "http://localhost:8081/tipocredito/getall";
-  private getByIdApi: string = "http://localhost:8081/tipocredito/getbyid";
+  private getAllTipoCreApi: string = "http://localhost:8081/tipocredito/getall";
+  private getByIdTipoCreApi: string = "http://localhost:8081/tipocredito/getbyid";
+  private getByIdTasaIntApi: string = "http://localhost:8081/tasainteres/getbyid";
+  private getCalculoTasaIntApi: string = "http://localhost:8081/tasainteres/calcular";
 
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
 
-  getAllAPI(): Observable<any> {
-    return this.http.get<any>(this.getAllApi);
+  getAllTipoCreAPI(): Observable<any> {
+    return this.http.get<any>(this.getAllTipoCreApi);
   }
-  getByIdAPI(id: number): Observable<any> {
+  getByIdTipoCreAPI(id: number): Observable<any> {
     let params = new HttpParams().set('id', id);
-    return this.http.get<any>(this.getByIdApi, { params: params });
+    return this.http.get<any>(this.getByIdTipoCreApi, { params: params });
+  }
+  getByIdTasaIntAPI(id: string): Observable<any> {
+    let params = new HttpParams().set('id', id);
+    return this.http.get<any>(this.getByIdTasaIntApi, { params: params });
+  }
+  getCalculoTasaIntAPI(id: string, monto: number, plazo: number): Observable<any> {
+    let params = new HttpParams().set('id', id).set('monto', monto).set('plazo', plazo);
+    return this.http.get<any>(this.getCalculoTasaIntApi, { params: params });
   }
 }

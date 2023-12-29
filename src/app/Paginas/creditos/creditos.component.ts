@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ClienteService } from 'src/app/Servicios/cliente.service';
 import { CreditoService } from 'src/app/Servicios/credito.service';
 import { FlujoDatosService } from 'src/app/Servicios/flujo-datos.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-creditos',
@@ -12,7 +13,7 @@ import { FlujoDatosService } from 'src/app/Servicios/flujo-datos.service';
 export class CreditosComponent implements OnInit {
 
   participantes = {
-    'cod_cliente': '',
+    'cod_cliente': 0,
     'tipo_identificacion': '',
     'numero_identificacion': '',
     'apellidos': '',
@@ -24,6 +25,7 @@ export class CreditosComponent implements OnInit {
   }];
   tipoCredito = {
     'codTipoCredito': 0,
+    'codTasaInteres': '',
     'nombre': '',
     'plazoMinimo': 0,
     'plazoMaximo': 0,
@@ -32,7 +34,7 @@ export class CreditosComponent implements OnInit {
   };
 
   participePrincipal = {
-    'cod_cliente': '',
+    'cod_cliente': 0,
     'tipo_identificacion': '',
     'numero_identificacion': '',
     'apellidos': '',
@@ -42,9 +44,17 @@ export class CreditosComponent implements OnInit {
     'correo_electronico': '',
   };
   participeSecundario = [{}];
+  tasaInteres = {
+    'codTasaInteres': '',
+    'tipoTasaInteres': '',
+    'nombre': '',
+    'tasaMinima': 0,
+    'tasaMaxima': 0,
+  };
   credito = {
     'cod_cliente': 0,
     'fecha_creacion': '',
+    'tasaInteres': 0,
     'monto': 0,
     'plazo': 0,
   };
@@ -67,7 +77,7 @@ export class CreditosComponent implements OnInit {
   }
 
   getClienteP() {
-    this.participePrincipal.cod_cliente = '';
+    this.participePrincipal.cod_cliente = 0;
     this.participePrincipal.apellidos = '';
     this.participePrincipal.nombres = '';
     this.participePrincipal.direccion = '';
@@ -98,7 +108,7 @@ export class CreditosComponent implements OnInit {
     );
   }
   getClienteS() {
-    this.participantes['cod_cliente'] = '';
+    this.participantes['cod_cliente'] = 0;
     this.participantes['apellidos'] = '';
     this.participantes['nombres'] = '';
 
@@ -175,7 +185,7 @@ export class CreditosComponent implements OnInit {
         row.appendChild(cell4);
         tableBody.appendChild(row);
 
-        this.participantes['cod_cliente'] = '';
+        this.participantes['cod_cliente'] = 0;
         this.participantes['tipo_identificacion'] = '';
         this.participantes['numero_identificacion'] = '';
         this.participantes['apellidos'] = '';
@@ -202,11 +212,10 @@ export class CreditosComponent implements OnInit {
 
     }
     fila.remove();
-    console.log({...this.participeSecundario});
   }
 
   getAllTipoCredito() {
-    this.serviceCredito.getAllAPI().subscribe(
+    this.serviceCredito.getAllTipoCreAPI().subscribe(
       (data) => {
         if (data) {
           this.listaTipoCredito = data;
@@ -219,12 +228,28 @@ export class CreditosComponent implements OnInit {
   }
   getIdTipoCredito(event: any) {
     const valorSeleccionado = event.target.value;
-    console.log('Valor seleccionado:', valorSeleccionado);
 
     if (valorSeleccionado != 0) {
-      this.serviceCredito.getByIdAPI(valorSeleccionado).subscribe(
+      this.serviceCredito.getByIdTipoCreAPI(valorSeleccionado).subscribe(
         (data) => {
           this.tipoCredito = data;
+          this.getByIdTasaInt();
+        },
+        (error) => {
+          console.error('Error al hacer la solicitud:', error);
+        }
+      );
+    }
+  }
+  getByIdTasaInt() {
+    const valorSeleccionado = this.tipoCredito.codTasaInteres;
+
+    if (valorSeleccionado != "") {
+      this.serviceCredito.getByIdTasaIntAPI(valorSeleccionado).subscribe(
+        (data) => {
+          if(data){
+            this.tasaInteres = data;
+          }
         },
         (error) => {
           console.error('Error al hacer la solicitud:', error);
@@ -238,7 +263,23 @@ export class CreditosComponent implements OnInit {
     else if (valor > max) event.target.value = max;
     else event.target.value = valor;
   }
+  calcularTasaInteres(){
+    let monto = this.credito.monto;
+    let plazo = this.credito.plazo;
 
+    if(monto > 0 && plazo > 0){
+      this.serviceCredito.getCalculoTasaIntAPI(this.tasaInteres.codTasaInteres, monto, plazo).subscribe(
+        (data) => {
+          if(data){
+            this.credito.tasaInteres = data;
+          }
+        },
+        (error) => {
+          console.error('Error al hacer la solicitud:', error);
+        }
+      );
+    }
+  }
   fechaActual() {
     let fechaActual = new Date();
     let año = fechaActual.getFullYear();
@@ -249,38 +290,27 @@ export class CreditosComponent implements OnInit {
     console.log(fechaFormateada);
     return fechaFormateada;
   }
-  continuar() {
-    // this.participeSecundario = [{
-    //   'cod_cliente': '1',
-    //   'numero_identificacion': '17352156',
-    //   'apellidos': 'Garcia Naverrete',
-    //   'nombres': 'Ricky Garcia',
-    // }, {
-    //   'cod_cliente': '2',
-    //   'numero_identificacion': '18987654',
-    //   'apellidos': 'Juan Pepe',
-    //   'nombres': 'El pepe',
-    // },
-    // {
-    //   'cod_cliente': '3',
-    //   'numero_identificacion': '156123456',
-    //   'apellidos': 'Navarrete Navarrete',
-    //   'nombres': 'Lourdes Amada',
-    // }]
+  continuar() {    
+    if(this.participePrincipal.apellidos != "" && this.credito.monto > 0 && this.credito.plazo > 0){
+      this.credito.fecha_creacion = this.fechaActual();
+      this.credito.cod_cliente = this.participePrincipal.cod_cliente;
+      this.flujoDatosService.setParticipePrincipal(this.participePrincipal);
+      this.participeSecundario.splice(0,1);
+      console.log(this.participeSecundario);
+      this.flujoDatosService.setParticipeSecundario(this.participeSecundario);
+      this.flujoDatosService.setCredito(this.credito);
+  
+      this.router.navigate(["creditos/amortizacion"]);
+    }else{
+      Swal.fire({
+        icon: "error",
+        title: "Completar los datos",
+        text: "Todos los campos obligatorios deben ser llenados",
+        showConfirmButton: false,
+        timer: 2500
+      });
+    }
 
-    this.credito.fecha_creacion = this.fechaActual();
-    // this.credito = {
-    //   'cod_cliente': 1,
-    //   'fecha_creacion': '28/12/2023',
-    //   'monto': 1000,
-    //   'plazo': 6,
-    // }
-
-    this.flujoDatosService.setParticipePrincipal(this.participePrincipal);
-    this.flujoDatosService.setParticipeSecundario(this.participeSecundario);
-    this.flujoDatosService.setCredito(this.credito);
-
-    this.router.navigate(["creditos/amortizacion"]);
   }
   regresar() {
     this.router.navigate(["clientes"]);

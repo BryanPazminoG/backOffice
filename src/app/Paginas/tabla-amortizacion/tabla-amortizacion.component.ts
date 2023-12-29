@@ -32,9 +32,10 @@ export class TablaAmortizacionComponent implements OnInit {
   credito = {
     'cod_cliente': 0,
     'fecha_creacion': '',
+    'tasaInteres': 0,
     'monto': 0,
     'plazo': 0,
-  }
+  };
 
   @ViewChild('contenedor', { static: false }) tablaAmortizacion!: ElementRef; // Hace una referencia de una parte del html para el uso en la lógica
 
@@ -48,6 +49,10 @@ export class TablaAmortizacionComponent implements OnInit {
     this.participePrincipal = <any>this.flujoDatosService.getParticipePrincipal();
     this.participeSecundario = <any>this.flujoDatosService.getParticipeSecundario();
     this.credito = <any>this.flujoDatosService.getCredito();
+
+    console.log(this.participePrincipal);
+    console.log(this.participeSecundario);
+    console.log(this.credito);
   }
 
   crearCredito() {
@@ -77,8 +82,8 @@ export class TablaAmortizacionComponent implements OnInit {
     const margin = 15;
     const topMargin = 10;
     // Dimenseiones para el documento PDF
-    const maxWidth = pageWidth - 2 * margin;
-    const maxHeight = pageHeight - topMargin - margin;
+    const maxWidth = (pageWidth - 2 * margin);
+    const maxHeight = (pageHeight - topMargin - margin);
     // Dimenseiones de la Imagen
     let imgWidth = cardContainer.offsetWidth;
     let imgHeight = maxHeight * 3.80;
@@ -113,7 +118,7 @@ export class TablaAmortizacionComponent implements OnInit {
           const imageY = topMargin + (maxHeight - imgHeightAjustado) / 2;
 
           if (index > 0) pdf.addPage();
-          pdf.addImage(imgData, 'SVG', imageX, imageY, imgWidthAjustado, imgHeightAjustado);
+          pdf.addImage(imgData, 'SVG', 0, 0, imgWidthAjustado-25, imgHeightAjustado);
           pageY += imgHeight;
         }
       );

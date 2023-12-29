@@ -12,28 +12,9 @@ export class FlujoDatosService {
   private datosCompartidos: any;
 
   /* ************* VARIABLES COMPARTIDOS DE CREDITO ***********************/
-  private participePrincipal = {
-    'cod_cliente': '',
-    'numero_identificacion': '',
-    'apellidos': '',
-    'nombres': '',
-    'direccion': '',
-    'telefono': '',
-    'correo_electronico': '',
-
-  }
-  private participeSecundario = [{
-    'cod_cliente': '',
-    'numero_identificacion': '',
-    'apellidos': '',
-    'nombres': '',
-  }]
-  private credito = {
-    'cod_cliente': 0,
-    'fecha_creacion': '',
-    'monto': 0,
-    'plazo': 0,
-  }
+  private participePrincipal = {};
+  private participeSecundario = [{}]
+  private credito = {}
 
   constructor() { }
 
