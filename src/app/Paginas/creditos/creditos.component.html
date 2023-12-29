@@ -106,7 +106,7 @@
                                     <label for="producto" class="col-sm-2 col-form-label">Producto: </label>
                                     <select class="form-select" name="producto" (change)="getIdTipoCredito($event)">
                                         <option value=0 selected>Seleccione el credito</option>
-                                        <option *ngFor="let opcion of listaTipoCredito" [value]="opcion.cod_tipo_credito">{{ opcion.nombre }}</option>
+                                        <option *ngFor="let opcion of listaTipoCredito" [value]="opcion.codTipoCredito">{{ opcion.nombre }}</option>
                                     </select>
                                 </div>
 
@@ -119,8 +119,8 @@
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">$</div>
                                                 </div>
-                                                <input type="number" class="form-control" min={{tipoCredito.monto_minimo}} max={{tipoCredito.monto_maximo}} id="monto" name="monto"
-                                                    value={{tipoCredito.monto_minimo}} (change)="validacionesEnteros($event, tipoCredito.monto_minimo, tipoCredito.monto_maximo)" [(ngModel)]="credito.monto">
+                                                <input type="number" class="form-control" min={{tipoCredito.montoMinimo}} max={{tipoCredito.montoMaximo}} id="monto" name="monto"
+                                                    value={{tipoCredito.montoMinimo}} (change)="validacionesEnteros($event, tipoCredito.montoMinimo, tipoCredito.montoMaximo)" [(ngModel)]="credito.monto">
                                             </div>
                                         </div>
                                         <div class="col-sm-1 text-center">
@@ -132,7 +132,7 @@
                                         </div>
                                         <div class="col-sm-5">
                                             <span id="monto" class="form-text">
-                                                Monto desde {{tipoCredito.monto_minimo}} a {{tipoCredito.monto_maximo}}.
+                                                Monto desde {{tipoCredito.montoMinimo}} a {{tipoCredito.montoMaximo}}.
                                             </span>
                                         </div>
                                     </div>
@@ -142,8 +142,8 @@
                                 <div class="form-group row">
                                     <label for="plazo" class="col-sm-2 col-form-label">Plazo (meses): </label>
                                     <div class="col-sm-10">
-                                        <input type="number" class="form-control" name="plazo" min={{tipoCredito.plazo_minimo}} max={{tipoCredito.plazo_maximo}} id="plazo" (change)="validacionesEnteros($event, tipoCredito.plazo_minimo, tipoCredito.plazo_maximo)" [(ngModel)]="credito.plazo">
-                                        <div id="mensajePlazo" class="form-text ">El plazo para el credito es de {{tipoCredito.plazo_minimo}} a {{tipoCredito.plazo_maximo}} meses.</div>
+                                        <input type="number" class="form-control" name="plazo" min={{tipoCredito.plazoMinimo}} max={{tipoCredito.plazoMaximo}} id="plazo" (change)="validacionesEnteros($event, tipoCredito.plazoMinimo, tipoCredito.plazoMaximo)" [(ngModel)]="credito.plazo">
+                                        <div id="mensajePlazo" class="form-text ">El plazo para el credito es de {{tipoCredito.plazoMinimo}} a {{tipoCredito.plazoMaximo}} meses.</div>
                                     </div>
                                 </div>
 

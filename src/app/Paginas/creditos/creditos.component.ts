@@ -19,16 +19,16 @@ export class CreditosComponent implements OnInit {
     'nombres': '',
   };
   listaTipoCredito = [{
-    'cod_tipo_credito': 0,
+    'codTipoCredito': 0,
     'nombre': '',
   }];
   tipoCredito = {
-    'cod_tipo_credito': 0,
+    'codTipoCredito': 0,
     'nombre': '',
-    'plazo_minimo': 0,
-    'plazo_maximo': 0,
-    'monto_minimo': 0,
-    'monto_maximo': 0,
+    'plazoMinimo': 0,
+    'plazoMaximo': 0,
+    'montoMinimo': 0,
+    'montoMaximo': 0,
   };
 
   participePrincipal = {
@@ -76,9 +76,8 @@ export class CreditosComponent implements OnInit {
 
     this.serviceCliente.buscarClientePorParametros(this.participePrincipal.tipo_identificacion, this.participePrincipal.numero_identificacion).subscribe(
       (data) => {
+        this.identPFirst = false;
         if (data) {
-          this.identPFirst = false;
-
           this.participePrincipal = {
             'cod_cliente': data.codigo,
             'tipo_identificacion': data.tipoIdentificacion,
@@ -91,9 +90,6 @@ export class CreditosComponent implements OnInit {
           }
           this.identPValidacion = true;
         } else this.identPValidacion = false;
-        console.log(this.participePrincipal);
-        console.log(this.identPFirst);
-        console.log(this.identPValidacion);
       },
       (error) => {
         this.identPValidacion = false;
@@ -101,7 +97,6 @@ export class CreditosComponent implements OnInit {
       }
     );
   }
-
   getClienteS() {
     this.participantes['cod_cliente'] = '';
     this.participantes['apellidos'] = '';
@@ -180,41 +175,32 @@ export class CreditosComponent implements OnInit {
       } else this.existencia = true;
     }
   }
-
   getAllTipoCredito() {
-    this.listaTipoCredito = [{ 'cod_tipo_credito': 1, 'nombre': 'CRÉDITO DE CONSUMO' }, { 'cod_tipo_credito': 2, 'nombre': 'CRÉDITO DOS' }];
-    // this.serviceCredito.getAllAPI().subscribe(
-    //   (data) => {
-    //     this.tipoCredito = ["CRÉDITO DE CONSUMO", "asda", "data"];
-    //   },
-    //   (error) => {
-    //     console.error('Error al hacer la solicitud:', error);
-    //   }
-    // );
+    this.serviceCredito.getAllAPI().subscribe(
+      (data) => {
+        if (data){
+          this.listaTipoCredito = data;        
+        }
+      },
+      (error) => {
+        console.error('Error al hacer la solicitud:', error);
+      }
+    );
   }
   getIdTipoCredito(event: any) {
     const valorSeleccionado = event.target.value;
     console.log('Valor seleccionado:', valorSeleccionado);
-
-    this.tipoCredito = {
-      'cod_tipo_credito': 1,
-      'nombre': 'CRÉDITO DE CONSUMO',
-      'plazo_minimo': 6,
-      'plazo_maximo': 36,
-      'monto_minimo': 1000,
-      'monto_maximo': 5000,
-    };
-
-    // if(valorSeleccionado != 0){
-    //   this.serviceCredito.getByIdAPI(valorSeleccionado).subscribe(
-    //     (data) => {
-
-    //     },
-    //     (error) => {
-    //       console.error('Error al hacer la solicitud:', error);
-    //     }
-    //   );
-    // }
+    
+    if(valorSeleccionado != 0){
+      this.serviceCredito.getByIdAPI(valorSeleccionado).subscribe(
+        (data) => {
+          this.tipoCredito = data;
+        },
+        (error) => {
+          console.error('Error al hacer la solicitud:', error);
+        }
+      );
+    }
   }
   validacionesEnteros(event: any, min: number, max: number) {
     let valor = Math.round(event.target.value);

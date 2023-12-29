@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CreditoService {
-  private getAllApi: string = "http://localhost:8080/tipocredito/getall";
-  private getByIdApi: string = "http://localhost:8080/tipocredito//getbyid/";
+  private getAllApi: string = "http://localhost:8081/tipocredito/getall";
+  private getByIdApi: string = "http://localhost:8081/tipocredito/getbyid";
 
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
 
