@@ -44,7 +44,7 @@ export class FlujoDatosService {
   getDatos() {
     return this.datosCompartidos;
   }
-
+/*************** SETTER AND GETTER DE LOGIN ******************/
   public setUsuarioLogin(usuario: object) {
     this.usuarioLogin = usuario;
   }
