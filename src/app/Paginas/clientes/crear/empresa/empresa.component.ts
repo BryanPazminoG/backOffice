@@ -8,6 +8,14 @@ import { ClienteService } from '../../../../Servicios/cliente.service';
   styleUrls: ['./empresa.component.css']
 })
 export class EmpresaComponent {
+  tiposRelacion: any[] = [];
+  tipoIdentificacion: string = '';
+  numeroIdentificacion: string = '';
+  clienteEncontrado: any = '';
+  participantes: any[] = [];
+  tipoSeleccionado: any = '';
+
+  tipoCliente: string = '';
 
   constructor(
     private flujoDatosService: FlujoDatosService,
@@ -16,6 +24,9 @@ export class EmpresaComponent {
 
   ngOnInit() {
     console.log('Tipo Cliente:', this.flujoDatosService.getDatos());
+    this.tipoCliente = this.flujoDatosService.getDatos();
+
+    this.obtenerTiposRelacion();
   }
 
   usuario: string = 'BryanP98';
@@ -61,5 +72,53 @@ export class EmpresaComponent {
     );
 
   }
+
+  obtenerTiposRelacion(): void {
+    this.clienteService.obtenerTiposRelacion()
+      .subscribe(
+        data => {
+          this.tiposRelacion = data;
+        },
+        error => {
+          console.error('Error al obtener los tipos de relación:', error);
+        }
+      );
+  }
+
+  
+  buscarCliente(): void {
+    this.clienteService.buscarClientePorParametros(this.tipoIdentificacion, this.numeroIdentificacion).subscribe(
+      (data) => {
+        console.log('Cliente encontrado:', data);
+        this.clienteEncontrado = data;
+      },
+      (error) => {
+        console.error('Error al buscar cliente:', error);
+      }
+    );
+  }
+
+  agregarParticipante(): void {
+    // Aquí puedes construir el objeto con la información del formulario
+    const nuevoParticipante = {
+      relacion: this.tipoSeleccionado,// Asignar el valor seleccionado del tipo de relación
+      identificacion: this.numeroIdentificacion,
+      nombres: this.clienteEncontrado.apellidos + ' ' + this.clienteEncontrado.nombres
+    };
+
+    // Agregar el nuevo participante al arreglo para la tabla
+    this.participantes.push(nuevoParticipante);
+
+    // Limpiar los campos después de agregar el participante si es necesario
+    this.tipoSeleccionado = '';
+    this.numeroIdentificacion = '';
+    this.clienteEncontrado.apellidos = '';
+    this.clienteEncontrado.nombres = '';
+    // Lógica para limpiar el objeto clienteEncontrado y el campo de tipo de relación si es necesario
+
+    // También puedes llamar a un método para enviar los datos al servicio aquí si es necesario
+  }
+
+
 
 }

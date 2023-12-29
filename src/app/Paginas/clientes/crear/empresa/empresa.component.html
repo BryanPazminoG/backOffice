@@ -26,7 +26,7 @@
                         <form action="">
                             <div class="form-group">
                                 <select class="form-select">
-                                    <option selected>Empresa</option>
+                                    <option [value]="tipoCliente" selected>{{ tipoCliente }}</option>
                                 </select>
                                 <select class="form-select my-2">
                                     <option selected>RUC</option>
@@ -40,6 +40,72 @@
                                 <input type="text" class="form-control my-2" placeholder="Telefono" name="telefono" [(ngModel)]="telefono">
                             </div>
                         </form>
+                        <hr class="mt-3">
+                        <div class="row">
+                            <h5 class="mb-3">Clientes Empresa</h5>
+                            <hr>
+                            <form (ngSubmit)="buscarCliente()">
+                                <div class="form-group">
+                                    <select class="form-select" name="tipoIdentificacion" [(ngModel)]="tipoIdentificacion">
+                                        <option value="">Tipo de Identificacion</option>
+                                        <option value="CED">Cedula</option>
+                                        <option value="PAS">Pasaporte</option>
+                                    </select>
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <input type="text" class="form-control my-2" name="identificacion" placeholder="No. de identificacion" name="numeroIdentificacion" [(ngModel)]="numeroIdentificacion">
+                                        </div>
+                                        <div class="col-2 d-flex align-items-center justify-content-center">
+                                            <button type="submit" class="btn btn-success" >Validar</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <input type="text" class="form-control my-1" placeholder="____________" value="{{clienteEncontrado.apellidos}} {{clienteEncontrado.nombres}}" readonly>
+                                        </div>
+
+                                        <div class="col-11 mt-1">
+                                            <select class="form-select" name="tipoSeleccionado" [(ngModel)]="tipoSeleccionado" >
+                                                <option value="">Tipo de Relacion</option>
+                                                <option *ngFor="let tipo of tiposRelacion" [value]="tipo.codigo">{{ tipo.nombre }}</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="col-1 text-center d-flex align-items-center">
+                                            <a type="button" class="btn btn-dark" (click)="agregarParticipante()">
+                                                <i class="bi bi-plus-lg"></i>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-sm-12 mt-4">
+                                    <div class="col">
+                                        <table id="tbParticipante" class="table table-hover table-bordered">
+                                            <thead>
+                                                <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Relacion</th>
+                                                <th scope="col">Identificacion</th>
+                                                <th scope="col">Nombres</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let participante of participantes; let i = index">
+                                                <td>{{ i + 1 }}</td>
+                                                <td>{{ participante.relacion }}</td>
+                                                <td>{{ participante.identificacion }}</td>
+                                                <td>{{ participante.nombres }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="px-4 mt-3">
                             <button type="button" class="btn btn-success mx-1" (click)="enviarDatosEmpresa()">
                                 <i class="bi bi-plus-circle"></i> Crear

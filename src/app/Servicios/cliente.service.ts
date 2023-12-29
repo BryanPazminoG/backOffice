@@ -12,6 +12,7 @@ export class ClienteService {
   private crearClienteEmpresaApi = "http://localhost:8080/cliente/guardar/empresa";
   private buscarClienteApi = "http://localhost:8080/cliente/buscar";
   private actualizarClientePersonaApi = "http://localhost:8080/cliente/actualizar/persona";
+  private tipoPersonaApi = 'http://localhost:8080/tipo-relacion/todos';
 
   constructor(private http: HttpClient) { }
 
@@ -30,6 +31,10 @@ export class ClienteService {
 
   actualizarCliente(datos: any): Observable<any> {
     return this.http.put<any>(this.actualizarClientePersonaApi, datos);
+  }
+
+  obtenerTiposRelacion(): Observable<any[]> {
+    return this.http.get<any[]>(this.tipoPersonaApi);
   }
 
 }
