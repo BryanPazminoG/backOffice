@@ -32,6 +32,9 @@
                                         <strong>IDENTIFICACION:</strong>
                                         {{participePrincipal.numero_identificacion}}
                                         <br>
+                                        <strong>N.- CUENTA:</strong>
+                                        {{participePrincipal.numeroCuenta}}
+                                        <br>
                                         <br>
                                         <strong>Direccion:</strong>
                                         {{participePrincipal.direccion}}
@@ -63,7 +66,7 @@
                                         </div>
                                         <div class="col-8">
                                             <strong>PARTICIPANTES: </strong><br>
-                                            <p *ngFor="let participes of participeSecundario">{{participes.apellidos}} {{participes.nombres}} - {{participes.numero_identificacion}}</p>
+                                            <p *ngFor="let participes of participeSecundario">{{participes.apellidos}} {{participes.nombres}} - {{participes.numero_identificacion}} - {{participes.numeroCuenta}}</p>
                                         </div>
                                     </div>
 

@@ -15,17 +15,19 @@ import { CreditoService } from 'src/app/Servicios/credito.service';
 export class TablaAmortizacionComponent implements OnInit {
 
   participePrincipal = {
-    'cod_cliente': '',
+    'cod_cliente': 0,
+    'numeroCuenta': '',
+    'tipo_identificacion': '',
     'numero_identificacion': '',
     'apellidos': '',
     'nombres': '',
     'direccion': '',
     'telefono': '',
     'correo_electronico': '',
-
   };
   participeSecundario = [{
     'cod_cliente': '',
+    'numeroCuenta': '',
     'numero_identificacion': '',
     'apellidos': '',
     'nombres': '',
