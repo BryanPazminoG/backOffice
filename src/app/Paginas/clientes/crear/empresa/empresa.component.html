@@ -52,9 +52,11 @@
                                         <option value="PAS">Pasaporte</option>
                                     </select>
                                     <div class="row">
+
                                         <div class="col-10">
                                             <input type="text" class="form-control my-2" name="identificacion" placeholder="No. de identificacion" name="numeroIdentificacion" [(ngModel)]="numeroIdentificacion">
                                         </div>
+                                        
                                         <div class="col-2 d-flex align-items-center justify-content-center">
                                             <button type="submit" class="btn btn-success" >Validar</button>
                                         </div>
@@ -86,9 +88,10 @@
                                         <table id="tbParticipante" class="table table-hover table-bordered">
                                             <thead>
                                                 <tr>
-                                                <th scope="col">#</th>
+                                                <th scope="col"></th>
                                                 <th scope="col">Relacion</th>
-                                                <th scope="col">Identificacion</th>
+                                                <th scope="col">Tipo Identificacion</th>
+                                                <th scope="col">Nro. Identificacion</th>
                                                 <th scope="col">Nombres</th>
                                                 </tr>
                                             </thead>
@@ -96,6 +99,7 @@
                                                 <tr *ngFor="let participante of participantes; let i = index">
                                                 <td>{{ i + 1 }}</td>
                                                 <td>{{ participante.relacion }}</td>
+                                                <td>{{ participante.tipoIdentificacion }}</td>
                                                 <td>{{ participante.identificacion }}</td>
                                                 <td>{{ participante.nombres }}</td>
                                                 </tr>
