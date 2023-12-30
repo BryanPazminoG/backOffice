@@ -18,50 +18,89 @@
                 <div class="container">
                     <div class="container-fluid">
                         <div class="container-fluid">
-                            <div class="row contenido my-3 rounded-4">
+                            <div class="row contenido my-3 rounded-4 " #contenedor>
+
+                                <div class="col-12 py-3 p-5 card backgroung-card">
+                                    <div class="text-center">
+                                        <h4 class="lara-light mt-3">BANQUITO</h4>
+                                        <br><br>
+                                    </div>
+                                    <div>
+                                        <strong>APELLLIDOS Y NOMBRES:</strong>
+                                        {{participePrincipal.apellidos}} {{participePrincipal.nombres}}
+                                        <br>
+                                        <strong>IDENTIFICACION:</strong>
+                                        {{participePrincipal.numero_identificacion}}
+                                        <br>
+                                        <br>
+                                        <strong>Direccion:</strong>
+                                        {{participePrincipal.direccion}}
+                                        <strong style="margin-left: 30px;">TELF:</strong>
+                                        {{participePrincipal.telefono}}
+                                        <strong style="margin-left: 30px;">CORREO:</strong>
+                                        {{participePrincipal.correo_electronico}}
+                                        <br><br>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-4">
+                                            <div>
+                                                <strong>FECHA:</strong>
+                                                {{credito.fecha_creacion}}
+                                                <br><br>
+                                            </div>
+                                            <div>
+                                                <strong>MONTO: </strong>
+                                                {{credito.monto}}
+                                                <br>
+                                                <strong>PLAZO:</strong>
+                                                {{credito.plazo}} MESESE
+                                                <br>
+                                                <strong>TASA INTERES:</strong>
+                                                {{credito.tasaInteres}}%
+                                                <br><br>
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <strong>PARTICIPANTES: </strong><br>
+                                            <p *ngFor="let participes of participeSecundario">{{participes.apellidos}} {{participes.nombres}} - {{participes.numero_identificacion}}</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
                                 <div class="p-5">
                                     <h5>Tabla de amortizacion</h5>
                                     <hr>
-                                    <table class="table table-hover" #contenedor>
+                                    <table class="table table-hover">
                                         <thead class="table-dark">
                                             <tr>
-                                                <th scope="col">No</th>
-                                                <th scope="col">Fecha vencimiento</th>
-                                                <th scope="col">Capital Amortizado</th>
-                                                <th scope="col">Interes</th>
-                                                <th scope="col">Cuotas</th>
+                                                <th scope="col">Periodo</th>
+                                                <th scope="col">Cuota</th>
+                                                <th scope="col">InteresPeriodo</th>
+                                                <th scope="col">AmortizacionPeriodo</th>
+                                                <th scope="col">CapitalPendiente</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                                <td>@mdo</td>
+                                            <tr *ngFor="let fila of preTablaPagos">
+                                                <th scope="row">{{fila.periodo}}</th>
+                                                <td>{{fila.cuota}}</td>
+                                                <td>{{fila.interesPeriodo}}</td>
+                                                <td>{{fila.amortizacionPeriodo}}</td>
+                                                <td>{{fila.capitalPendiente}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
-    
-                                    <div class="px-4 mt-3">
-                                        <button type="button" class="btn btn-success mx-1" (click)="crearCredito()">Generar credito</button>
-                                        <button type="button" class="btn btn-secondary mx-1">Regresar</button>
-                                    </div>
+
                                 </div>
+                            </div>
+                            
+                            
+                            <div class="px-4 mt-5">
+                                <button type="button" class="btn btn-success mx-1"
+                                    (click)="crearCredito()">Generar credito</button>
+                                <button type="button" class="btn btn-secondary mx-1" (click)="regresar()">Regresar</button>
                             </div>
                         </div>
                     </div>

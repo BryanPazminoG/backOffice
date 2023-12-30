@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ClienteService } from '../../../Servicios/cliente.service';
-
+import { FlujoDatosService } from '../../../../Servicios/flujo-datos.service';
+import { ClienteService } from '../../../../Servicios/cliente.service';
 
 @Component({
   selector: 'app-persona',
@@ -9,9 +9,17 @@ import { ClienteService } from '../../../Servicios/cliente.service';
 })
 
 
-
 export class PersonaComponent {
-  constructor(private clienteService: ClienteService) { }
+  constructor(
+    private flujoDatosService: FlujoDatosService,
+    private clienteService: ClienteService
+  ) {}
+
+  tipoPersona: String = "";
+
+  ngOnInit() {
+    console.log('Tipo Cliente:', this.flujoDatosService.getDatos());
+  }
 
   usuario: string = 'BryanP98';
   identificacion: string = '';
@@ -48,7 +56,6 @@ export class PersonaComponent {
     this.clienteService.enviarDatosCliente(datosCliente)
     .subscribe(
       (respuesta) => {
-        // Manejar la respuesta del servidor si es necesario
         console.log('Datos enviados con éxito:', respuesta);
       },
       (error) => {
