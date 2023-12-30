@@ -42,6 +42,9 @@
                                     </div>
                                     <hr>
                                     <input type="text" class="form-control my-4" placeholder="____" name="nombres" value="{{participePrincipal.apellidos}} {{participePrincipal.nombres}}" readonly>
+                                    <select class="form-select" name="cuentaP">
+                                        <option value="">Seleccione una cuenta</option>
+                                    </select>
                                 </div>
                             </form>
                         </div>
@@ -66,10 +69,13 @@
                                         </div>
                                     </div>
                                     <hr>
+                                    <input type="text" class="form-control my-3" name="nombres" placeholder="____" value="{{participantes.apellidos}} {{participantes.nombres}}" readonly>
+                                    <small id="mensajeExistencia" class="form-text text-danger" *ngIf="existencia">El cliente y existe</small>
                                     <div class="row">
                                         <div class="col-11">
-                                            <input type="text" class="form-control my-3" name="nombres" placeholder="____" value="{{participantes.apellidos}} {{participantes.nombres}}" readonly>
-                                            <small id="mensajeExistencia" class="form-text text-danger" *ngIf="existencia">El cliente y existe</small>
+                                            <select class="form-select" name="cuentaS">
+                                                <option value="">Seleccione una cuenta</option>
+                                            </select>
                                         </div>
                                         <div class="col-1 text-center d-flex align-items-center">
                                             <a type="button" class="btn btn-dark" (click)="addParticipante()">
@@ -77,6 +83,7 @@
                                             </a>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </form>
                             <div class="row">

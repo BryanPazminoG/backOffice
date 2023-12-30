@@ -52,7 +52,8 @@ export class CreditosComponent implements OnInit {
     'tasaMaxima': 0,
   };
   credito = {
-    'cod_cliente': 0,
+    'codTipoCredito': 0,
+    'codCliente': 0,
     'fecha_creacion': '',
     'tasaInteres': 0,
     'monto': 0,
@@ -287,16 +288,15 @@ export class CreditosComponent implements OnInit {
     let dia = fechaActual.getDate();
 
     let fechaFormateada = `${año}-${mes < 10 ? '0' + mes : mes}-${dia < 10 ? '0' + dia : dia}`;
-    console.log(fechaFormateada);
     return fechaFormateada;
   }
   continuar() {    
     if(this.participePrincipal.apellidos != "" && this.credito.monto > 0 && this.credito.plazo > 0){
       this.credito.fecha_creacion = this.fechaActual();
-      this.credito.cod_cliente = this.participePrincipal.cod_cliente;
+      this.credito.codTipoCredito = this.tipoCredito.codTipoCredito;
+      this.credito.codCliente = this.participePrincipal.cod_cliente;
       this.flujoDatosService.setParticipePrincipal(this.participePrincipal);
       this.participeSecundario.splice(0,1);
-      console.log(this.participeSecundario);
       this.flujoDatosService.setParticipeSecundario(this.participeSecundario);
       this.flujoDatosService.setCredito(this.credito);
   

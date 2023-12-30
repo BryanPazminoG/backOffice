@@ -12,6 +12,9 @@ export class CreditoService {
   private getByIdTasaIntApi: string = "http://localhost:8081/tasainteres/getbyid";
   private getCalculoTasaIntApi: string = "http://localhost:8081/tasainteres/calcular";
   private getPreTablaPagoApi: string = "http://localhost:8081/creditotablapagos/pretablapagos";
+  private postCreditoApi: string = "http://localhost:8081/credito/save";
+  private postCredIntApi: string = "http://localhost:8081/creditointerviniente/save";
+  private postTablaPagApi: string = "http://localhost:8081/creditotablapagos/save";
 
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
 
@@ -33,5 +36,14 @@ export class CreditoService {
   getPreTablaPagoAPI(tasaInteres: number, montoPrestamo: number, numeroPagos: number): Observable<any> {
     let params = new HttpParams().set('tasaInteres', tasaInteres).set('montoPrestamo', montoPrestamo).set('numeroPagos', numeroPagos);
     return this.http.get<any>(this.getPreTablaPagoApi, { params: params });
+  }
+  postCreditoAPI(registroCredito: any): Observable<any> {
+    return this.http.post<any>(this.postCreditoApi, registroCredito);
+  }
+  postCredIntAPI(creditoIntRegistro: any): Observable<any> {
+    return this.http.post<any>(this.postCredIntApi, creditoIntRegistro);
+  }
+  postTablaPagAPI(tablaPagosRegistro: any): Observable<any> {
+    return this.http.post<any>(this.postTablaPagApi, tablaPagosRegistro);
   }
 }

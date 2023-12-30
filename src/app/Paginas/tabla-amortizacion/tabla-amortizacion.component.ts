@@ -32,7 +32,8 @@ export class TablaAmortizacionComponent implements OnInit {
   }];
 
   credito = {
-    'cod_cliente': 0,
+    'codTipoCredito': 0,
+    'codCliente': 0,
     'fecha_creacion': '',
     'tasaInteres': 0,
     'monto': 0,
@@ -93,6 +94,104 @@ export class TablaAmortizacionComponent implements OnInit {
         this.router.navigate(["creditos"]);
       }
     });
+
+    /******************************************************/
+
+    var numeroOperacion = Math.floor(Math.random() * 100000000).toString().padStart(8, '0');
+
+    let registroCredito = {
+      "codTipoCredito": this.credito.codTipoCredito,
+      "codCliente": this.credito.codCliente,
+      "numeroOperacion": numeroOperacion,
+      "fechaCreacion": this.credito.fecha_creacion,
+      "monto": this.credito.monto,
+      "plazo": this.credito.plazo,
+      "tasaInteres": this.credito.tasaInteres,
+      "estado": "VIG",
+      "fechaDesembolso": this.credito.fecha_creacion,
+      "fechaUltimoPago": null,
+      "capitalPendiente": this.credito.monto,
+      "fechaUltimoCambio": this.credito.fecha_creacion,
+    }
+
+    this.creditoService.postCreditoAPI(registroCredito).subscribe(
+      (data) => {
+        if (data) {
+          console.log("Data Almacenado");
+          let idCredito = data.codCredito;
+          let creditoIntRegistroP = {
+            "tipo": "PRI",
+            "fechaUltimoCambio": this.credito.fecha_creacion,
+            "pk": {
+                "codCredito": idCredito,
+                "codCliente": this.credito.codCliente,
+            }
+          }
+          this.creditoService.postCredIntAPI(creditoIntRegistroP).subscribe(
+            (data) => {
+              if (data) {
+                console.log("Data Almacenado");
+              }
+            },
+            (error) => {
+              console.error('Error al hacer la solicitud:', error);
+            }
+          );
+          let date = this.credito.fecha_creacion;
+          this.participeSecundario.forEach((participante) => {
+            let creditoIntRegistroS = {
+              "tipo": "SEC",
+              "fechaUltimoCambio": date,
+              "pk": {
+                  "codCredito": idCredito,
+                  "codCliente": participante.cod_cliente,
+              }
+            }
+            this.creditoService.postCredIntAPI(creditoIntRegistroS).subscribe(
+              (data) => {
+                if (data) {
+                  console.log("Data Almacenado");
+                }
+              },
+              (error) => {
+                console.error('Error al hacer la solicitud:', error);
+              }
+            );
+          });
+          this.preTablaPagos.forEach((pagos) => {
+            let tablaPagosRegistro = {
+              "capital": parseFloat(pagos.amortizacionPeriodo),
+              "interes": parseFloat(pagos.interesPeriodo),
+              "montoCuota": parseFloat(pagos.cuota),
+              "capitalRestante": parseFloat(pagos.capitalPendiente),
+              "fechaPlanificadaPago": date,
+              "estado": "PEN",
+              "fechaPagoEfectivo": date,
+              "transaccionPago": "",
+              "fechaUltimoCambio": date,
+              "pk": {
+                  "codCredito": idCredito,
+                  "codCuota": pagos.periodo
+              }
+            }
+            this.creditoService.postTablaPagAPI(tablaPagosRegistro).subscribe(
+              (data) => {
+                if (data) {
+                  console.log("Data Almacenado");
+                }
+              },
+              (error) => {
+                console.error('Error al hacer la solicitud:', error);
+              }
+            );
+          });
+        }
+      },
+      (error) => {
+        console.error('Error al hacer la solicitud:', error);
+      }
+    );
+
     this.imprimirTabla();
   }
 
