@@ -107,6 +107,7 @@ export class CreditosComponent implements OnInit {
     this.serviceCliente.buscarClientePorParametros(this.participePrincipal.tipo_identificacion, this.participePrincipal.numero_identificacion).subscribe(
       (data) => {
         this.identPFirst = false;
+        this.identPValidacion = true;
         if (data) {
           this.participePrincipal = {
             'cod_cliente': data.codigo,
@@ -120,15 +121,10 @@ export class CreditosComponent implements OnInit {
             'correo_electronico': data.correoElectronico,
           }
           this.getCuentaByClienteAPI("PRI");
-
-          if(this.cuentasClienteP[0].numeroCuenta == ""){
-            this.restValorClienteP();
-            this.mensajeIdentificacion = "El cliente no tiene una cuenta en el banco"
-            this.identPValidacion = false;
-          }else this.identPValidacion = true;
         } else {
           this.mensajeIdentificacion = "Identificacion Incorrecta";
-          this.identPValidacion = false;}
+          this.identPValidacion = false;
+        }
       },
       (error) => {
         this.identPValidacion = false;
@@ -144,23 +140,18 @@ export class CreditosComponent implements OnInit {
     this.serviceCliente.buscarClientePorParametros(this.participantes['tipo_identificacion'], this.participantes['numero_identificacion']).subscribe(
       (data) => {
         this.identSFirst = false;
+        this.identSValidacion = true;
         if (data) {
           this.participantes['cod_cliente'] = data.codigo;
           this.participantes['tipo_identificacion'] = data.tipoIdentificacion;
           this.participantes['numero_identificacion'] = data.numeroIdentificacion;
           this.participantes['apellidos'] = data.apellidos;
           this.participantes['nombres'] = data.nombres;
-          this.identSValidacion = true;
           this.getCuentaByClienteAPI("SEC");
-          if(this.cuentasClienteS[0].numeroCuenta == ""){
-            this.restValorClienteS();
-            this.mensajeIdentificacionDos = "El cliente no tiene una cuenta en el banco"
-            this.identSValidacion = false;
-          }else{
-            this.identSValidacion = true;
-            this.mensajeIdentificacionDos = "Identificacion Incorrecta";
-          }
-        } else this.identSValidacion = false;
+        } else {
+          this.mensajeIdentificacionDos = "Identificacion Incorrecta";
+          this.identSValidacion = false;
+        }
       },
       (error) => {
         this.identSValidacion = false;
@@ -321,16 +312,29 @@ export class CreditosComponent implements OnInit {
     if (idCliente != 0) {
       this.serviceCuenta.getCuentaByClienteAPI(idCliente).subscribe(
         (data) => {
+          console.log(data);
           if(data){
+            console.log("SI");
             if(tipoParticipante == "PRI"){
               this.cuentasClienteP = data;
+              this.identPValidacion = true;
             }else{
               this.cuentasClienteS = data;
+              this.identSValidacion = true;
             }
           }
         },
         (error) => {
           console.error('Error al hacer la solicitud:', error);
+          if(tipoParticipante == "PRI"){
+            this.restValorClienteP();
+            this.mensajeIdentificacion = "El cliente no tiene una cuenta en el banco"
+            this.identPValidacion = false;
+          }else if(tipoParticipante == "SEC"){
+            this.restValorClienteS();
+            this.mensajeIdentificacionDos = "El cliente no tiene una cuenta en el banco"
+            this.identSValidacion = false;
+          }
         }
       );
     }
