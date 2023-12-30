@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ClienteService } from 'src/app/Servicios/cliente.service';
 import { CreditoService } from 'src/app/Servicios/credito.service';
 import { FlujoDatosService } from 'src/app/Servicios/flujo-datos.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-creditos',
@@ -12,27 +13,28 @@ import { FlujoDatosService } from 'src/app/Servicios/flujo-datos.service';
 export class CreditosComponent implements OnInit {
 
   participantes = {
-    'cod_cliente': '',
+    'cod_cliente': 0,
     'tipo_identificacion': '',
     'numero_identificacion': '',
     'apellidos': '',
     'nombres': '',
   };
   listaTipoCredito = [{
-    'cod_tipo_credito': 0,
+    'codTipoCredito': 0,
     'nombre': '',
   }];
   tipoCredito = {
-    'cod_tipo_credito': 0,
+    'codTipoCredito': 0,
+    'codTasaInteres': '',
     'nombre': '',
-    'plazo_minimo': 0,
-    'plazo_maximo': 0,
-    'monto_minimo': 0,
-    'monto_maximo': 0,
+    'plazoMinimo': 0,
+    'plazoMaximo': 0,
+    'montoMinimo': 0,
+    'montoMaximo': 0,
   };
 
   participePrincipal = {
-    'cod_cliente': '',
+    'cod_cliente': 0,
     'tipo_identificacion': '',
     'numero_identificacion': '',
     'apellidos': '',
@@ -42,9 +44,18 @@ export class CreditosComponent implements OnInit {
     'correo_electronico': '',
   };
   participeSecundario = [{}];
+  tasaInteres = {
+    'codTasaInteres': '',
+    'tipoTasaInteres': '',
+    'nombre': '',
+    'tasaMinima': 0,
+    'tasaMaxima': 0,
+  };
   credito = {
-    'cod_cliente': 0,
+    'codTipoCredito': 0,
+    'codCliente': 0,
     'fecha_creacion': '',
+    'tasaInteres': 0,
     'monto': 0,
     'plazo': 0,
   };
@@ -67,7 +78,7 @@ export class CreditosComponent implements OnInit {
   }
 
   getClienteP() {
-    this.participePrincipal.cod_cliente = '';
+    this.participePrincipal.cod_cliente = 0;
     this.participePrincipal.apellidos = '';
     this.participePrincipal.nombres = '';
     this.participePrincipal.direccion = '';
@@ -76,9 +87,8 @@ export class CreditosComponent implements OnInit {
 
     this.serviceCliente.buscarClientePorParametros(this.participePrincipal.tipo_identificacion, this.participePrincipal.numero_identificacion).subscribe(
       (data) => {
+        this.identPFirst = false;
         if (data) {
-          this.identPFirst = false;
-
           this.participePrincipal = {
             'cod_cliente': data.codigo,
             'tipo_identificacion': data.tipoIdentificacion,
@@ -91,9 +101,6 @@ export class CreditosComponent implements OnInit {
           }
           this.identPValidacion = true;
         } else this.identPValidacion = false;
-        console.log(this.participePrincipal);
-        console.log(this.identPFirst);
-        console.log(this.identPValidacion);
       },
       (error) => {
         this.identPValidacion = false;
@@ -101,9 +108,8 @@ export class CreditosComponent implements OnInit {
       }
     );
   }
-
   getClienteS() {
-    this.participantes['cod_cliente'] = '';
+    this.participantes['cod_cliente'] = 0;
     this.participantes['apellidos'] = '';
     this.participantes['nombres'] = '';
 
@@ -132,13 +138,7 @@ export class CreditosComponent implements OnInit {
         return JSON.stringify(objeto) === JSON.stringify(this.participantes);
       });
 
-      if (objetoEncontrado) {
-        console.log('Objeto encontrado:', objetoEncontrado);
-      } else {
-        console.log('Objeto no encontrado', objetoEncontrado);
-      }
-
-      if (!objetoEncontrado) {
+      if (!objetoEncontrado && this.participePrincipal.numero_identificacion !== this.participantes.numero_identificacion) {
         this.existencia = false;
         this.participeSecundario.push({ ...this.participantes });
 
@@ -153,6 +153,7 @@ export class CreditosComponent implements OnInit {
         let textP2 = document.createElement('p');
         let cell3 = document.createElement('td');
         let textP3 = document.createElement('p');
+        let cell4 = document.createElement('td');
         let numberOfRows = tableBody.rows.length;
         textP.innerHTML = numberOfRows.toString();
         cell.appendChild(textP);
@@ -169,9 +170,23 @@ export class CreditosComponent implements OnInit {
         textP3.innerHTML = this.participantes.apellidos + " " + this.participantes.nombres;
         cell3.appendChild(textP3);
         row.appendChild(cell3);
+
+        var boton = document.createElement("button");
+        boton.type = "button";
+        boton.className = "btn btn-dark w-100";
+
+        boton.onclick  = () => {
+          this.EliminarFila(boton);
+      };
+        var icono = document.createElement("i");
+        icono.className = "bi bi-x-lg";
+
+        boton.appendChild(icono);
+        cell4.appendChild(boton);
+        row.appendChild(cell4);
         tableBody.appendChild(row);
 
-        this.participantes['cod_cliente'] = '';
+        this.participantes['cod_cliente'] = 0;
         this.participantes['tipo_identificacion'] = '';
         this.participantes['numero_identificacion'] = '';
         this.participantes['apellidos'] = '';
@@ -181,40 +196,67 @@ export class CreditosComponent implements OnInit {
     }
   }
 
+  EliminarFila(event: any){
+    var fila = event.closest('tr');
+    if(fila){
+      var cuartaColumnaElement = fila.querySelector('td:nth-child(3)');
+      if (cuartaColumnaElement !== null) {
+        var cuartaColumna = cuartaColumnaElement.textContent;
+
+        let objetoLista = this.participeSecundario.findIndex(objeto => {
+          return JSON.stringify(objeto).includes(cuartaColumna);
+        });
+        if (objetoLista !== -1) {
+            this.participeSecundario.splice(objetoLista, 1);
+        }
+      }
+
+    }
+    fila.remove();
+  }
+
   getAllTipoCredito() {
-    this.listaTipoCredito = [{ 'cod_tipo_credito': 1, 'nombre': 'CRÉDITO DE CONSUMO' }, { 'cod_tipo_credito': 2, 'nombre': 'CRÉDITO DOS' }];
-    // this.serviceCredito.getAllAPI().subscribe(
-    //   (data) => {
-    //     this.tipoCredito = ["CRÉDITO DE CONSUMO", "asda", "data"];
-    //   },
-    //   (error) => {
-    //     console.error('Error al hacer la solicitud:', error);
-    //   }
-    // );
+    this.serviceCredito.getAllTipoCreAPI().subscribe(
+      (data) => {
+        if (data) {
+          this.listaTipoCredito = data;
+        }
+      },
+      (error) => {
+        console.error('Error al hacer la solicitud:', error);
+      }
+    );
   }
   getIdTipoCredito(event: any) {
     const valorSeleccionado = event.target.value;
-    console.log('Valor seleccionado:', valorSeleccionado);
 
-    this.tipoCredito = {
-      'cod_tipo_credito': 1,
-      'nombre': 'CRÉDITO DE CONSUMO',
-      'plazo_minimo': 6,
-      'plazo_maximo': 36,
-      'monto_minimo': 1000,
-      'monto_maximo': 5000,
-    };
+    if (valorSeleccionado != 0) {
+      this.serviceCredito.getByIdTipoCreAPI(valorSeleccionado).subscribe(
+        (data) => {
+          this.tipoCredito = data;
+          this.getByIdTasaInt();
+        },
+        (error) => {
+          console.error('Error al hacer la solicitud:', error);
+        }
+      );
+    }
+  }
+  getByIdTasaInt() {
+    const valorSeleccionado = this.tipoCredito.codTasaInteres;
 
-    // if(valorSeleccionado != 0){
-    //   this.serviceCredito.getByIdAPI(valorSeleccionado).subscribe(
-    //     (data) => {
-
-    //     },
-    //     (error) => {
-    //       console.error('Error al hacer la solicitud:', error);
-    //     }
-    //   );
-    // }
+    if (valorSeleccionado != "") {
+      this.serviceCredito.getByIdTasaIntAPI(valorSeleccionado).subscribe(
+        (data) => {
+          if(data){
+            this.tasaInteres = data;
+          }
+        },
+        (error) => {
+          console.error('Error al hacer la solicitud:', error);
+        }
+      );
+    }
   }
   validacionesEnteros(event: any, min: number, max: number) {
     let valor = Math.round(event.target.value);
@@ -222,7 +264,23 @@ export class CreditosComponent implements OnInit {
     else if (valor > max) event.target.value = max;
     else event.target.value = valor;
   }
+  calcularTasaInteres(){
+    let monto = this.credito.monto;
+    let plazo = this.credito.plazo;
 
+    if(monto > 0 && plazo > 0){
+      this.serviceCredito.getCalculoTasaIntAPI(this.tasaInteres.codTasaInteres, monto, plazo).subscribe(
+        (data) => {
+          if(data){
+            this.credito.tasaInteres = data;
+          }
+        },
+        (error) => {
+          console.error('Error al hacer la solicitud:', error);
+        }
+      );
+    }
+  }
   fechaActual() {
     let fechaActual = new Date();
     let año = fechaActual.getFullYear();
@@ -230,41 +288,29 @@ export class CreditosComponent implements OnInit {
     let dia = fechaActual.getDate();
 
     let fechaFormateada = `${año}-${mes < 10 ? '0' + mes : mes}-${dia < 10 ? '0' + dia : dia}`;
-    console.log(fechaFormateada);
     return fechaFormateada;
   }
-  continuar() {
-    // this.participeSecundario = [{
-    //   'cod_cliente': '1',
-    //   'numero_identificacion': '17352156',
-    //   'apellidos': 'Garcia Naverrete',
-    //   'nombres': 'Ricky Garcia',
-    // }, {
-    //   'cod_cliente': '2',
-    //   'numero_identificacion': '18987654',
-    //   'apellidos': 'Juan Pepe',
-    //   'nombres': 'El pepe',
-    // },
-    // {
-    //   'cod_cliente': '3',
-    //   'numero_identificacion': '156123456',
-    //   'apellidos': 'Navarrete Navarrete',
-    //   'nombres': 'Lourdes Amada',
-    // }]
+  continuar() {    
+    if(this.participePrincipal.apellidos != "" && this.credito.monto > 0 && this.credito.plazo > 0){
+      this.credito.fecha_creacion = this.fechaActual();
+      this.credito.codTipoCredito = this.tipoCredito.codTipoCredito;
+      this.credito.codCliente = this.participePrincipal.cod_cliente;
+      this.flujoDatosService.setParticipePrincipal(this.participePrincipal);
+      this.participeSecundario.splice(0,1);
+      this.flujoDatosService.setParticipeSecundario(this.participeSecundario);
+      this.flujoDatosService.setCredito(this.credito);
+  
+      this.router.navigate(["creditos/amortizacion"]);
+    }else{
+      Swal.fire({
+        icon: "error",
+        title: "Completar los datos",
+        text: "Todos los campos obligatorios deben ser llenados",
+        showConfirmButton: false,
+        timer: 2500
+      });
+    }
 
-    this.credito.fecha_creacion = this.fechaActual();
-    // this.credito = {
-    //   'cod_cliente': 1,
-    //   'fecha_creacion': '28/12/2023',
-    //   'monto': 1000,
-    //   'plazo': 6,
-    // }
-
-    this.flujoDatosService.setParticipePrincipal(this.participePrincipal);
-    this.flujoDatosService.setParticipeSecundario(this.participeSecundario);
-    this.flujoDatosService.setCredito(this.credito);
-
-    this.router.navigate(["creditos/amortizacion"]);
   }
   regresar() {
     this.router.navigate(["clientes"]);

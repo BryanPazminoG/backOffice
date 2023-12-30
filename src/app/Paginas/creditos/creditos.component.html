@@ -42,6 +42,9 @@
                                     </div>
                                     <hr>
                                     <input type="text" class="form-control my-4" placeholder="____" name="nombres" value="{{participePrincipal.apellidos}} {{participePrincipal.nombres}}" readonly>
+                                    <select class="form-select" name="cuentaP">
+                                        <option value="">Seleccione una cuenta</option>
+                                    </select>
                                 </div>
                             </form>
                         </div>
@@ -66,10 +69,13 @@
                                         </div>
                                     </div>
                                     <hr>
+                                    <input type="text" class="form-control my-3" name="nombres" placeholder="____" value="{{participantes.apellidos}} {{participantes.nombres}}" readonly>
+                                    <small id="mensajeExistencia" class="form-text text-danger" *ngIf="existencia">El cliente y existe</small>
                                     <div class="row">
                                         <div class="col-11">
-                                            <input type="text" class="form-control my-3" name="nombres" placeholder="____" value="{{participantes.apellidos}} {{participantes.nombres}}" readonly>
-                                            <small id="mensajeExistencia" class="form-text text-danger" *ngIf="existencia">El cliente y existe</small>
+                                            <select class="form-select" name="cuentaS">
+                                                <option value="">Seleccione una cuenta</option>
+                                            </select>
                                         </div>
                                         <div class="col-1 text-center d-flex align-items-center">
                                             <a type="button" class="btn btn-dark" (click)="addParticipante()">
@@ -77,6 +83,7 @@
                                             </a>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </form>
                             <div class="row">
@@ -90,6 +97,7 @@
                                                     <th scope="col">Tipo</th>
                                                     <th scope="col">Identificacion</th>
                                                     <th scope="col">Nombres</th>
+                                                    <th scope="col"></th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -106,7 +114,7 @@
                                     <label for="producto" class="col-sm-2 col-form-label">Producto: </label>
                                     <select class="form-select" name="producto" (change)="getIdTipoCredito($event)">
                                         <option value=0 selected>Seleccione el credito</option>
-                                        <option *ngFor="let opcion of listaTipoCredito" [value]="opcion.cod_tipo_credito">{{ opcion.nombre }}</option>
+                                        <option *ngFor="let opcion of listaTipoCredito" [value]="opcion.codTipoCredito">{{ opcion.nombre }}</option>
                                     </select>
                                 </div>
 
@@ -119,8 +127,8 @@
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">$</div>
                                                 </div>
-                                                <input type="number" class="form-control" min={{tipoCredito.monto_minimo}} max={{tipoCredito.monto_maximo}} id="monto" name="monto"
-                                                    value={{tipoCredito.monto_minimo}} (change)="validacionesEnteros($event, tipoCredito.monto_minimo, tipoCredito.monto_maximo)" [(ngModel)]="credito.monto">
+                                                <input type="number" class="form-control" min={{tipoCredito.montoMinimo}} max={{tipoCredito.montoMaximo}} id="monto" name="monto"
+                                                (change)="validacionesEnteros($event, tipoCredito.montoMinimo, tipoCredito.montoMaximo); calcularTasaInteres();" [(ngModel)]="credito.monto">
                                             </div>
                                         </div>
                                         <div class="col-sm-1 text-center">
@@ -132,7 +140,7 @@
                                         </div>
                                         <div class="col-sm-5">
                                             <span id="monto" class="form-text">
-                                                Monto desde {{tipoCredito.monto_minimo}} a {{tipoCredito.monto_maximo}}.
+                                                Monto desde {{tipoCredito.montoMinimo}} a {{tipoCredito.montoMaximo}}.
                                             </span>
                                         </div>
                                     </div>
@@ -142,11 +150,10 @@
                                 <div class="form-group row">
                                     <label for="plazo" class="col-sm-2 col-form-label">Plazo (meses): </label>
                                     <div class="col-sm-10">
-                                        <input type="number" class="form-control" name="plazo" min={{tipoCredito.plazo_minimo}} max={{tipoCredito.plazo_maximo}} id="plazo" (change)="validacionesEnteros($event, tipoCredito.plazo_minimo, tipoCredito.plazo_maximo)" [(ngModel)]="credito.plazo">
-                                        <div id="mensajePlazo" class="form-text ">El plazo para el credito es de {{tipoCredito.plazo_minimo}} a {{tipoCredito.plazo_maximo}} meses.</div>
+                                        <input type="number" class="form-control" name="plazo" min={{tipoCredito.plazoMinimo}} max={{tipoCredito.plazoMaximo}} id="plazo" (change)="validacionesEnteros($event, tipoCredito.plazoMinimo, tipoCredito.plazoMaximo); calcularTasaInteres();" [(ngModel)]="credito.plazo">
+                                        <div id="mensajePlazo" class="form-text ">El plazo para el credito es de {{tipoCredito.plazoMinimo}} a {{tipoCredito.plazoMaximo}} meses.</div>
                                     </div>
                                 </div>
-
                                 <div class="form-group row mt-2">
                                     <label for="calculo" class="col-sm-2 col-form-label">Tipo de cálculo: </label>
                                     <div class="col-sm-10">
@@ -155,7 +162,14 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group row mt-2">
+                                    <label for="min" class="col-sm-2 col-form-label">Tasa de Interes</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" name="tasa" value="{{credito.tasaInteres}} %" readonly>
+                                    </div>
+                                </div>
                             </form>
+
                             <div class="px-4 mt-4">
                                 <button type="button" class="btn btn-success mx-1"
                                     (click)="continuar()">Continuar</button>
