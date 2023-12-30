@@ -14,6 +14,9 @@ export class ClienteService {
   private actualizarClientePersonaApi = "http://localhost:8080/cliente/actualizar/persona";
   private tipoPersonaApi = 'http://localhost:8080/tipo-relacion/todos';
 
+  private relacionClientePersona = 'http://localhost:8080/cliente/guardar/relacion-cliente';
+
+
   constructor(private http: HttpClient) { }
 
   enviarDatosCliente(datos: any): Observable<any> {
@@ -36,5 +39,17 @@ export class ClienteService {
   obtenerTiposRelacion(): Observable<any[]> {
     return this.http.get<any[]>(this.tipoPersonaApi);
   }
+
+  crearRelacionClientePersona(codigoEmpresa: number, tipoIdentificacionPersona: string, numeroIdentificacionPersona: string, codigoRelacion: string): Observable<any> {
+    const params = new HttpParams()
+      .set('codigoEmpresa', codigoEmpresa)
+      .set('tipoIdentificacionPersona', tipoIdentificacionPersona)
+      .set('numeroIdentificacionPersona', numeroIdentificacionPersona)
+      .set('codigoRelacion', codigoRelacion);
+
+    return this.http.get<any>(this.relacionClientePersona, {params: params});
+  }
+
+  
 
 }

@@ -13,9 +13,12 @@ export class EmpresaComponent {
   numeroIdentificacion: string = '';
   clienteEncontrado: any = '';
   participantes: any[] = [];
-  tipoSeleccionado: any = '';
+  //tipoSeleccionado: any = '';
 
   tipoCliente: string = '';
+
+  tipoSeleccionado: string = '';
+
 
   constructor(
     private flujoDatosService: FlujoDatosService,
@@ -38,40 +41,6 @@ export class EmpresaComponent {
   correoElectronico: string = '';
   telefono: string = '';
 
-  enviarDatosEmpresa(): void{
-    const datosCliente = {
-      codigo : 12,
-      tipoCliente: "JUR",
-      tipoIdentificacion: "RUC",
-      numeroIdentificacion: this.identificacion,
-      apellidos: null,
-      nombres: null,
-      fechaNacimiento: null,
-      fechaConstitucion: this.fechaConstitucion,
-      razonSocial: this.razonSocial,
-      nombreComercial: this.nombreComercial,
-      direccion: this.direccion,
-      correoElectronico: this.correoElectronico,
-      telefono: this.telefono,
-      fechaModificacion: "2023-12-26T00:00:00", 
-      version: 1
-    };
-
-    console.log(datosCliente);
-
-
-    this.clienteService.enviarDatosEmpresa(datosCliente)
-    .subscribe(
-      (respuesta) => {
-        console.log('Datos enviados con éxito:', respuesta);
-      },
-      (error) => {
-        // Manejar errores si la solicitud falla
-        console.error('Error al enviar datos:', error);
-      }
-    );
-
-  }
 
   obtenerTiposRelacion(): void {
     this.clienteService.obtenerTiposRelacion()
@@ -89,7 +58,6 @@ export class EmpresaComponent {
   buscarCliente(): void {
     this.clienteService.buscarClientePorParametros(this.tipoIdentificacion, this.numeroIdentificacion).subscribe(
       (data) => {
-        console.log('Cliente encontrado:', data);
         this.clienteEncontrado = data;
       },
       (error) => {
@@ -101,7 +69,8 @@ export class EmpresaComponent {
   agregarParticipante(): void {
     // Aquí puedes construir el objeto con la información del formulario
     const nuevoParticipante = {
-      relacion: this.tipoSeleccionado,// Asignar el valor seleccionado del tipo de relación
+      relacion: this.tipoSeleccionado,
+      tipoIdentificacion: this.tipoIdentificacion,
       identificacion: this.numeroIdentificacion,
       nombres: this.clienteEncontrado.apellidos + ' ' + this.clienteEncontrado.nombres
     };
@@ -119,6 +88,52 @@ export class EmpresaComponent {
     // También puedes llamar a un método para enviar los datos al servicio aquí si es necesario
   }
 
+  enviarDatosEmpresa(): void{
+    const datosCliente = {
+      codigo : 0,
+      tipoCliente: "JUR",
+      tipoIdentificacion: "RUC",
+      numeroIdentificacion: this.identificacion,
+      apellidos: null,
+      nombres: null,
+      fechaNacimiento: null,
+      fechaConstitucion: this.fechaConstitucion,
+      razonSocial: this.razonSocial,
+      nombreComercial: this.nombreComercial,
+      direccion: this.direccion,
+      correoElectronico: this.correoElectronico,
+      telefono: this.telefono,
+      fechaModificacion: "2023-12-26T00:00:00", 
+      version: 1
+    };
+
+
+    this.clienteService.enviarDatosEmpresa(datosCliente).subscribe(
+      (response) => {
+        console.log('Datos empresa con exito: ', response);
+        this.participantes.forEach((participante) => {
+          this.enviarClientesAsociadosEmpresa(response.codigo, participante.tipoIdentificacion, participante.identificacion, participante.relacion);
+        });
+      },
+      (error) => {
+        console.error('Error al enviar empresa:', error);
+      }
+    )
+  }
+
+
+  enviarClientesAsociadosEmpresa(codigoEmpresa: number, tipoIdentificacion: string, numeroIdentificacion: string, tipoRelacion: string){
+    this.clienteService.crearRelacionClientePersona(codigoEmpresa, tipoIdentificacion, numeroIdentificacion, tipoRelacion)
+    .subscribe(
+      (respuesta) => {
+        console.log('Datos enviados con éxito:', respuesta);
+      },
+      (error) => {
+        // Manejar errores si la solicitud falla
+        console.error('Error al enviar datos:', error);
+      }
+    );
+  }
 
 
 }
