@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ClienteService } from 'src/app/Servicios/cliente.service';
 import { CuentaService } from 'src/app/Servicios/cuenta.service';
+import { CreditoService } from 'src/app/Servicios/credito.service';
+import Swal from 'sweetalert2'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crear-cuenta',
   templateUrl: './crear-cuenta.component.html',
   styleUrls: ['./crear-cuenta.component.css']
 })
-export class CrearCuentaComponent {
+export class CrearCuentaComponent implements OnInit {
   clienteIdentificacion = {
     'codigo': 0,
     'tipoIdentificacion': '',
@@ -15,13 +18,47 @@ export class CrearCuentaComponent {
     'apellidos': '',
     'nombres': '',
   };
-  cliente = [{}];
+  cliente = [{
+    'codigo': 0,
+    'tipoIdentificacion': '',
+    'numeroIdentificacion': '',
+    'apellidos': '',
+    'nombres': '',
+  }];
+  listTipoCuenta = [{
+    "codTipoCuenta": "",
+    "nombre": "",
+  }];
+
+  tipoCuenta = {
+    "codTipoCuenta": "",
+    "codTasaInteres": "",
+    "tipoCapitalizacion": "",
+    "formaCapitalizacion": "",
+    "maximoNumeroIntervinientes": 0,
+    "valorTasaInteres": "",
+  };
+
+  tasaInteres = {
+    "codTasaInteres": "",
+    "tasaMinima": 0.50,
+    "tasaMaxima": 2.00,
+  }
 
   identFirst = true;
   identValidacion = false;
   mensajeValidacion = "";
 
-  constructor(private serviceCliente: ClienteService, private serviceCuenta: CuentaService) {
+  constructor(
+    private serviceCliente: ClienteService, 
+    private serviceCuenta: CuentaService, 
+    private serviceCredito: CreditoService,
+    private router: Router
+    ) {
+  }
+  ngOnInit(): void {
+    this.getCuentas();
+    this.cliente.pop();
   }
 
   getCliente() {
@@ -42,16 +79,59 @@ export class CrearCuentaComponent {
       }
     );
   }
+  getCuentas() {
+    this.serviceCuenta.getTipoCuentaAllAPI().subscribe(
+      (data) => {
+        if (data) {
+          this.listTipoCuenta = data;
+        }
+      },
+      (error) => {
+        console.error('Error al hacer la solicitud:', error);
+      }
+    );
+  }
+  getCuentasId() {
+    if (this.tipoCuenta.codTipoCuenta != "") {
+      this.serviceCuenta.getTipoCuentaByIdAPI(this.tipoCuenta.codTipoCuenta).subscribe(
+        (data) => {
+          if (data) {
+            this.tipoCuenta = data;
+            this.getTasaInteresById();
+          }
+        },
+        (error) => {
+          console.error('Error al hacer la solicitud:', error);
+        }
+      );
+    }
+  }
+  getTasaInteresById() {
+    if (this.tipoCuenta.codTasaInteres != "") {
+      this.serviceCredito.getByIdTasaIntAPI(this.tipoCuenta.codTasaInteres).subscribe(
+        (data) => {
+          if (data) {
+            this.tasaInteres = data;
+            this.tipoCuenta.valorTasaInteres = this.tasaInteres.tasaMinima + "% - " + this.tasaInteres.tasaMaxima + "%";
+          }
+        },
+        (error) => {
+          console.error('Error al hacer la solicitud:', error);
+        }
+      );
+    }
+  }
   addParticipante() {
 
-    if (this.clienteIdentificacion.apellidos != "" && this.clienteIdentificacion.nombres != "") {
+    let tableBody = document.getElementById('tbParticipante') as HTMLTableElement;
+    let numberOfRows = tableBody.rows.length;
+    if (this.clienteIdentificacion.apellidos != "" && this.clienteIdentificacion.nombres != "" && numberOfRows <= this.tipoCuenta.maximoNumeroIntervinientes) {
       let objetoEncontrado = this.cliente.find(objeto => {
         return JSON.stringify(objeto) === JSON.stringify(this.clienteIdentificacion);
       });
       if (!objetoEncontrado) {
         this.cliente.push({ ...this.clienteIdentificacion });
 
-        let tableBody = document.getElementById('tbParticipante') as HTMLTableElement;
         let row = document.createElement('tr');
 
         let cell = document.createElement('td');
@@ -64,7 +144,6 @@ export class CrearCuentaComponent {
         let textP3 = document.createElement('p');
         let cell4 = document.createElement('td');
 
-        let numberOfRows = tableBody.rows.length;
         textP.innerHTML = numberOfRows.toString();
         cell.appendChild(textP);
         row.appendChild(cell);
@@ -85,9 +164,9 @@ export class CrearCuentaComponent {
         boton.type = "button";
         boton.className = "btn btn-dark w-100";
 
-        boton.onclick  = () => {
+        boton.onclick = () => {
           this.EliminarFila(boton);
-      };
+        };
         var icono = document.createElement("i");
         icono.className = "bi bi-x-lg";
 
@@ -106,14 +185,17 @@ export class CrearCuentaComponent {
         this.identValidacion = true;
 
       } else {
-        this.mensajeValidacion = "El cliente ya se encuentra agregado";
         this.identValidacion = false;
+        this.mensajeValidacion = "El cliente ya se encuentra agregado";
       }
+    } else {
+      this.identValidacion = false;
+      this.mensajeValidacion = "Solo se permite un maximo de " + this.tipoCuenta.maximoNumeroIntervinientes + " participantes";
     }
   }
-  EliminarFila(event: any){
+  EliminarFila(event: any) {
     var fila = event.closest('tr');
-    if(fila){
+    if (fila) {
       var cuartaColumnaElement = fila.querySelector('td:nth-child(3)');
       if (cuartaColumnaElement !== null) {
         var cuartaColumna = cuartaColumnaElement.textContent;
@@ -122,7 +204,7 @@ export class CrearCuentaComponent {
           return JSON.stringify(objeto).includes(cuartaColumna);
         });
         if (objetoLista !== -1) {
-            this.cliente.splice(objetoLista, 1);
+          this.cliente.splice(objetoLista, 1);
         }
       }
 
@@ -131,40 +213,88 @@ export class CrearCuentaComponent {
   }
 
   restDatosClientes() {
+    this.identValidacion = true;
     this.clienteIdentificacion.codigo = 0;
     this.clienteIdentificacion.apellidos = '';
     this.clienteIdentificacion.nombres = '';
   }
-  // generarNumeroCuenta() {
-  //   const numeroAleatorio = Math.random();
-  //   const numeroCadena = (numeroAleatorio * 1e10).toFixed(0);
-  //   const numeroAleatorio10Digitos = numeroCadena.padStart(10, '0');
-  //   return numeroAleatorio10Digitos;
-  // }
-  // crearCuenta() {
-  //   if (this.clienteIdentificacion.codigo != 0) {
+  generarNumeroCuenta() {
+    const numeroAleatorio = Math.random();
+    const numeroCadena = (numeroAleatorio * 1e8).toFixed(0);
+    const numeroAleatorio10Digitos = numeroCadena.padStart(8, '0');
+    return numeroAleatorio10Digitos;
+  }
+  fechaActual() {
+    let fechaActual = new Date();
+    let año = fechaActual.getFullYear();
+    let mes = fechaActual.getMonth() + 1; // Los meses son indexados desde 0, así que sumamos 1
+    let dia = fechaActual.getDate();
 
-  //     let nuevaCuenta = {
-  //       "numeroCuenta": this.generarNumeroCuenta(),
-  //       "codTipoCuenta": "CTA_CORR",
-  //       "codCliente": 1,
-  //       "saldoContable": 5000.00,
-  //       "saldoDisponible": 5000.00,
-  //       "estado": "ACT",
-  //       "fechaCreacion": "2023-12-28T22:34:32.928+00:00",
-  //       "fechaUltimoCambio": "2023-12-28T22:34:32.928+00:00",
-  //       "version": 1
-  //     }
-  //     this.serviceCuenta.postCuentaAPI(nuevaCuenta).subscribe(
-  //       (data) => {
-  //         if (data) {
-  //           this.getCuentaByClienteAPI();
-  //         }
-  //       },
-  //       (error) => {
-  //         console.error('Error al hacer la solicitud:', error);
-  //       }
-  //     );
-  //   }
-  // }
+    let fechaFormateada = `${año}-${mes < 10 ? '0' + mes : mes}-${dia < 10 ? '0' + dia : dia}`;
+    return fechaFormateada;
+  }
+  crearCuenta() {
+    if (this.cliente.length > 0 && this.tipoCuenta.codTipoCuenta != "") {
+      let numeroCuenta = this.generarNumeroCuenta();
+      let nuevaCuenta = {
+        "numeroCuenta": numeroCuenta,
+        "codTipoCuenta": this.tipoCuenta.codTipoCuenta,
+        "codCliente": this.cliente[0].codigo,
+        "saldoContable": 0,
+        "saldoDisponible": 0,
+        "estado": "ACT",
+        "fechaCreacion": this.fechaActual(),
+        "fechaUltimoCambio": this.fechaActual(),
+      }
+      this.serviceCuenta.postCuentaAPI(nuevaCuenta).subscribe(
+        (data) => {
+          if (data) {
+            this.cliente.forEach((participante) => {
+              let cuentaIntervinientes = {
+                "fechaInicio": this.fechaActual(),
+                "fechaFin": null,
+                "estado": "ACT",
+                "fechaUltimoCambio": this.fechaActual(),
+                "pk": {
+                  "codCuenta": data.codCuenta,
+                  "codClientePersona": participante.codigo,
+                }
+              }
+              this.serviceCuenta.postCuentaParticipantesAPI(cuentaIntervinientes).subscribe(
+                (data) => {
+                },
+                (error) => {
+                  console.error('Error al hacer la solicitud:', error);
+                }
+              );
+            });
+            Swal.fire({
+              icon: "success",
+              title: "Listo",
+              text: "La cuenta se ha creado satisfactoriamente NUMERO DE CUENTA: " + numeroCuenta,
+              showConfirmButton: true,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.router.navigate(["cuentas/crear"]);
+              }
+            });
+          }
+        },
+        (error) => {
+          console.error('Error al hacer la solicitud:', error);
+        }
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Completar los datos",
+        text: "Todos los campos obligatorios deben ser llenados",
+        showConfirmButton: false,
+        timer: 2500
+      });
+    }
+  }
+  regresar() {
+    this.router.navigate(["cuentas"]);
+  }
 }

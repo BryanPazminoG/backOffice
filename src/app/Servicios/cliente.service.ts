@@ -13,6 +13,7 @@ export class ClienteService {
   private buscarClienteApi = "http://localhost:8080/cliente/buscar";
   private actualizarClientePersonaApi = "http://localhost:8080/cliente/actualizar/persona";
   private tipoPersonaApi = 'http://localhost:8080/tipo-relacion/todos';
+  private clienteByIdApi = 'http://localhost:8080/cliente/buscar-cliente';
 
   private relacionClientePersona = 'http://localhost:8080/cliente/guardar/relacion-cliente';
 
@@ -38,6 +39,11 @@ export class ClienteService {
 
   obtenerTiposRelacion(): Observable<any[]> {
     return this.http.get<any[]>(this.tipoPersonaApi);
+  }
+  getClienteByIdAPI(id: number){
+    const params = new HttpParams()
+      .set('id', id);
+    return this.http.get<any>(this.clienteByIdApi, {params: params});
   }
 
   crearRelacionClientePersona(codigoEmpresa: number, tipoIdentificacionPersona: string, numeroIdentificacionPersona: string, codigoRelacion: string): Observable<any> {

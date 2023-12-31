@@ -1,64 +1,134 @@
 <div class="container-fluid p-0">
     <div class="row">
-    <!-- Navbar -->
-    <div class="col-12 px-0" class="borde-ancho">
-        <app-navbar></app-navbar>
-    </div>
+        <!-- Navbar -->
+        <div class="col-12 px-0" class="borde-ancho">
+            <app-navbar></app-navbar>
+        </div>
     </div>
     <div class="row m-0">
         <!-- Sidebar -->
         <div class="col-2 p-0 d-flex flex-column vh-100">
-        <app-sidebar class="flex-grow-1"></app-sidebar>
-    </div>
-    <!-- Main Content -->
-    
-    <div class="col-10 p-0 d-flex">
-        <!-- Aquí puedes colocar el contenido principal -->
-        <div class="p-4 flex-grow-1" style="background-color: #DBD8D8;">
-            <div class="container">
-                <div class="container-fluid">
+            <app-sidebar class="flex-grow-1"></app-sidebar>
+        </div>
+        <!-- Main Content -->
 
+        <div class="col-10 p-0 d-flex">
+            <!-- Aquí puedes colocar el contenido principal -->
+            <div class="p-4 flex-grow-1" style="background-color: #DBD8D8;">
+                <div class="container">
                     <div class="container-fluid">
-                        <div class="row title mt-5">
-                            <h4>Nueva Cuenta</h4>
-                        </div>
-                        <div class="row contenido my-3 p-5 rounded-4">
-                            <h5>Agregar Cuenta</h5>
-                            <hr>
-                            <form action="">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <select class="form-select" name="tipoIdentificacion" [(ngModel)]="clienteIdentificacion.tipoIdentificacion" (change)="restDatos(); this.clienteIdentificacion.numeroIdentificacion = '';">
-                                            <option value="">Tipo de Identificacion</option>
-                                            <option value="CED">Cedula</option>
-                                            <option value="PAS">Pasaporte</option>
-                                            <option value="RUC">RUC</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="text" class="form-control" name="numeroIdentificacion" placeholder="No. de Identificacion" [(ngModel)]="clienteIdentificacion.numeroIdentificacion" (change)="restDatos();">
-                                        <small id="mensajeIdentificacionP" class="form-text text-danger" *ngIf="!identFirst && !identValidacion">Identificacion Incorrecta</small>
 
+                        <div class="container-fluid">
+                            <div class="row title mt-5">
+                                <h4>Consultar Cuenta</h4>
+                            </div>
+                            <div class="row contenido my-3 p-5 rounded-4">
+                                <h5>Cliente - Cuenta</h5>
+                                <hr>
+                                <form action="">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <select class="form-select" name="tipoIdentificacion"
+                                                [(ngModel)]="clienteIdentificacion.tipoIdentificacion"
+                                                (change)="restDatosUsuario(); this.clienteIdentificacion.numeroIdentificacion = '';">
+                                                <option value="">Tipo de Identificacion</option>
+                                                <option value="CED">Cedula</option>
+                                                <option value="PAS">Pasaporte</option>
+                                                <option value="RUC">RUC</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" name="numeroIdentificacion"
+                                                placeholder="No. de Identificacion"
+                                                [(ngModel)]="clienteIdentificacion.numeroIdentificacion"
+                                                (change)="restDatosUsuario();">
+                                            <small id="mensajeIdentificacionP" class="form-text text-danger"
+                                                *ngIf="!identFirstCliente && !identValidacionCliente">Identificacion
+                                                Incorrecta</small>
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <button type="button" class="btn btn-success mx-1" (click)="getCliente()"><i
+                                                    class="bi bi-search"></i> Buscar</button>
+                                        </div>
                                     </div>
-                                    <div class="col-2 text-center">
-                                        <button type="button" class="btn btn-success mx-1" (click)="getCliente()"><i class="bi bi-search"></i> Validar</button>
+                                    <div class="col-12 my-3 p-4 rounded-3" style="background-color: #ECECEC;"
+                                        *ngFor="let cuenta of listaCuentas">
+                                        <p style="color: #159768; line-height: 0.8em;">
+                                            <b>{{clienteIdentificacion.apellidos}} {{clienteIdentificacion.nombres}}</b>
+                                        </p>
+                                        <p style="font-size: 14px; line-height: 0.5em;">
+                                            {{clienteIdentificacion.correoElectronico}}</p>
+                                        <div class="row mt-4">
+                                            <div class="col-4">
+                                                <p style="font-size: 14px; line-height: 0.5em;"><b>TIPO CUENTA: </b>
+                                                    {{cuenta.codTipoCuenta}}</p>
+                                            </div>
+                                            <div class="col-2 text-center">
+                                                <p style="font-size: 14px; line-height: 0.5em;"><b>ESTADO: </b>
+                                                    {{cuenta.estado}}</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p style="font-size: 14px; line-height: 0.5em;"><b>FECHA CREACION: </b>
+                                                    {{cuenta.fechaCreacion}}</p>
+                                            </div>
+                                        </div>
+                                        <p style="font-size: 14px; line-height: 0.5em;"><b>NUMERO DE CUENTA</b>
+                                            {{cuenta.numeroCuenta}}</p>
                                     </div>
-                                </div>
-                                <div class="col-12 my-3 p-4 rounded-3" style="background-color: #ECECEC;" *ngFor="let cuenta of listaCuentas">
-                                    <p style="color: #159768; line-height: 0.8em;"> <b>{{cliente.apellidos}} {{cliente.nombres}}</b></p>
-                                    <p style="font-size: 14px; line-height: 0.5em;">{{cliente.correoElectronico}}</p>
-                                    <p style="font-size: 14px; line-height: 0.5em;">{{cuenta.numeroCuenta}}</p>
-                                </div>
-                            </form>
-                            <div class="px-4 mt-3">
-                                <button type="button" class="btn btn-success mx-1">Crear Cuenta</button>
+                                </form>
+                            </div>
+                            <div class="row contenido my-3 p-5 rounded-4">
+                                <h5>Cuenta - Cliente</h5>
+                                <hr>
+                                <form action="">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <input type="text" class="form-control" name="numeroCuenta"
+                                                placeholder="No. de Cuenta"
+                                                [(ngModel)]="cuentaIdentificacion.numeroCuenta" (change)="restDatosCuenta();">
+                                            <small id="mensajeIdentificacionP" class="form-text text-danger" *ngIf="!identFirstCuenta && !identValidacionCuenta">Numero de
+                                                Cuenta Incorrecta</small>
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <button type="button" class="btn btn-success mx-1" (click)="getCuenta()"><i
+                                                    class="bi bi-search"></i> Buscar</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 my-3 p-4 rounded-3" style="background-color: #ECECEC;"
+                                        *ngFor="let cliente of listacliente">
+                                        <p style="color: #159768; line-height: 0.8em;">
+                                            <b>{{cliente.apellidos}} {{cliente.nombres}}</b>
+                                        </p>
+                                        <p style="font-size: 14px; line-height: 0.5em;">
+                                            {{cliente.correoElectronico}}</p>
+                                        <div class="row mt-4">
+                                            <div class="col-4">
+                                                <p style="font-size: 14px; line-height: 0.5em;"><b>TIPO CUENTA: </b>
+                                                    {{cuentaIdentificacion.codTipoCuenta}}</p>
+                                            </div>
+                                            <div class="col-2 text-center">
+                                                <p style="font-size: 14px; line-height: 0.5em;"><b>ESTADO: </b>
+                                                    {{cuentaIdentificacion.estado}}</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p style="font-size: 14px; line-height: 0.5em;"><b>FECHA CREACION: </b>
+                                                    {{cuentaIdentificacion.fechaCreacion}}</p>
+                                            </div>
+                                        </div>
+                                        <p style="font-size: 14px; line-height: 0.5em;"><b>NUMERO DE CUENTA</b>
+                                            {{cuentaIdentificacion.numeroCuenta}}</p>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="px-4 mt-4">
+                                <button type="button" class="btn btn-secondary mx-1"
+                                    (click)="regresar()">Regresar</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
     </div>
