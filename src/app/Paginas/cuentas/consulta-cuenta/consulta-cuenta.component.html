@@ -23,34 +23,35 @@
                             <h4>Nueva Cuenta</h4>
                         </div>
                         <div class="row contenido my-3 p-5 rounded-4">
-                            <h5>Agregar Persona</h5>
+                            <h5>Agregar Cuenta</h5>
                             <hr>
                             <form action="">
                                 <div class="row">
                                     <div class="col-4">
-                                        <select class="form-select" >
-                                            <option selected>Tificacionpo de Identi</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select class="form-select" name="tipoIdentificacion" [(ngModel)]="clienteIdentificacion.tipoIdentificacion" (change)="restDatos(); this.clienteIdentificacion.numeroIdentificacion = '';">
+                                            <option value="">Tipo de Identificacion</option>
+                                            <option value="CED">Cedula</option>
+                                            <option value="PAS">Pasaporte</option>
+                                            <option value="RUC">RUC</option>
                                         </select>
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" class="form-control" placeholder="No. de C.I o Pasaporte Cliente">
+                                        <input type="text" class="form-control" name="numeroIdentificacion" placeholder="No. de Identificacion" [(ngModel)]="clienteIdentificacion.numeroIdentificacion" (change)="restDatos();">
+                                        <small id="mensajeIdentificacionP" class="form-text text-danger" *ngIf="!identFirst && !identValidacion">Identificacion Incorrecta</small>
+
                                     </div>
                                     <div class="col-2 text-center">
-                                        <button type="button" class="btn btn-success mx-1"><i class="bi bi-search"></i> Validar</button>
+                                        <button type="button" class="btn btn-success mx-1" (click)="getCliente()"><i class="bi bi-search"></i> Validar</button>
                                     </div>
                                 </div>
-                                <div class="col-12 my-3 p-4 rounded-3" style="background-color: #ECECEC;">
-                                    <p style="color: #159768; line-height: 0.8em;"> <b>GARCIA NAVARRETE RICKY ALEJANDRO</b></p>
-                                    <p style="font-size: 14px; line-height: 0.5em;">ragarcia12@espe.edu.ec</p>
-                                    <p style="font-size: 14px; line-height: 0.5em;">0987654321</p>
+                                <div class="col-12 my-3 p-4 rounded-3" style="background-color: #ECECEC;" *ngFor="let cuenta of listaCuentas">
+                                    <p style="color: #159768; line-height: 0.8em;"> <b>{{cliente.apellidos}} {{cliente.nombres}}</b></p>
+                                    <p style="font-size: 14px; line-height: 0.5em;">{{cliente.correoElectronico}}</p>
+                                    <p style="font-size: 14px; line-height: 0.5em;">{{cuenta.numeroCuenta}}</p>
                                 </div>
                             </form>
                             <div class="px-4 mt-3">
                                 <button type="button" class="btn btn-success mx-1">Crear Cuenta</button>
-                                <button type="button" class="btn btn-secondary mx-1">Regresar</button>
                             </div>
                         </div>
                     </div>

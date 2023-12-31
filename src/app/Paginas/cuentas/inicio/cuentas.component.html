@@ -1,0 +1,52 @@
+<div class="container-fluid p-0">
+    <div class="row">
+        <!-- Navbar -->
+        <div class="col-12 px-0" class="borde-ancho">
+            <app-navbar></app-navbar>
+        </div>
+    </div>
+
+    <div class="row m-0">
+        <!-- Sidebar -->
+        <div class="sidebar-container col-2 p-0 d-flex flex-column vh-100">
+            <app-sidebar class="flex-grow-1"></app-sidebar>
+        </div>
+    
+        <!-- Main Content -->
+
+        <div class="col-10 p-0 d-flex">
+            
+            <!-- Aquí puedes colocar el contenido principal -->
+            <div class="p-4 flex-grow-1" style="background-color: #DBD8D8;">
+                <router-outlet></router-outlet>
+                <h1 class="ms-5 mt-5" style="color: #159768; font-size: 24px; font-weight: bold; padding-left:100px;">Gestión de clientes</h1>
+                <div class="container d-flex flex-column align-items-center mt-5">
+                    <div class="d-flex justify-content-center">
+                        
+                        <div class="white-box-custom bigger-box">
+                            <a href="/cuentas/crear" style="display: block; text-decoration: none; color: inherit;">
+                                <div class="row justify-content-center">
+                                    <img class="mt-5" src="../../../assets/img/cuentas/img1.png" alt="Logo" style="width: 175px;">
+                                </div>
+                                <div class="row text-center pt-4" style="color: #159768; font-size: 18px; font-weight: bold;">
+                                    <a>Crear Nuevo Cuenta</a>
+                                </div>   
+                            </a>
+                        </div>                        
+                        
+                        <div class="white-box-custom bigger-box">
+                            <a href="/cuentas/consultas" style="display: block; text-decoration: none; color: inherit;">
+                                <div class="row justify-content-center">
+                                    <img class="mt-4" src="../../../assets/img/cuentas/img2.png" alt="Logo" style="width: 175px;">
+                                </div>
+                                <div class="row text-center pt-4" style="color: #159768; font-size: 18px; font-weight: bold;">
+                                    <p>Consultas</p>
+                                </div>
+                            </a>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
