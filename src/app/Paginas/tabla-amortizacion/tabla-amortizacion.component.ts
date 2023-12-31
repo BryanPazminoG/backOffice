@@ -44,6 +44,7 @@ export class TablaAmortizacionComponent implements OnInit {
 
   preTablaPagos = [{
     'periodo': 0,
+    'fechaPlanificadoPago': '',
     'cuota': '',
     'interesPeriodo': '',
     'amortizacionPeriodo': '',
@@ -52,7 +53,7 @@ export class TablaAmortizacionComponent implements OnInit {
 
   @ViewChild('contenedor', { static: false }) tablaAmortizacion!: ElementRef; // Hace una referencia de una parte del html para el uso en la lógica
 
-  constructor(private router: Router, private creditoService:CreditoService, private flujoDatosService: FlujoDatosService) {
+  constructor(private router: Router, private creditoService: CreditoService, private flujoDatosService: FlujoDatosService) {
   }
   ngOnInit(): void {
     this.cargarDatos();
@@ -65,12 +66,12 @@ export class TablaAmortizacionComponent implements OnInit {
     this.credito = <any>this.flujoDatosService.getCredito();
   }
 
-  cargarTablaAmortizacion(){
+  cargarTablaAmortizacion() {
 
     let tasaInteres = this.credito.tasaInteres;
     let montoPrestamo = this.credito.monto;
     let numeroPagos = this.credito.plazo;
-    if(tasaInteres > 0 && montoPrestamo > 0 && numeroPagos > 0){
+    if (tasaInteres > 0 && montoPrestamo > 0 && numeroPagos > 0) {
 
       this.creditoService.getPreTablaPagoAPI(tasaInteres, montoPrestamo, numeroPagos).subscribe(
         (data) => {
@@ -125,8 +126,8 @@ export class TablaAmortizacionComponent implements OnInit {
             "tipo": "PRI",
             "fechaUltimoCambio": this.credito.fecha_creacion,
             "pk": {
-                "codCredito": idCredito,
-                "codCliente": this.credito.codCliente,
+              "codCredito": idCredito,
+              "codCliente": this.credito.codCliente,
             }
           }
           this.creditoService.postCredIntAPI(creditoIntRegistroP).subscribe(
@@ -145,8 +146,8 @@ export class TablaAmortizacionComponent implements OnInit {
               "tipo": "SEC",
               "fechaUltimoCambio": date,
               "pk": {
-                  "codCredito": idCredito,
-                  "codCliente": participante.cod_cliente,
+                "codCredito": idCredito,
+                "codCliente": participante.cod_cliente,
               }
             }
             this.creditoService.postCredIntAPI(creditoIntRegistroS).subscribe(
@@ -166,14 +167,12 @@ export class TablaAmortizacionComponent implements OnInit {
               "interes": parseFloat(pagos.interesPeriodo),
               "montoCuota": parseFloat(pagos.cuota),
               "capitalRestante": parseFloat(pagos.capitalPendiente),
-              "fechaPlanificadaPago": date,
+              "fechaPlanificadaPago": pagos.fechaPlanificadoPago,
               "estado": "PEN",
-              "fechaPagoEfectivo": date,
-              "transaccionPago": "",
               "fechaUltimoCambio": date,
               "pk": {
-                  "codCredito": idCredito,
-                  "codCuota": pagos.periodo
+                "codCredito": idCredito,
+                "codCuota": pagos.periodo
               }
             }
             this.creditoService.postTablaPagAPI(tablaPagosRegistro).subscribe(
@@ -197,10 +196,20 @@ export class TablaAmortizacionComponent implements OnInit {
     this.imprimirTabla();
   }
 
-  regresar(){
+  regresar() {
     this.router.navigate(["creditos"]);
   }
 
+  formatoFecha(fechaOriginal: string) {
+    const fecha = new Date(fechaOriginal);
+    const year = fecha.getFullYear();
+    const month = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Los meses van de 0 a 11
+    const day = fecha.getDate().toString().padStart(2, '0');
+
+    const fechaFormateado = `${year}-${month}-${day}`;
+
+    return fechaFormateado;
+  }
   async imprimirTabla() { // Función para imprimir contenido HTML
     const cardContainer = this.tablaAmortizacion.nativeElement; // Toma el contenido HTML 
     const pageWidth = 210;
@@ -245,7 +254,7 @@ export class TablaAmortizacionComponent implements OnInit {
           const imageY = topMargin + (maxHeight - imgHeightAjustado) / 2;
 
           if (index > 0) pdf.addPage();
-          pdf.addImage(imgData, 'SVG', 0, 0, imgWidthAjustado-25, imgHeightAjustado);
+          pdf.addImage(imgData, 'SVG', 0, 0, imgWidthAjustado - 25, imgHeightAjustado);
           pageY += imgHeight;
         }
       );

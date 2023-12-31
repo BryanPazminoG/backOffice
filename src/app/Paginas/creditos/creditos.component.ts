@@ -312,9 +312,7 @@ export class CreditosComponent implements OnInit {
     if (idCliente != 0) {
       this.serviceCuenta.getCuentaByClienteAPI(idCliente).subscribe(
         (data) => {
-          console.log(data);
           if(data){
-            console.log("SI");
             if(tipoParticipante == "PRI"){
               this.cuentasClienteP = data;
               this.identPValidacion = true;

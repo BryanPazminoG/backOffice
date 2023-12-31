@@ -79,15 +79,17 @@
                                         <thead class="table-dark">
                                             <tr>
                                                 <th scope="col">Periodo</th>
-                                                <th scope="col">Cuota</th>
-                                                <th scope="col">InteresPeriodo</th>
-                                                <th scope="col">AmortizacionPeriodo</th>
-                                                <th scope="col">CapitalPendiente</th>
+                                                <th scope="col">Fecha Pagos</th>
+                                                <th scope="col">Monto Cuota</th>
+                                                <th scope="col">Interes</th>
+                                                <th scope="col">Capital</th>
+                                                <th scope="col">Capital Restante</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let fila of preTablaPagos">
                                                 <th scope="row">{{fila.periodo}}</th>
+                                                <td>{{formatoFecha(fila.fechaPlanificadoPago)}}</td>
                                                 <td>{{fila.cuota}}</td>
                                                 <td>{{fila.interesPeriodo}}</td>
                                                 <td>{{fila.amortizacionPeriodo}}</td>
