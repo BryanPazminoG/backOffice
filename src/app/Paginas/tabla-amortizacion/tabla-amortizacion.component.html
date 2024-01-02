@@ -27,7 +27,7 @@
                                     </div>
                                     <div>
                                         <strong>APELLLIDOS Y NOMBRES:</strong>
-                                        {{participePrincipal.apellidos}} {{participePrincipal.nombres}}
+                                        {{participePrincipal.apellidos}} {{participePrincipal.nombres}} {{participePrincipal.razonSocial}}
                                         <br>
                                         <strong>IDENTIFICACION:</strong>
                                         {{participePrincipal.numero_identificacion}}
@@ -66,7 +66,7 @@
                                         </div>
                                         <div class="col-8">
                                             <strong>PARTICIPANTES: </strong><br>
-                                            <p *ngFor="let participes of participeSecundario">{{participes.apellidos}} {{participes.nombres}} - {{participes.numero_identificacion}} - {{participes.numeroCuenta}}</p>
+                                            <p *ngFor="let participes of participeSecundario">{{participes.apellidos}} {{participes.nombres}} {{participes.razonSocial}} - {{participes.numero_identificacion}} - {{participes.numeroCuenta}}</p>
                                         </div>
                                     </div>
 

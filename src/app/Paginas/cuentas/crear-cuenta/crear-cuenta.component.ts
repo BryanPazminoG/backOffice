@@ -17,6 +17,7 @@ export class CrearCuentaComponent implements OnInit {
     'numeroIdentificacion': '',
     'apellidos': '',
     'nombres': '',
+    'razonSocial': '',
   };
   cliente = [{
     'codigo': 0,
@@ -24,6 +25,7 @@ export class CrearCuentaComponent implements OnInit {
     'numeroIdentificacion': '',
     'apellidos': '',
     'nombres': '',
+    'razonSocial': '',
   }];
   listTipoCuenta = [{
     "codTipoCuenta": "",
@@ -156,7 +158,9 @@ export class CrearCuentaComponent implements OnInit {
         cell2.appendChild(textP2);
         row.appendChild(cell2);
 
-        textP3.innerHTML = this.clienteIdentificacion.apellidos + " " + this.clienteIdentificacion.nombres;
+        let texto = "";
+        texto = this.clienteIdentificacion.razonSocial == "" ? this.clienteIdentificacion.apellidos + " " + this.clienteIdentificacion.nombres : this.clienteIdentificacion.razonSocial;
+        textP3.innerHTML = texto;
         cell3.appendChild(textP3);
         row.appendChild(cell3);
 
@@ -181,6 +185,7 @@ export class CrearCuentaComponent implements OnInit {
           'numeroIdentificacion': '',
           'apellidos': '',
           'nombres': '',
+          'razonSocial': '',
         };
         this.identValidacion = true;
 
@@ -217,6 +222,7 @@ export class CrearCuentaComponent implements OnInit {
     this.clienteIdentificacion.codigo = 0;
     this.clienteIdentificacion.apellidos = '';
     this.clienteIdentificacion.nombres = '';
+    this.clienteIdentificacion.razonSocial = '';
   }
   generarNumeroCuenta() {
     const numeroAleatorio = Math.random();

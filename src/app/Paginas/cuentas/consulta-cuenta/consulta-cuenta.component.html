@@ -54,7 +54,7 @@
                                     <div class="col-12 my-3 p-4 rounded-3" style="background-color: #ECECEC;"
                                         *ngFor="let cuenta of listaCuentas">
                                         <p style="color: #159768; line-height: 0.8em;">
-                                            <b>{{clienteIdentificacion.apellidos}} {{clienteIdentificacion.nombres}}</b>
+                                            <b>{{clienteIdentificacion.apellidos}} {{clienteIdentificacion.nombres}} {{clienteIdentificacion.razonSocial}}</b>
                                         </p>
                                         <p style="font-size: 14px; line-height: 0.5em;">
                                             {{clienteIdentificacion.correoElectronico}}</p>
@@ -97,7 +97,7 @@
                                     <div class="col-12 my-3 p-4 rounded-3" style="background-color: #ECECEC;"
                                         *ngFor="let cliente of listacliente">
                                         <p style="color: #159768; line-height: 0.8em;">
-                                            <b>{{cliente.apellidos}} {{cliente.nombres}}</b>
+                                            <b>{{cliente.apellidos}} {{cliente.nombres}} {{cliente.razonSocial}}</b>
                                         </p>
                                         <p style="font-size: 14px; line-height: 0.5em;">
                                             {{cliente.correoElectronico}}</p>

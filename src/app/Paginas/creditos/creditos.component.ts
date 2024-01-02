@@ -20,6 +20,7 @@ export class CreditosComponent implements OnInit {
     'numero_identificacion': '',
     'apellidos': '',
     'nombres': '',
+    'razonSocial': '',
   };
   listaTipoCredito = [{
     'codTipoCredito': 0,
@@ -37,11 +38,13 @@ export class CreditosComponent implements OnInit {
 
   participePrincipal = {
     'cod_cliente': 0,
+    'codCuenta': 0,
     'numeroCuenta': '',
     'tipo_identificacion': '',
     'numero_identificacion': '',
     'apellidos': '',
     'nombres': '',
+    'razonSocial': '',
     'direccion': '',
     'telefono': '',
     'correo_electronico': '',
@@ -72,6 +75,13 @@ export class CreditosComponent implements OnInit {
     'codCliente': 0,
     'numeroCuenta': '',
   }];
+  listaIntervinientes = [{
+    "estado": "",
+    "pk": {
+      "codCuenta": 0,
+      "codClientePersona": 0,
+    }
+  }];
   cuentasParticipes = [{}];
 
   identPFirst = true;
@@ -80,9 +90,9 @@ export class CreditosComponent implements OnInit {
   identSValidacion = false;
   existencia = false;
 
-  mensajeIdentificacion:string = "Identificacion Incorrecta";
-  mensajeIdentificacionDos:string = "Identificacion Incorrecta";
-  mensajeValidacion:string = "El cliente y existe";
+  mensajeIdentificacion: string = "Identificacion Incorrecta";
+  mensajeIdentificacionDos: string = "Identificacion Incorrecta";
+  mensajeValidacion: string = "El cliente y existe";
 
   constructor(
     private router: Router,
@@ -94,15 +104,39 @@ export class CreditosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTipoCredito();
+    this.listaIntervinientes.pop();
+    this.cuentasClienteP.pop();
+    this.cuentasClienteS.pop();
   }
 
   getClienteP() {
     this.participePrincipal.cod_cliente = 0;
     this.participePrincipal.apellidos = '';
     this.participePrincipal.nombres = '';
+    this.participePrincipal.razonSocial = '';
     this.participePrincipal.direccion = '';
     this.participePrincipal.telefono = '';
     this.participePrincipal.correo_electronico = '';
+
+    this.listaIntervinientes = [{
+      "estado": "",
+      "pk": {
+        "codCuenta": 0,
+        "codClientePersona": 0,
+      }
+    }];
+
+    this.listaIntervinientes.pop();
+
+    this.cuentasClienteP = [{
+      'codCuenta': 0,
+      'codCliente': 0,
+      'numeroCuenta': '',
+    }];
+
+    this.cuentasClienteP.pop();
+    
+    this.restValorClienteP();
 
     this.serviceCliente.buscarClientePorParametros(this.participePrincipal.tipo_identificacion, this.participePrincipal.numero_identificacion).subscribe(
       (data) => {
@@ -111,11 +145,13 @@ export class CreditosComponent implements OnInit {
         if (data) {
           this.participePrincipal = {
             'cod_cliente': data.codigo,
+            'codCuenta': 0,
             'numeroCuenta': '',
             'tipo_identificacion': data.tipoIdentificacion,
             'numero_identificacion': data.numeroIdentificacion,
             'apellidos': data.apellidos,
             'nombres': data.nombres,
+            'razonSocial': data.razonSocial,
             'direccion': data.direccion,
             'telefono': data.telefono,
             'correo_electronico': data.correoElectronico,
@@ -136,6 +172,9 @@ export class CreditosComponent implements OnInit {
     this.participantes['cod_cliente'] = 0;
     this.participantes['apellidos'] = '';
     this.participantes['nombres'] = '';
+    this.participantes['razonSocial'] = '';
+
+    this.restValorClienteS();
 
     this.serviceCliente.buscarClientePorParametros(this.participantes['tipo_identificacion'], this.participantes['numero_identificacion']).subscribe(
       (data) => {
@@ -147,6 +186,7 @@ export class CreditosComponent implements OnInit {
           this.participantes['numero_identificacion'] = data.numeroIdentificacion;
           this.participantes['apellidos'] = data.apellidos;
           this.participantes['nombres'] = data.nombres;
+          this.participantes['razonSocial'] = data.razonSocial;
           this.getCuentaByClienteAPI("SEC");
         } else {
           this.mensajeIdentificacionDos = "Identificacion Incorrecta";
@@ -161,7 +201,7 @@ export class CreditosComponent implements OnInit {
   }
   addParticipante() {
 
-    if (this.participantes['nombres'] != "" && this.participantes['apellidos'] != "") {
+    if ((this.participantes['nombres'] != "" && this.participantes['apellidos'] != "") || (this.participantes['razonSocial'] != "")) {
       let objetoEncontrado = this.participeSecundario.find(objeto => {
         return JSON.stringify(objeto) === JSON.stringify(this.participantes);
       });
@@ -201,7 +241,8 @@ export class CreditosComponent implements OnInit {
         cell3.appendChild(textP3);
         row.appendChild(cell3);
 
-        textP4.innerHTML = this.participantes.apellidos + " " + this.participantes.nombres;
+        let texto = this.participantes.razonSocial == null ? this.participantes.apellidos + " " + this.participantes.nombres : this.participantes.razonSocial;
+        textP4.innerHTML = texto;
         cell4.appendChild(textP4);
         row.appendChild(cell4);
 
@@ -209,9 +250,9 @@ export class CreditosComponent implements OnInit {
         boton.type = "button";
         boton.className = "btn btn-dark w-100";
 
-        boton.onclick  = () => {
+        boton.onclick = () => {
           this.EliminarFila(boton);
-      };
+        };
         var icono = document.createElement("i");
         icono.className = "bi bi-x-lg";
 
@@ -225,17 +266,18 @@ export class CreditosComponent implements OnInit {
         this.participantes['numero_identificacion'] = '';
         this.participantes['apellidos'] = '';
         this.participantes['nombres'] = '';
+        this.participantes['razonSocial'] = '';
         this.participantes['numeroCuenta'] = '';
-        this.cuentasParticipes.push({...this.cuentasClienteS});
-        this.cuentasClienteS = 
-        [{
-          'codCuenta': 0,
-          'codCliente': 0,
-          'numeroCuenta': '',
-        }];
+        this.cuentasParticipes.push({ ...this.cuentasClienteS });
+        this.cuentasClienteS =
+          [{
+            'codCuenta': 0,
+            'codCliente': 0,
+            'numeroCuenta': '',
+          }];
 
       } else {
-        if(numCuenta == "") this.mensajeValidacion = "Seleccione una cuenta";
+        if (numCuenta == "") this.mensajeValidacion = "Seleccione una cuenta";
         else this.mensajeValidacion = "El cliente y existe";
 
         this.existencia = true;
@@ -243,9 +285,9 @@ export class CreditosComponent implements OnInit {
     }
   }
 
-  EliminarFila(event: any){
+  EliminarFila(event: any) {
     var fila = event.closest('tr');
-    if(fila){
+    if (fila) {
       var cuartaColumnaElement = fila.querySelector('td:nth-child(3)');
       if (cuartaColumnaElement !== null) {
         var cuartaColumna = cuartaColumnaElement.textContent;
@@ -254,7 +296,7 @@ export class CreditosComponent implements OnInit {
           return JSON.stringify(objeto).includes(cuartaColumna);
         });
         if (objetoLista !== -1) {
-            this.participeSecundario.splice(objetoLista, 1);
+          this.participeSecundario.splice(objetoLista, 1);
         }
       }
 
@@ -295,7 +337,7 @@ export class CreditosComponent implements OnInit {
     if (valorSeleccionado != "") {
       this.serviceCredito.getByIdTasaIntAPI(valorSeleccionado).subscribe(
         (data) => {
-          if(data){
+          if (data) {
             this.tasaInteres = data;
           }
         },
@@ -307,32 +349,44 @@ export class CreditosComponent implements OnInit {
   }
   getCuentaByClienteAPI(tipoParticipante: string) {
     let idCliente = 0;
-    if(tipoParticipante == "PRI") idCliente = this.participePrincipal.cod_cliente;
+    if (tipoParticipante == "PRI") idCliente = this.participePrincipal.cod_cliente;
     else idCliente = this.participantes.cod_cliente;
     if (idCliente != 0) {
-      this.serviceCuenta.getCuentaByClienteAPI(idCliente).subscribe(
+      this.serviceCuenta.getInterByClienteAPI(idCliente).subscribe(
         (data) => {
-          if(data){
-            if(tipoParticipante == "PRI"){
-              this.cuentasClienteP = data;
-              this.identPValidacion = true;
-            }else{
-              this.cuentasClienteS = data;
-              this.identSValidacion = true;
-            }
+          if (data) {
+            this.listaIntervinientes = data;
+            this.listaIntervinientes.forEach((interviniente) => {
+              this.serviceCuenta.getCuentaByIdAPI(interviniente.pk.codCuenta).subscribe(
+                (data) => {
+                  if (data) {
+                    if (tipoParticipante == "PRI") {
+                      this.cuentasClienteP.push(data);
+                      this.identPValidacion = true;
+                    } else {
+                      this.cuentasClienteS.push(data);
+                      this.identSValidacion = true;
+                    }
+                  }
+                },
+                (error) => {
+                  console.error('Error al hacer la solicitud:', error);
+                  if (tipoParticipante == "PRI") {
+                    this.restValorClienteP();
+                    this.mensajeIdentificacion = "El cliente no tiene una cuenta en el banco"
+                    this.identPValidacion = false;
+                  } else if (tipoParticipante == "SEC") {
+                    this.restValorClienteS();
+                    this.mensajeIdentificacionDos = "El cliente no tiene una cuenta en el banco"
+                    this.identSValidacion = false;
+                  }
+                }
+              );
+            });
           }
         },
         (error) => {
           console.error('Error al hacer la solicitud:', error);
-          if(tipoParticipante == "PRI"){
-            this.restValorClienteP();
-            this.mensajeIdentificacion = "El cliente no tiene una cuenta en el banco"
-            this.identPValidacion = false;
-          }else if(tipoParticipante == "SEC"){
-            this.restValorClienteS();
-            this.mensajeIdentificacionDos = "El cliente no tiene una cuenta en el banco"
-            this.identSValidacion = false;
-          }
         }
       );
     }
@@ -344,14 +398,14 @@ export class CreditosComponent implements OnInit {
     else if (valor > max) event.target.value = max;
     else event.target.value = valor;
   }
-  calcularTasaInteres(){
+  calcularTasaInteres() {
     let monto = this.credito.monto;
     let plazo = this.credito.plazo;
 
-    if(monto > 0 && plazo > 0){
+    if (monto > 0 && plazo > 0) {
       this.serviceCredito.getCalculoTasaIntAPI(this.tasaInteres.codTasaInteres, monto, plazo).subscribe(
         (data) => {
-          if(data){
+          if (data) {
             this.credito.tasaInteres = data;
           }
         },
@@ -370,12 +424,14 @@ export class CreditosComponent implements OnInit {
     let fechaFormateada = `${año}-${mes < 10 ? '0' + mes : mes}-${dia < 10 ? '0' + dia : dia}`;
     return fechaFormateada;
   }
-  restValorClienteP(){
+  restValorClienteP() {
     this.participePrincipal.cod_cliente = 0;
+    this.participePrincipal.codCuenta = 0;
     this.participePrincipal.numeroCuenta = "";
     //this.participePrincipal.numero_identificacion = "";
     this.participePrincipal.apellidos = "";
     this.participePrincipal.nombres = "";
+    this.participePrincipal.razonSocial = "";
     this.participePrincipal.direccion = "";
     this.participePrincipal.telefono = "";
     this.participePrincipal.correo_electronico = "";
@@ -384,31 +440,55 @@ export class CreditosComponent implements OnInit {
       'codCliente': 0,
       'numeroCuenta': '',
     }];
+    this.cuentasClienteP.pop();
+
+    this.listaIntervinientes = [{
+      "estado": "",
+      "pk": {
+        "codCuenta": 0,
+        "codClientePersona": 0,
+      }
+    }];
   }
-  restValorClienteS(){
+  restValorClienteS() {
     this.participantes.cod_cliente = 0;
     this.participantes.numeroCuenta = "";
     //this.participantes.numero_identificacion = "";
     this.participantes.apellidos = "";
     this.participantes.nombres = "";
+    this.participantes.razonSocial = "";
     this.cuentasClienteS = [{
       'codCuenta': 0,
       'codCliente': 0,
       'numeroCuenta': '',
     }];
+    this.cuentasClienteS.pop();
+
+    this.listaIntervinientes = [{
+      "estado": "",
+      "pk": {
+        "codCuenta": 0,
+        "codClientePersona": 0,
+      }
+    }];
+    this.listaIntervinientes.pop();
   }
-  continuar() {    
-    if(this.participePrincipal.apellidos != "" && this.credito.monto > 0 && this.credito.plazo > 0 && this.participePrincipal.numeroCuenta != ""){
+  continuar() {
+    if (this.participePrincipal.apellidos != "" && this.credito.monto > 0 && this.credito.plazo > 0 && this.participePrincipal.numeroCuenta != "") {
       this.credito.fecha_creacion = this.fechaActual();
       this.credito.codTipoCredito = this.tipoCredito.codTipoCredito;
       this.credito.codCliente = this.participePrincipal.cod_cliente;
+      const cuenta = this.cuentasClienteP.find(objeto => objeto.numeroCuenta === this.participePrincipal.numeroCuenta);
+      if(cuenta){
+        this.participePrincipal.codCuenta = cuenta.codCuenta;
+      }
       this.flujoDatosService.setParticipePrincipal(this.participePrincipal);
-      this.participeSecundario.splice(0,1);
+      this.participeSecundario.splice(0, 1);
       this.flujoDatosService.setParticipeSecundario(this.participeSecundario);
       this.flujoDatosService.setCredito(this.credito);
-  
+
       this.router.navigate(["creditos/amortizacion"]);
-    }else{
+    } else {
       Swal.fire({
         icon: "error",
         title: "Completar los datos",
@@ -417,7 +497,7 @@ export class CreditosComponent implements OnInit {
         timer: 2500
       });
     }
-
+    this.listaIntervinientes.pop();
   }
   regresar() {
     this.router.navigate(["clientes"]);

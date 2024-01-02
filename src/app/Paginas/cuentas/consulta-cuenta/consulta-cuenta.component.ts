@@ -15,6 +15,7 @@ export class ConsultaCuentaComponent implements OnInit {
     'numeroIdentificacion': '',
     'apellidos': '', 
     'nombres': '', 
+    'razonSocial': '',
     'correoElectronico': ''
   };
   cuentaIdentificacion = {
@@ -31,7 +32,7 @@ export class ConsultaCuentaComponent implements OnInit {
       "codClientePersona": 0,
     }
   }];
-  listacliente = [{ 'apellidos': '', 'nombres': '', 'correoElectronico': '' }];
+  listacliente = [{ 'apellidos': '', 'nombres': '', 'razonSocial': '',  'correoElectronico': '' }];
   listaCuentas = [{ 'codCuenta': 0, 'numeroCuenta': '', 'codTipoCuenta': '', 'estado': '','fechaCreacion': ''}];
 
   identFirstCliente = true;
@@ -71,7 +72,7 @@ export class ConsultaCuentaComponent implements OnInit {
   }
   getCuenta() {
     if (this.cuentaIdentificacion.numeroCuenta != "") {
-      this.listacliente = [{ 'apellidos': '', 'nombres': '', 'correoElectronico': '' }];
+      this.listacliente = [{ 'apellidos': '', 'nombres': '', 'razonSocial': '', 'correoElectronico': '' }];
       this.listacliente.pop();
       this.serviceCuenta.getCuentaByNumeroAPI(this.cuentaIdentificacion.numeroCuenta).subscribe(
         (data) => {
@@ -146,6 +147,7 @@ export class ConsultaCuentaComponent implements OnInit {
   restDatosUsuario() {
     this.clienteIdentificacion.codigo = 0;
     this.clienteIdentificacion.nombres = '';
+    this.clienteIdentificacion.razonSocial = '';
     this.clienteIdentificacion.correoElectronico = '';
     this.identFirstCliente = true;
     this.identValidacionCliente = false;
@@ -174,7 +176,7 @@ export class ConsultaCuentaComponent implements OnInit {
         "codClientePersona": 0,
       }
     }];
-    this.listacliente = [{ 'apellidos': '', 'nombres': '', 'correoElectronico': '' }];
+    this.listacliente = [{ 'apellidos': '', 'nombres': '', 'razonSocial': '', 'correoElectronico': '' }];
     this.listacliente.pop();
   }
   regresar() {

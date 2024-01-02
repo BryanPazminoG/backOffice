@@ -41,7 +41,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <input type="text" class="form-control my-4" placeholder="____" name="nombres" value="{{participePrincipal.apellidos}} {{participePrincipal.nombres}}" readonly>
+                                    <input type="text" class="form-control my-4" placeholder="____" name="nombres" value="{{participePrincipal.apellidos}} {{participePrincipal.nombres}} {{participePrincipal.razonSocial}}" readonly>
                                     <select class="form-select" name="cuentaP" [(ngModel)]="participePrincipal.numeroCuenta">
                                         <option value="">Seleccione una cuenta</option>
                                         <option *ngFor="let opcion of cuentasClienteP" [value]="opcion.numeroCuenta">{{ opcion.numeroCuenta }}</option>
@@ -70,7 +70,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <input type="text" class="form-control my-3" name="nombres" placeholder="____" value="{{participantes.apellidos}} {{participantes.nombres}}" readonly>
+                                    <input type="text" class="form-control my-3" name="nombres" placeholder="____" value="{{participantes.apellidos}} {{participantes.nombres}} {{participantes.razonSocial}}" readonly>
                                     <small id="mensajeExistencia" class="form-text text-danger" *ngIf="existencia">{{mensajeValidacion}}</small>
                                     <div class="row">
                                         <div class="col-11">

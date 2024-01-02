@@ -8,14 +8,14 @@ import { Observable } from 'rxjs';
 
 export class ClienteService {
 
-  private crearClientePersonaApi = "http://localhost:8080/cliente/guardar/persona";
-  private crearClienteEmpresaApi = "http://localhost:8080/cliente/guardar/empresa";
-  private buscarClienteApi = "http://localhost:8080/cliente/buscar";
-  private actualizarClientePersonaApi = "http://localhost:8080/cliente/actualizar/persona";
-  private tipoPersonaApi = 'http://localhost:8080/tipo-relacion/todos';
-  private clienteByIdApi = 'http://localhost:8080/cliente/buscar-cliente';
+  private crearClientePersonaApi = " http://34.29.239.225:8080/cliente/guardar/persona";
+  private crearClienteEmpresaApi = " http://34.29.239.225:8080/cliente/guardar/empresa";
+  private buscarClienteApi = " http://34.29.239.225:8080/cliente/buscar";
+  private actualizarClientePersonaApi = " http://34.29.239.225:8080/cliente/actualizar/persona";
+  private tipoPersonaApi = ' http://34.29.239.225:8080/tipo-relacion/todos';
+  private clienteByIdApi = ' http://34.29.239.225:8080/cliente/buscar-cliente';
 
-  private relacionClientePersona = 'http://localhost:8080/cliente/guardar/relacion-cliente';
+  private relacionClientePersona = ' http://34.29.239.225:8080/cliente/guardar/relacion-cliente';
 
 
   constructor(private http: HttpClient) { }

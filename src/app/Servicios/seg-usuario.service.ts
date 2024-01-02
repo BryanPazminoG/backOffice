@@ -8,7 +8,7 @@ import { FlujoDatosService } from './flujo-datos.service';
 })
 export class SegUsuarioService {
 
-  private loginUsuarioApi: string = "http://localhost:8080//user/";
+  private loginUsuarioApi: string = "http://34.16.181.123:8080/user/";
 
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
 

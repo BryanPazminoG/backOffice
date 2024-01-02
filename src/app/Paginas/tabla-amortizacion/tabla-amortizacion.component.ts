@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import jsPDF from 'jspdf';
 import { FlujoDatosService } from 'src/app/Servicios/flujo-datos.service';
 import { CreditoService } from 'src/app/Servicios/credito.service';
-
+import { CuentaService } from 'src/app/Servicios/cuenta.service';
 
 @Component({
   selector: 'app-tabla-amortizacion',
@@ -16,11 +16,13 @@ export class TablaAmortizacionComponent implements OnInit {
 
   participePrincipal = {
     'cod_cliente': 0,
+    'codCuenta': '',
     'numeroCuenta': '',
     'tipo_identificacion': '',
     'numero_identificacion': '',
     'apellidos': '',
     'nombres': '',
+    'razonSocial': '',
     'direccion': '',
     'telefono': '',
     'correo_electronico': '',
@@ -31,6 +33,7 @@ export class TablaAmortizacionComponent implements OnInit {
     'numero_identificacion': '',
     'apellidos': '',
     'nombres': '',
+    'razonSocial': '',
   }];
 
   credito = {
@@ -53,7 +56,7 @@ export class TablaAmortizacionComponent implements OnInit {
 
   @ViewChild('contenedor', { static: false }) tablaAmortizacion!: ElementRef; // Hace una referencia de una parte del html para el uso en la lógica
 
-  constructor(private router: Router, private creditoService: CreditoService, private flujoDatosService: FlujoDatosService) {
+  constructor(private router: Router, private creditoService: CreditoService,private cuentaService: CuentaService, private flujoDatosService: FlujoDatosService) {
   }
   ngOnInit(): void {
     this.cargarDatos();
@@ -84,6 +87,16 @@ export class TablaAmortizacionComponent implements OnInit {
         }
       );
     }
+  }
+  generarCadenaAlfanumerica(longitud: number) {
+    const caracteres = "0123456789abcdefABCDEF";
+    const bytes = new Uint8Array(longitud / 2);
+
+    crypto.getRandomValues(bytes);
+
+    const cadenaAlfanumerica = Array.from(bytes, byte => caracteres[(byte & 0xf0) >> 4] + caracteres[byte & 0x0f]).join('');
+
+    return cadenaAlfanumerica;
   }
   crearCredito() {
     Swal.fire({
@@ -117,10 +130,24 @@ export class TablaAmortizacionComponent implements OnInit {
       "fechaUltimoCambio": this.credito.fecha_creacion,
     }
 
+    let transaccionCredito = {
+      "codCuentaOrigen": 7, ////////CUENTA DEL BANCO -> CAMBIAR ESTO
+      "codCuentaDestino": this.participePrincipal.codCuenta,
+      "codUnico": this.generarCadenaAlfanumerica(64),
+      "tipoAfectacion": "C",
+      "valorDebe": this.credito.monto,
+      "valorHaber": 0,
+      "tipoTransaccion": "TEN",
+      "detalle": "PRESTAMO BANQUITO " + this.credito.fecha_creacion,
+      "fechaCreacion": this.credito.fecha_creacion,
+      "estado": "EXI",
+      "fechaAfectacion": this.credito.fecha_creacion,
+      "fechaUltimoCambio": this.credito.fecha_creacion,
+    }
+
     this.creditoService.postCreditoAPI(registroCredito).subscribe(
       (data) => {
         if (data) {
-          console.log("Data Almacenado");
           let idCredito = data.codCredito;
           let creditoIntRegistroP = {
             "tipo": "PRI",
@@ -133,7 +160,15 @@ export class TablaAmortizacionComponent implements OnInit {
           this.creditoService.postCredIntAPI(creditoIntRegistroP).subscribe(
             (data) => {
               if (data) {
-                console.log("Data Almacenado");
+                this.cuentaService.postTransaccionAPI(transaccionCredito).subscribe(
+                  (data) => {
+                    if (data) {
+                    }
+                  },
+                  (error) => {
+                    console.error('Error al hacer la solicitud:', error);
+                  }
+                );
               }
             },
             (error) => {
@@ -153,7 +188,6 @@ export class TablaAmortizacionComponent implements OnInit {
             this.creditoService.postCredIntAPI(creditoIntRegistroS).subscribe(
               (data) => {
                 if (data) {
-                  console.log("Data Almacenado");
                 }
               },
               (error) => {
@@ -178,7 +212,6 @@ export class TablaAmortizacionComponent implements OnInit {
             this.creditoService.postTablaPagAPI(tablaPagosRegistro).subscribe(
               (data) => {
                 if (data) {
-                  console.log("Data Almacenado");
                 }
               },
               (error) => {
