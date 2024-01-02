@@ -7,17 +7,17 @@ import { Observable } from 'rxjs';
 })
 export class CuentaService {
 
-  private getCuentaByClienteApi: string = "http://34.125.120.215:8080/cuenta/obtenerCuentasCliente/";
-  private getCuentaByIdApi: string = "http://34.125.120.215:8080/cuenta/getbyid/";
-  private getCuentaByNumeroApi: string = "  http://34.125.120.215:8080/cuenta/buscar/";
-  private postCuentaSaveApi: string = "http://34.125.120.215:8080/cuenta/save";
-  private getTipoCuentaAllApi: string = "http://34.125.120.215:8080/tipocuenta/getall"
-  private getTipoCuentaByIdApi: string = "http://34.125.120.215:8080/tipocuenta/getbyid/"
-  private getInterByCuentadApi: string = "http://34.125.120.215:8080/cuentaintervinientes/getbycuenta/"
-  private getInterByClienteApi: string = "http://34.125.120.215:8080/cuentaintervinientes/getbycliente/"
-  private postCuentaApi: string = "http://34.125.120.215:8080/cuenta/save"
-  private postCuentaParticipantesApi: string = "http://34.125.120.215:8080/cuentaintervinientes/save"
-  private postTransaccionApi: string = "http://34.125.120.215:8080/transaccion/transferencia"
+  private getCuentaByClienteApi: string = "http://localhost:8080/cuenta/obtenerCuentasCliente/";
+  private getCuentaByIdApi: string = "http://localhost:8080/cuenta/getbyid/";
+  private getCuentaByNumeroApi: string = "  http://localhost:8080/cuenta/buscar/";
+  private postCuentaSaveApi: string = "http://localhost:8080/cuenta/save";
+  private getTipoCuentaAllApi: string = "http://localhost:8080/tipocuenta/getall"
+  private getTipoCuentaByIdApi: string = "http://localhost:8080/tipocuenta/getbyid/"
+  private getInterByCuentadApi: string = "http://localhost:8080/cuentaintervinientes/getbycuenta/"
+  private getInterByClienteApi: string = "http://localhost:8080/cuentaintervinientes/getbycliente/"
+  private postCuentaApi: string = "http://localhost:8080/cuenta/save"
+  private postCuentaParticipantesApi: string = "http://localhost:8080/cuentaintervinientes/save"
+  private postTransaccionApi: string = "http://localhost:8080/transaccion/transferencia"
 
   constructor(private http: HttpClient) { }
 

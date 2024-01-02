@@ -7,14 +7,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CreditoService {
-  private getAllTipoCreApi: string = "http://34.125.114.60:8080/tipocredito/getall";
-  private getByIdTipoCreApi: string = "http://34.125.114.60:8080/tipocredito/getbyid";
-  private getByIdTasaIntApi: string = "http://34.125.114.60:8080/tasainteres/getbyid";
-  private getCalculoTasaIntApi: string = "http://34.125.114.60:8080/tasainteres/calcular";
-  private getPreTablaPagoApi: string = "http://34.125.114.60:8080/creditotablapagos/pretablapagos";
-  private postCreditoApi: string = "http://34.125.114.60:8080/credito/save";
-  private postCredIntApi: string = "http://34.125.114.60:8080/creditointerviniente/save";
-  private postTablaPagApi: string = "http://34.125.114.60:8080/creditotablapagos/save";
+  private getAllTipoCreApi: string = "https://checkcode.site/tipocredito/getall";
+  private getByIdTipoCreApi: string = "https://checkcode.site/tipocredito/getbyid";
+  private getByIdTasaIntApi: string = "https://checkcode.site/tasainteres/getbyid";
+  private getCalculoTasaIntApi: string = "https://checkcode.site/tasainteres/calcular";
+  private getPreTablaPagoApi: string = "https://checkcode.site/creditotablapagos/pretablapagos";
+  private postCreditoApi: string = "https://checkcode.site/credito/save";
+  private postCredIntApi: string = "https://checkcode.site/creditointerviniente/save";
+  private postTablaPagApi: string = "https://checkcode.site/creditotablapagos/save";
 
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
 
