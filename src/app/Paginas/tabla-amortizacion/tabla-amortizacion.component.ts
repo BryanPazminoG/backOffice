@@ -116,7 +116,7 @@ export class TablaAmortizacionComponent implements OnInit {
     //var numeroOperacion = Math.floor(Math.random() * 100000000).toString().padStart(8, '0');
 
     let transaccionCredito = {
-      "codCuentaOrigen": 7, ////////CUENTA DEL BANCO -> CAMBIAR ESTO
+      "codCuentaOrigen": 11,
       "codCuentaDestino": this.participePrincipal.codCuenta,
       "codUnico": this.generarCadenaAlfanumerica(64),
       "tipoAfectacion": "C",
