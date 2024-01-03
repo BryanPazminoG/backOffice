@@ -8,9 +8,12 @@ export class FlujoDatosService {
     nombre: "",
     usuario: ""
   }
-
+  
   private datosCompartidos: any;
-
+  
+  /******* LOGIN *********/
+  private validacionLogin: boolean = false;
+  private userLogin: string = "";
   /* ************* VARIABLES COMPARTIDOS DE CREDITO ***********************/
   private participePrincipal = {};
   private participeSecundario = [{}]
@@ -25,12 +28,24 @@ export class FlujoDatosService {
   getDatos() {
     return this.datosCompartidos;
   }
+
 /*************** SETTER AND GETTER DE LOGIN ******************/
   public setUsuarioLogin(usuario: object) {
     this.usuarioLogin = usuario;
   }
   public getUsuarioLogin(): object {
     return this.usuarioLogin;
+  }
+  public setValidacionLogin(userLogin: string) {
+    localStorage.setItem("user", userLogin);
+    this.userLogin = userLogin;
+  }
+  public getValidacionLogin(): string {
+    return this.userLogin;
+  }
+
+  public closeSession(){
+    localStorage.clear();
   }
 /*************** SETTER AND GETTER DE CREDITOS ******************/
   public setParticipePrincipal(participePrincipal: any) {

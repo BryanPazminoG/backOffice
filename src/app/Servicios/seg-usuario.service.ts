@@ -9,9 +9,10 @@ import { FlujoDatosService } from './flujo-datos.service';
 export class SegUsuarioService {
 
   private loginUsuarioApi: string = "http://34.16.181.123:8080/user/";
-  private buscarRoles: string ="http://34.16.181.123:8080/rol/buscar-todos/";
-  private personal: string ="http://34.16.181.123:8080/personal-bancario/create";
-  private accesoP: string ="http://34.16.181.123:8080/accesoPbRol/createAcceso";
+  private buscarRoles: string = "http://34.16.181.123:8080/rol/buscar-todos/";
+  private personal: string = "http://34.16.181.123:8080/personal-bancario/create";
+  private accesoP: string = "http://34.16.181.123:8080/accesoPbRol/createAcceso";
+  private accesoUsuario: string = "http://34.16.181.123:8080/personal-bancario/buscar-credenciales";
 
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
 
@@ -20,20 +21,19 @@ export class SegUsuarioService {
     return this.http.get<any>(this.loginUsuarioApi, { params: params });
   }
 
-  buscarRol():Observable<any>{
-
-
+  buscarRol(): Observable<any> {
     return this.http.get<any>(this.buscarRoles);
   }
 
-  crearPersonalBancario(Datos: any):Observable<any>
-{
-  return this.http.post<any>(this.personal, Datos);
-}
+  crearPersonalBancario(Datos: any): Observable<any> {
+    return this.http.post<any>(this.personal, Datos);
+  }
 
-crearAccesoPB(accPB: any):Observable<any>
-{
-  return this.http.post<any>(this.accesoP, accPB);
-}
+  crearAccesoPB(accPB: any): Observable<any> {
+    return this.http.post<any>(this.accesoP, accPB);
+  }
 
+  validarUsuarioLogin(credencialesUser: any): Observable<any>{
+    return this.http.post<any>(this.accesoUsuario, credencialesUser);
+  }
 }

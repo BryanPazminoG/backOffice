@@ -8,15 +8,18 @@ import { FlujoDatosService } from 'src/app/Servicios/flujo-datos.service';
 })
 export class NavbarComponent implements OnInit {
 
-  usuario = {
-    nombre: "",
-    usuario: "",
-  }
+  usuario: string = "";
 
   constructor( private flujoDatosService: FlujoDatosService) { }
 
   ngOnInit(): void {
     this.cargarDatosUsuario();
+    const usuarioFromLocalStorage = localStorage.getItem("user");
+    if (usuarioFromLocalStorage !== null) {
+      this.usuario = usuarioFromLocalStorage;
+    } else {
+      this.usuario = "";
+    }
   }
 
   cargarDatosUsuario(){
