@@ -113,22 +113,7 @@ export class TablaAmortizacionComponent implements OnInit {
 
     /******************************************************/
 
-    var numeroOperacion = Math.floor(Math.random() * 100000000).toString().padStart(8, '0');
-
-    let registroCredito = {
-      "codTipoCredito": this.credito.codTipoCredito,
-      "codCliente": this.credito.codCliente,
-      "numeroOperacion": numeroOperacion,
-      "fechaCreacion": this.credito.fecha_creacion,
-      "monto": this.credito.monto,
-      "plazo": this.credito.plazo,
-      "tasaInteres": this.credito.tasaInteres,
-      "estado": "VIG",
-      "fechaDesembolso": this.credito.fecha_creacion,
-      "fechaUltimoPago": null,
-      "capitalPendiente": this.credito.monto,
-      "fechaUltimoCambio": this.credito.fecha_creacion,
-    }
+    //var numeroOperacion = Math.floor(Math.random() * 100000000).toString().padStart(8, '0');
 
     let transaccionCredito = {
       "codCuentaOrigen": 7, ////////CUENTA DEL BANCO -> CAMBIAR ESTO
@@ -145,22 +130,36 @@ export class TablaAmortizacionComponent implements OnInit {
       "fechaUltimoCambio": this.credito.fecha_creacion,
     }
 
-    this.creditoService.postCreditoAPI(registroCredito).subscribe(
+    this.cuentaService.postTransaccionAPI(transaccionCredito).subscribe(
       (data) => {
         if (data) {
-          let idCredito = data.codCredito;
-          let creditoIntRegistroP = {
-            "tipo": "PRI",
+          let registroCredito = {
+            "codTipoCredito": this.credito.codTipoCredito,
+            "codCliente": this.credito.codCliente,
+            "numeroOperacion": data.codTransaccion,
+            "fechaCreacion": this.credito.fecha_creacion,
+            "monto": this.credito.monto,
+            "plazo": this.credito.plazo,
+            "tasaInteres": this.credito.tasaInteres,
+            "estado": "VIG",
+            "fechaDesembolso": this.credito.fecha_creacion,
+            "fechaUltimoPago": null,
+            "capitalPendiente": this.credito.monto,
             "fechaUltimoCambio": this.credito.fecha_creacion,
-            "pk": {
-              "codCredito": idCredito,
-              "codCliente": this.credito.codCliente,
-            }
           }
-          this.creditoService.postCredIntAPI(creditoIntRegistroP).subscribe(
+          this.creditoService.postCreditoAPI(registroCredito).subscribe(
             (data) => {
               if (data) {
-                this.cuentaService.postTransaccionAPI(transaccionCredito).subscribe(
+                let idCredito = data.codCredito;
+                let creditoIntRegistroP = {
+                  "tipo": "PRI",
+                  "fechaUltimoCambio": this.credito.fecha_creacion,
+                  "pk": {
+                    "codCredito": idCredito,
+                    "codCliente": this.credito.codCliente,
+                  }
+                }
+                this.creditoService.postCredIntAPI(creditoIntRegistroP).subscribe(
                   (data) => {
                     if (data) {
                     }
@@ -169,56 +168,56 @@ export class TablaAmortizacionComponent implements OnInit {
                     console.error('Error al hacer la solicitud:', error);
                   }
                 );
+                let date = this.credito.fecha_creacion;
+                this.participeSecundario.forEach((participante) => {
+                  let creditoIntRegistroS = {
+                    "tipo": "SEC",
+                    "fechaUltimoCambio": date,
+                    "pk": {
+                      "codCredito": idCredito,
+                      "codCliente": participante.cod_cliente,
+                    }
+                  }
+                  this.creditoService.postCredIntAPI(creditoIntRegistroS).subscribe(
+                    (data) => {
+                      if (data) {
+                      }
+                    },
+                    (error) => {
+                      console.error('Error al hacer la solicitud:', error);
+                    }
+                  );
+                });
+                this.preTablaPagos.forEach((pagos) => {
+                  let tablaPagosRegistro = {
+                    "capital": parseFloat(pagos.amortizacionPeriodo),
+                    "interes": parseFloat(pagos.interesPeriodo),
+                    "montoCuota": parseFloat(pagos.cuota),
+                    "capitalRestante": parseFloat(pagos.capitalPendiente),
+                    "fechaPlanificadaPago": pagos.fechaPlanificadoPago,
+                    "estado": "PEN",
+                    "fechaUltimoCambio": date,
+                    "pk": {
+                      "codCredito": idCredito,
+                      "codCuota": pagos.periodo
+                    }
+                  }
+                  this.creditoService.postTablaPagAPI(tablaPagosRegistro).subscribe(
+                    (data) => {
+                      if (data) {
+                      }
+                    },
+                    (error) => {
+                      console.error('Error al hacer la solicitud:', error);
+                    }
+                  );
+                });
               }
             },
             (error) => {
               console.error('Error al hacer la solicitud:', error);
             }
           );
-          let date = this.credito.fecha_creacion;
-          this.participeSecundario.forEach((participante) => {
-            let creditoIntRegistroS = {
-              "tipo": "SEC",
-              "fechaUltimoCambio": date,
-              "pk": {
-                "codCredito": idCredito,
-                "codCliente": participante.cod_cliente,
-              }
-            }
-            this.creditoService.postCredIntAPI(creditoIntRegistroS).subscribe(
-              (data) => {
-                if (data) {
-                }
-              },
-              (error) => {
-                console.error('Error al hacer la solicitud:', error);
-              }
-            );
-          });
-          this.preTablaPagos.forEach((pagos) => {
-            let tablaPagosRegistro = {
-              "capital": parseFloat(pagos.amortizacionPeriodo),
-              "interes": parseFloat(pagos.interesPeriodo),
-              "montoCuota": parseFloat(pagos.cuota),
-              "capitalRestante": parseFloat(pagos.capitalPendiente),
-              "fechaPlanificadaPago": pagos.fechaPlanificadoPago,
-              "estado": "PEN",
-              "fechaUltimoCambio": date,
-              "pk": {
-                "codCredito": idCredito,
-                "codCuota": pagos.periodo
-              }
-            }
-            this.creditoService.postTablaPagAPI(tablaPagosRegistro).subscribe(
-              (data) => {
-                if (data) {
-                }
-              },
-              (error) => {
-                console.error('Error al hacer la solicitud:', error);
-              }
-            );
-          });
         }
       },
       (error) => {
