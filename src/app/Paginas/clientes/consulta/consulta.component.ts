@@ -10,7 +10,7 @@ import { FlujoDatosService } from '../../../Servicios/flujo-datos.service';
 export class ConsultaComponent {
   tipoIdentificacion: string = '';
   numeroIdentificacion: string = '';
-  clienteEncontrado: any;
+  clienteEncontrado: any = '';
 
   constructor(
     private clienteService: ClienteService,
