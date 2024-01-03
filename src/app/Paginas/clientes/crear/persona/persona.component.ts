@@ -112,54 +112,36 @@ export class PersonaComponent {
     }
   }
   apellidosValidos: boolean = true;
-  nombresValidos: boolean = true;
 
   validarApellidos(): void {
     const regexApellidos = /^[A-Za-z\s]+$/;
-    this.apellidosValidos = regexApellidos.test(this.apellidos.trim());
+    this.apellidosValidos = regexApellidos.test(this.apellidos);
   }
+
+  nombresValidos: boolean = true;
 
   validarNombres(): void {
     const regexNombres = /^[A-Za-z\s]+$/;
-    this.nombresValidos = regexNombres.test(this.nombres.trim());
+    this.nombresValidos = regexNombres.test(this.nombres);
   }
 
   correoValido: boolean = true;
 
   validarCorreoElectronico(): void {
     const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    this.correoValido = regexCorreo.test(this.correoElectronico.trim());
+    this.correoValido = regexCorreo.test(this.correoElectronico);
   }
-
   validarTelefono(): void {
     const regexTelefono = /^[0-9]+$/;
-    this.telefonoValido = regexTelefono.test(this.telefono.trim());
+
+    this.telefonoValido = regexTelefono.test(this.telefono);
   }
 
-
   enviarDatosCliente(): void {
-    // Validar todos los campos antes de intentar enviar los datos
     this.validarIdentificacion();
-    this.validarApellidos();
-    this.validarNombres();
-    this.validarCorreoElectronico();
-    this.validarTelefono();
 
-    // Verificar si hay algún error en los campos
-    if (
-      !this.identificacionValida ||
-      !this.apellidosValidos ||
-      !this.nombresValidos ||
-      !this.correoValido ||
-      !this.telefonoValido
-    ) {
-      // Mostrar un mensaje de error general
-      Swal.fire({
-        title: "Creación Errónea",
-        text: "Revise los campos e ingrese información válida en cada uno.",
-        icon: "error"
-      });
-      return;
+    if (!this.identificacionValida) {
+      return; // Evitar enviar datos si la identificación no es válida
     }
 
 
@@ -187,25 +169,26 @@ export class PersonaComponent {
       .subscribe(
         (respuesta) => {
           console.log('Datos enviados con éxito:', respuesta);
-          Swal.fire({
-            title: "Creacion Exitosa!",
-            text: "Genial!",
-            icon: "success"
-          });
+          if (respuesta){
+            Swal.fire({
+              title: "Creacion Exitosa!",
+              text: "Genial!",
+              icon: "success"
+            });
+
+          }else{
+            Swal.fire({
+              title: "Creacion Erronea!",
+              text: "Ingrese todos los campos!",
+              icon: "error"
+            });
+          }
         },
         (error) => {
-          // Manejar errores de Angular
+          // Manejar errores si la solicitud falla
           console.error('Error al enviar datos:', error);
-
-          // Mostrar mensaje de error personalizado si es posible
-          Swal.fire({
-            title: "Error en la Creación!",
-            text: "Ocurrió un error al enviar los datos al servidor.",
-            icon: "error"
-          });
         }
       );
-
 
   }
 }
