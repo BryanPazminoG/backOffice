@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FlujoDatosService } from '../../../Servicios/flujo-datos.service';
 import { ClienteService } from '../../../Servicios/cliente.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-editar',
@@ -18,6 +19,14 @@ export class EditarComponent {
   ngOnInit() {
     this.datosCliente = this.flujoDatosService.getDatos(); // Obtener datos del servicio
     console.log('Datos del cliente:', this.datosCliente);
+  }
+  mensajeAprobado() {
+    Swal.fire({
+      title: 'Actualización Exitosa',
+      text: 'Se ha actualizado exitosamente el usuario: '+this.datosCliente.nombres + " " + this.datosCliente.apellidos,
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
+    })
   }
 
   actualizarDatosCliente() {
@@ -42,6 +51,7 @@ export class EditarComponent {
       .subscribe(
         (response) => {
           console.log('Cliente actualizado:', response);
+          this.mensajeAprobado();
           // Realizar acciones adicionales si es necesario
         },
         (error) => {

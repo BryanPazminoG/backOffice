@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FlujoDatosService } from '../../../../Servicios/flujo-datos.service';
 import { ClienteService } from '../../../../Servicios/cliente.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-empresa',
@@ -41,12 +42,20 @@ export class EmpresaComponent {
   correoElectronico: string = '';
   telefono: string = '';
 
-
+  mensajeAprobado() {
+    Swal.fire({
+      title: 'Creación Exitosa',
+      text: 'Se ha creado exitosamente el usuario: '+this.nombreComercial,
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
+    })
+  }
   obtenerTiposRelacion(): void {
     this.clienteService.obtenerTiposRelacion()
       .subscribe(
         data => {
           this.tiposRelacion = data;
+          this.mensajeAprobado();
         },
         error => {
           console.error('Error al obtener los tipos de relación:', error);

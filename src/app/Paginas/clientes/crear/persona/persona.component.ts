@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FlujoDatosService } from '../../../../Servicios/flujo-datos.service';
 import { ClienteService } from '../../../../Servicios/cliente.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-persona',
@@ -21,6 +22,7 @@ export class PersonaComponent {
     console.log('Tipo Cliente:', this.flujoDatosService.getDatos());
   }
 
+
   usuario: string = 'BryanP98';
   identificacion: string = '';
   apellidos: string = '';
@@ -29,6 +31,15 @@ export class PersonaComponent {
   direccion: string = '';
   correoElectronico: string = '';
   telefono: string = '';
+
+  mensajeAprobado() {
+    Swal.fire({
+      title: 'Creación Exitosa',
+      text: 'Se ha creado exitosamente el usuario: '+this.nombres + " " + this.apellidos,
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
+    })
+  }
 
   enviarDatosCliente(): void {
 
@@ -57,6 +68,8 @@ export class PersonaComponent {
     .subscribe(
       (respuesta) => {
         console.log('Datos enviados con éxito:', respuesta);
+        this.mensajeAprobado();
+
       },
       (error) => {
         // Manejar errores si la solicitud falla
