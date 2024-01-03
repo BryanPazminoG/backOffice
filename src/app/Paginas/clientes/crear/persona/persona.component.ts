@@ -21,8 +21,8 @@ export class PersonaComponent {
   ngOnInit() {
     console.log('Tipo Cliente:', this.flujoDatosService.getDatos());
   }
-
-
+  selectedValue: string = '';
+  datosCliente = '';
   usuario: string = 'BryanP98';
   identificacion: string = '';
   apellidos: string = '';
@@ -44,9 +44,9 @@ export class PersonaComponent {
   enviarDatosCliente(): void {
 
     const datosCliente = {
-      codigo : 12,
+      codigo : 0,
       tipoCliente: "NAT",
-      tipoIdentificacion: "CED",
+      tipoIdentificacion: this.selectedValue,
       numeroIdentificacion: this.identificacion,
       apellidos: this.apellidos,
       nombres: this.nombres,
@@ -72,7 +72,6 @@ export class PersonaComponent {
 
       },
       (error) => {
-        // Manejar errores si la solicitud falla
         console.error('Error al enviar datos:', error);
       }
     );

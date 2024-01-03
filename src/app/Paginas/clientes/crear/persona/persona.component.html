@@ -27,10 +27,10 @@
                             <div class="form-group">
                                 <select class="form-select" disabled>
                                     <option selected>Natural</option>
-                                </select>
-                                <select class="form-select my-2">
-                                    <option selected>Cedula</option>
-                                    <option selected>Pasaporte</option>
+                                </select> 
+                                <select class="form-select my-2"  name="selectedValue" [(ngModel)]="selectedValue">
+                                    <option value="CED">Cedula</option>
+                                    <option value="PAS">Pasaporte</option>
                                 </select>
                                 <input type="text" class="form-control my-2" placeholder="No. Identificacion" name="identificacion" [(ngModel)]="identificacion">
                                 <input type="text" class="form-control my-2" placeholder="Apellidos" name="apellidos" [(ngModel)]="apellidos">

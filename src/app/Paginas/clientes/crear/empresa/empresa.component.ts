@@ -27,9 +27,7 @@ export class EmpresaComponent {
   ) {}
 
   ngOnInit() {
-    console.log('Tipo Cliente:', this.flujoDatosService.getDatos());
     this.tipoCliente = this.flujoDatosService.getDatos();
-
     this.obtenerTiposRelacion();
   }
 
@@ -42,20 +40,13 @@ export class EmpresaComponent {
   correoElectronico: string = '';
   telefono: string = '';
 
-  mensajeAprobado() {
-    Swal.fire({
-      title: 'Creación Exitosa',
-      text: 'Se ha creado exitosamente el usuario: '+this.nombreComercial,
-      icon: 'success',
-      confirmButtonText: 'Aceptar'
-    })
-  }
+
+
   obtenerTiposRelacion(): void {
     this.clienteService.obtenerTiposRelacion()
       .subscribe(
         data => {
           this.tiposRelacion = data;
-          this.mensajeAprobado();
         },
         error => {
           console.error('Error al obtener los tipos de relación:', error);
@@ -122,6 +113,7 @@ export class EmpresaComponent {
         console.log('Datos empresa con exito: ', response);
         this.participantes.forEach((participante) => {
           this.enviarClientesAsociadosEmpresa(response.codigo, participante.tipoIdentificacion, participante.identificacion, participante.relacion);
+          this.mensajeAprobado();
         });
       },
       (error) => {
@@ -144,5 +136,13 @@ export class EmpresaComponent {
     );
   }
 
-
+  mensajeAprobado() {
+    Swal.fire({
+      title: 'Creación Exitosa',
+      text: 'Se ha creado exitosamente el usuario: '+this.nombreComercial,
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
+    })
+  }
+  
 }
