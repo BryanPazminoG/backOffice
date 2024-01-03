@@ -1,0 +1,57 @@
+<div class="row vh-100">
+  <div class="col-7 d-flex justify-content-center">
+    <div class="text-center mt-5">
+      <img
+        src="../../../../assets/img/logoComplete.png"
+        alt="logo"
+        width="25%"
+        class="mb-5"
+      />
+      <p class="fs-2">Bienvenido/a a tu banca web</p>
+      <p class="fs-5">Ingresa sesión con tu usuario y contraseña</p>
+
+      <form class="text-center mt-5" (ngSubmit)="autenticarCliente()">
+        <div class="d-flex justify-content-center">
+          <input
+            type="text"
+            class="form-control w-75 login-input"
+            placeholder="Usuario"
+            name="usuario"
+            [(ngModel)]="usuario"
+          />
+        </div>
+        <div class="d-flex justify-content-center">
+          <p class="mb-3 text-end w-75">
+            <a (click)="goToVerify()">Olvidé mi usuario</a>
+          </p>
+        </div>
+        <div class="d-flex justify-content-center">
+          <input
+            type="password"
+            class="form-control w-75 login-input"
+            placeholder="Contraseña"
+            name="contrasena"
+            [(ngModel)]="contrasena"
+          />
+        </div>
+        <div class="d-flex justify-content-center">
+          <p class="mb-3 text-end w-75">
+            <a (click)="goToVerify()">Olvidé mi contraseña</a>
+          </p>
+        </div>
+        <button type="submit" class="btn btn-primary w-75 mb-4 login-button">
+          Ingresar
+        </button>
+      </form>
+      <p>Aún no tienes tu usuario de banca web?</p>
+      <a (click)="goToVerify()" style="color: #1c9352">Regístrate aquí</a>
+    </div>
+  </div>
+  <div class="col-5 login-image">
+    <img
+      src="../../../../assets/img/loginImage 1.png"
+      alt="loginImage"
+      width="100%"
+    />
+  </div>
+</div>

@@ -1,0 +1,22 @@
+.login-input {
+  height: 50px;
+}
+.login-button {
+  background-color: #1c9352;
+  border-color: #1c9352;
+  height: 50px;
+}
+.login-image {
+  background: linear-gradient(to top, #1c9352, #8fbea4a0);
+  padding: 0;
+}
+.login-image img {
+  opacity: 0.7;
+}
+form a {
+  color: #1c9352;
+  font-size: small;
+}
+a:hover {
+  cursor: pointer;
+}
