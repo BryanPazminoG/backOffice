@@ -1,56 +1,87 @@
 <div class="container-fluid p-0">
-    <div class="row">
-        <!-- Navbar -->
-        <div class="col-12 px-0" class="borde-ancho">
-            <app-navbar></app-navbar>
-        </div>
+  <div class="row">
+    <!-- Navbar -->
+    <div class="col-12 px-0" class="borde-ancho">
+      <app-navbar></app-navbar>
     </div>
-    <div class="row m-0">
-        <!-- Sidebar -->
-        <div class="col-2 p-0 d-flex flex-column vh-100">
-            <app-sidebar class="flex-grow-1"></app-sidebar>
-        </div>
-        <!-- Main Content -->
+  </div>
+  <div class="row m-0">
+    <!-- Sidebar -->
+    <div class="col-2 p-0 d-flex flex-column vh-100">
+      <app-sidebar class="flex-grow-1"></app-sidebar>
+    </div>
+    <!-- Main Content -->
 
-        <div class="col-10 p-0 d-flex">
-            <!-- Aquí puedes colocar el contenido principal -->
-            <div class="p-4 flex-grow-1" style="background-color: #DBD8D8;">
-                <div class="container">
-                    <div class="container-fluid">
-                        <div class="row title mt-5">
-                            <h4>Nuevo Usuario</h4>
-                        </div>
-                        <div class="row contenido my-3 p-5 rounded-4">
-                            <h5>Datos de Usuario</h5>
-                            <hr>
-                            <form action="">
-                                <h6>Roles</h6>
-                                <div class="form-group">
-                                    <select class="form-select" [(ngModel)]="accesoPBRol.pk.codRol" name="rol">
-                                        <option *ngFor="let rol of rolesUsuario" value={{rol.codRol}}>
-                                            {{rol.nombreRol}}</option>
-                                    </select>
-
-                                    <input type="text" class="form-control my-2" placeholder="Nombres" name="Nombres"
-                                    [(ngModel)]="accesoPBRol.nombre">
-                                    <input type="text" class="form-control my-2" name="Usuario" placeholder="Usuario"
-                                        [(ngModel)]="personalBancario.usuario">
-                                    <input type="password" class="form-control my-2" name="Password" placeholder="Password"
-                                        [(ngModel)]="personalBancario.clave">
-
-                                </div>
-                            </form>
-                            <div class="px-4 mt-3">
-                                <button type="button" class="btn btn-success mx-1" (click)="personalBanco()">Continuar</button>
-                                <button type="button" class="btn btn-secondary mx-1"
-                                    (click)="mensaje()">Regresar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="col-10 p-0 d-flex">
+      <!-- Aquí puedes colocar el contenido principal -->
+      <div class="p-4 flex-grow-1" style="background-color: #dbd8d8">
+        <div class="container">
+          <div class="container-fluid">
+            <div class="row title mt-5">
+              <h4>Nuevo Usuario</h4>
             </div>
+            <div class="row contenido my-3 p-5 rounded-4">
+              <h5>Datos de Usuario</h5>
+              <hr />
+              <form action="">
+                <h6>Roles</h6>
+                <div class="form-group">
+                  <select
+                    class="form-select"
+                    [(ngModel)]="accesoPBRol.pk.codRol"
+                    name="rol"
+                  >
+                    <option
+                      *ngFor="let rol of rolesUsuario"
+                      value="{{ rol.codRol }}"
+                    >
+                      {{ rol.nombreRol }}
+                    </option>
+                  </select>
+
+                  <input
+                    type="text"
+                    class="form-control my-2"
+                    placeholder="Nombres"
+                    name="Nombres"
+                    [(ngModel)]="accesoPBRol.nombre"
+                  />
+                  <input
+                    type="text"
+                    class="form-control my-2"
+                    name="Usuario"
+                    placeholder="Usuario"
+                    [(ngModel)]="personalBancario.usuario"
+                  />
+                  <input
+                    type="password"
+                    class="form-control my-2"
+                    name="Password"
+                    placeholder="Password"
+                    [(ngModel)]="personalBancario.clave"
+                  />
+                </div>
+              </form>
+              <div class="px-4 mt-3">
+                <button
+                  type="button"
+                  class="btn btn-success mx-1"
+                  (click)="personalBanco()"
+                >
+                  Continuar
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary mx-1"
+                  (click)="mensaje()"
+                >
+                  Regresar
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-
-
+      </div>
     </div>
+  </div>
 </div>
