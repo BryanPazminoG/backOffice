@@ -28,7 +28,9 @@ export class LoginComponent implements OnInit{
     this.primeraVisita = false;
     this.accesoValidacion = true;
 
-    this.segUsuarioService.validarUsuarioLogin(this.credenciales).subscribe( 
+    console.log(this.credenciales);
+
+    this.segUsuarioService.validarUsuarioLogin(this.credenciales).subscribe(
       (data) => {
         if(data){
           this.flujoDatos.setValidacionLogin(data.usuario);
@@ -36,6 +38,7 @@ export class LoginComponent implements OnInit{
         }else{
           this.accesoValidacion = false;
         }
+
       },
       (error) => {
         console.error('Error al hacer la solicitud:', error);

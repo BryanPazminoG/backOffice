@@ -12,8 +12,8 @@ export class SegUsuarioService {
   private buscarRoles: string = "http://34.16.181.123:8080/rol/buscar-todos/";
   private personal: string = "http://34.16.181.123:8080/personal-bancario/create";
   private accesoP: string = "http://34.16.181.123:8080/accesoPbRol/createAcceso";
-  private accesoUsuario: string = "http://34.16.181.123:8080/personal-bancario/buscar-credenciales";
-
+  //private accesoUsuario: string = "http://34.16.181.123:8080/personal-bancario/buscar-credenciales";
+  private accesoUsuario: string = "http://localhost:8085/api/v1/empleados/sesiones";
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
 
   loguearUsuarioAPI(usuario: string, clave: string): Observable<any> {
