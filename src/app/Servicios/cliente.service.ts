@@ -8,12 +8,12 @@ import { Observable } from 'rxjs';
 
 export class ClienteService {
 
-  private crearClientePersonaApi = "http://34.102.85.160:8080/cliente/guardar/persona";
-  private crearClienteEmpresaApi = "http://34.102.85.160:8080/cliente/guardar/empresa";
-  private buscarClienteApi = "http://34.102.85.160:8080/cliente/buscar";
-  private actualizarClientePersonaApi = "http://34.102.85.160:8080/cliente/actualizar/persona";
+  private crearClientePersonaApi = "http://localhost:8081/api/v1/clientes";
+  private crearClienteEmpresaApi = "http://localhost:8081/api/v1/empresas";
+  private buscarClienteApi = "http://localhost:8081/api/v1/clientes/";
+  private actualizarClientePersonaApi = "http://localhost:8081/api/v1/clientes";
   private tipoPersonaApi = 'http://34.102.85.160:8080/tipo-relacion/todos';
-  private clienteByIdApi = 'http://34.102.85.160:8080/cliente/buscar-cliente';
+  private clienteByIdApi = 'http://localhost:8081/api/v1/clientes/';
 
   private relacionClientePersona = ' http://34.102.85.160:8080/cliente/guardar/relacion-cliente';
 
@@ -29,8 +29,7 @@ export class ClienteService {
   }
 
   buscarClientePorParametros(tipo: string, numero: string): Observable<any> {
-    let params = new HttpParams().set('tipo', tipo).set('numero', numero);
-    return this.http.get<any>(this.buscarClienteApi, { params: params });
+    return this.http.get<any>(this.buscarClienteApi + tipo + "/" + numero);
   }
 
   actualizarCliente(datos: any): Observable<any> {
@@ -40,10 +39,10 @@ export class ClienteService {
   obtenerTiposRelacion(): Observable<any[]> {
     return this.http.get<any[]>(this.tipoPersonaApi);
   }
-  getClienteByIdAPI(id: number){
+  getClienteByIdAPI(id: any){
     const params = new HttpParams()
       .set('id', id);
-    return this.http.get<any>(this.clienteByIdApi, {params: params});
+    return this.http.get<any>(this.clienteByIdApi + id);
   }
 
   crearRelacionClientePersona(codigoEmpresa: number, tipoIdentificacionPersona: string, numeroIdentificacionPersona: string, codigoRelacion: string): Observable<any> {

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class CrearCuentaComponent implements OnInit {
   clienteIdentificacion = {
-    'codigo': 0,
+    'idCliente': "",
     'tipoIdentificacion': '',
     'numeroIdentificacion': '',
     'apellidos': '',
@@ -20,7 +20,7 @@ export class CrearCuentaComponent implements OnInit {
     'razonSocial': '',
   };
   cliente = [{
-    'codigo': 0,
+    'idCliente': "",
     'tipoIdentificacion': '',
     'numeroIdentificacion': '',
     'apellidos': '',
@@ -52,11 +52,11 @@ export class CrearCuentaComponent implements OnInit {
   mensajeValidacion = "";
 
   constructor(
-    private serviceCliente: ClienteService, 
-    private serviceCuenta: CuentaService, 
+    private serviceCliente: ClienteService,
+    private serviceCuenta: CuentaService,
     private serviceCredito: CreditoService,
     private router: Router
-    ) {
+  ) {
   }
   ngOnInit(): void {
     this.getCuentas();
@@ -99,7 +99,7 @@ export class CrearCuentaComponent implements OnInit {
         (data) => {
           if (data) {
             this.tipoCuenta = data;
-            this.getTasaInteresById();
+            //this.getTasaInteresById();
           }
         },
         (error) => {
@@ -159,7 +159,8 @@ export class CrearCuentaComponent implements OnInit {
         row.appendChild(cell2);
 
         let texto = "";
-        texto = this.clienteIdentificacion.razonSocial == "" ? this.clienteIdentificacion.apellidos + " " + this.clienteIdentificacion.nombres : this.clienteIdentificacion.razonSocial;
+        // texto = this.clienteIdentificacion.razonSocial == "" ? this.clienteIdentificacion.apellidos + " " + this.clienteIdentificacion.nombres : this.clienteIdentificacion.razonSocial;
+        texto = this.clienteIdentificacion.apellidos + " " + this.clienteIdentificacion.nombres;
         textP3.innerHTML = texto;
         cell3.appendChild(textP3);
         row.appendChild(cell3);
@@ -180,7 +181,7 @@ export class CrearCuentaComponent implements OnInit {
         tableBody.appendChild(row);
 
         this.clienteIdentificacion = {
-          'codigo': 0,
+          'idCliente': '',
           'tipoIdentificacion': '',
           'numeroIdentificacion': '',
           'apellidos': '',
@@ -219,7 +220,7 @@ export class CrearCuentaComponent implements OnInit {
 
   restDatosClientes() {
     this.identValidacion = true;
-    this.clienteIdentificacion.codigo = 0;
+    this.clienteIdentificacion.idCliente = '';
     this.clienteIdentificacion.apellidos = '';
     this.clienteIdentificacion.nombres = '';
     this.clienteIdentificacion.razonSocial = '';
@@ -242,32 +243,29 @@ export class CrearCuentaComponent implements OnInit {
   crearCuenta() {
     if (this.cliente.length > 0 && this.tipoCuenta.codTipoCuenta != "") {
       let numeroCuenta = this.generarNumeroCuenta();
-      let nuevaCuenta = {
+      let nuevaCuenta = 
+      {
         "numeroCuenta": numeroCuenta,
         "codTipoCuenta": this.tipoCuenta.codTipoCuenta,
-        "codCliente": this.cliente[0].codigo,
+        "codCliente": this.cliente[0].idCliente,
         "saldoContable": 0,
-        "saldoDisponible": 0,
-        "estado": "ACT",
-        "fechaCreacion": this.fechaActual(),
-        "fechaUltimoCambio": this.fechaActual(),
+        "saldoDisponible": 0
       }
       this.serviceCuenta.postCuentaAPI(nuevaCuenta).subscribe(
         (data) => {
           if (data) {
             this.cliente.forEach((participante) => {
-              let cuentaIntervinientes = {
+              let cuentaIntervinientes = 
+              {
                 "fechaInicio": this.fechaActual(),
-                "fechaFin": null,
-                "estado": "ACT",
-                "fechaUltimoCambio": this.fechaActual(),
                 "pk": {
-                  "codCuenta": data.codCuenta,
-                  "codClientePersona": participante.codigo,
+                    "codCuenta": data,
+                    "codClientePersona": participante.idCliente
                 }
-              }
+              } 
               this.serviceCuenta.postCuentaParticipantesAPI(cuentaIntervinientes).subscribe(
                 (data) => {
+                  console.log("Creado");
                 },
                 (error) => {
                   console.error('Error al hacer la solicitud:', error);

@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit{
     this.segUsuarioService.validarUsuarioLogin(this.credenciales).subscribe( 
       (data) => {
         if(data){
-          this.flujoDatos.setValidacionLogin(data.usuario);
+          this.flujoDatos.setValidacionLogin(this.credenciales.usuario);
           this.router.navigate(["/clientes"]);
         }else{
           this.accesoValidacion = false;

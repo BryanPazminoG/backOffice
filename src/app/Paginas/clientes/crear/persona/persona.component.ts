@@ -44,25 +44,30 @@ export class PersonaComponent {
   enviarDatosCliente(): void {
 
     const datosCliente = {
-      codigo : 0,
-      tipoCliente: "NAT",
       tipoIdentificacion: this.selectedValue,
       numeroIdentificacion: this.identificacion,
       apellidos: this.apellidos,
       nombres: this.nombres,
       fechaNacimiento: this.fechaNacimiento,
-      fechaConstitucion: "0000-00-00",
-      razonSocial: "",
-      nombreComercial: "",
-      direccion: this.direccion,
       correoElectronico: this.correoElectronico,
-      telefono: this.telefono,
-      fechaModificacion: "2023-12-26T00:00:00", 
-      version: 1
-    };
-
-    console.log(datosCliente);
-
+      fechaUltimoCambio: null,
+      direcciones: [
+          {
+              "tipo": "Casa",
+              "linea1": this.direccion,
+              "linea2": "Juan Camacaro",
+              "codigoPostal": "171100",
+              "estado": "ACT"
+          }
+      ],
+      telefonos: [
+          {
+              "tipo": "Personal",
+              "numero": this.telefono,
+              "estado": "ACT"
+          }
+      ]
+  }
 
     this.clienteService.enviarDatosCliente(datosCliente)
     .subscribe(

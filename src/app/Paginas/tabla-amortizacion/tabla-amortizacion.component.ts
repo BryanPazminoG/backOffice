@@ -107,7 +107,7 @@ export class TablaAmortizacionComponent implements OnInit {
       timer: 2500
     }).then((result) => {
       if (result.dismiss === Swal.DismissReason.timer) {
-        this.router.navigate(["creditos"]);
+        //this.router.navigate(["creditos"]);
       }
     });
 
@@ -116,7 +116,7 @@ export class TablaAmortizacionComponent implements OnInit {
     //var numeroOperacion = Math.floor(Math.random() * 100000000).toString().padStart(8, '0');
 
     let transaccionCredito = {
-      "codCuentaOrigen": 11,
+      "codCuentaOrigen": 59,
       "codCuentaDestino": this.participePrincipal.codCuenta,
       "codUnico": this.generarCadenaAlfanumerica(64),
       "tipoAfectacion": "C",
@@ -132,11 +132,13 @@ export class TablaAmortizacionComponent implements OnInit {
 
     this.cuentaService.postTransaccionAPI(transaccionCredito).subscribe(
       (data) => {
-        if (data) {
+        // if (data) {
           let registroCredito = {
             "codTipoCredito": this.credito.codTipoCredito,
-            "codCliente": this.credito.codCliente,
-            "numeroOperacion": data.codTransaccion,
+            "identificacionCliente": this.participePrincipal.numero_identificacion,
+            "tipoCliente": "NAT",
+            "numeroCuenta": this.participePrincipal.numeroCuenta,
+            "numeroOperacion": "OP" + this.generarCadenaAlfanumerica(4),
             "fechaCreacion": this.credito.fecha_creacion,
             "monto": this.credito.monto,
             "plazo": this.credito.plazo,
@@ -145,19 +147,15 @@ export class TablaAmortizacionComponent implements OnInit {
             "fechaDesembolso": this.credito.fecha_creacion,
             "fechaUltimoPago": null,
             "capitalPendiente": this.credito.monto,
-            "fechaUltimoCambio": this.credito.fecha_creacion,
           }
           this.creditoService.postCreditoAPI(registroCredito).subscribe(
             (data) => {
               if (data) {
-                let idCredito = data.codCredito;
+                let idCredito = data;
                 let creditoIntRegistroP = {
                   "tipo": "PRI",
-                  "fechaUltimoCambio": this.credito.fecha_creacion,
-                  "pk": {
-                    "codCredito": idCredito,
-                    "codCliente": this.credito.codCliente,
-                  }
+                  "codCredito": idCredito,
+                  "identificacionCliente": registroCredito.identificacionCliente,
                 }
                 this.creditoService.postCredIntAPI(creditoIntRegistroP).subscribe(
                   (data) => {
@@ -190,22 +188,22 @@ export class TablaAmortizacionComponent implements OnInit {
                 });
                 this.preTablaPagos.forEach((pagos) => {
                   let tablaPagosRegistro = {
+                    "codCredito": idCredito,
+                    "codCuota": pagos.periodo,
                     "capital": parseFloat(pagos.amortizacionPeriodo),
                     "interes": parseFloat(pagos.interesPeriodo),
                     "montoCuota": parseFloat(pagos.cuota),
                     "capitalRestante": parseFloat(pagos.capitalPendiente),
                     "fechaPlanificadaPago": pagos.fechaPlanificadoPago,
                     "estado": "PEN",
-                    "fechaUltimoCambio": date,
-                    "pk": {
-                      "codCredito": idCredito,
-                      "codCuota": pagos.periodo
-                    }
+                    "fechaPagoEfectivo": "",
+                    "transaccionPago": ""
                   }
-                  this.creditoService.postTablaPagAPI(tablaPagosRegistro).subscribe(
+                    this.creditoService.postTablaPagAPI(tablaPagosRegistro).subscribe(
                     (data) => {
                       if (data) {
-                      }
+
+                    }
                     },
                     (error) => {
                       console.error('Error al hacer la solicitud:', error);
@@ -218,7 +216,7 @@ export class TablaAmortizacionComponent implements OnInit {
               console.error('Error al hacer la solicitud:', error);
             }
           );
-        }
+        // }
       },
       (error) => {
         console.error('Error al hacer la solicitud:', error);

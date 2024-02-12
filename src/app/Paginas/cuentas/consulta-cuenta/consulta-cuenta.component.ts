@@ -10,7 +10,7 @@ import { CuentaService } from 'src/app/Servicios/cuenta.service';
 })
 export class ConsultaCuentaComponent implements OnInit {
   clienteIdentificacion = {
-    'codigo': 0,
+    'idCliente': "",
     'tipoIdentificacion': '',
     'numeroIdentificacion': '',
     'apellidos': '', 
@@ -29,7 +29,7 @@ export class ConsultaCuentaComponent implements OnInit {
     "estado": "",
     "pk": {
       "codCuenta": 0,
-      "codClientePersona": 0,
+      "codClientePersona": "",
     }
   }];
   listacliente = [{ 'apellidos': '', 'nombres': '', 'razonSocial': '',  'correoElectronico': '' }];
@@ -93,8 +93,8 @@ export class ConsultaCuentaComponent implements OnInit {
     }
   }
   getCuentaByClienteAPI() {
-    if (this.clienteIdentificacion.codigo > 0) {
-      this.serviceCuenta.getInterByClienteAPI(this.clienteIdentificacion.codigo).subscribe(
+    if (this.clienteIdentificacion.idCliente) {
+      this.serviceCuenta.getInterByClienteAPI(this.clienteIdentificacion.idCliente).subscribe(
         (data) => {
           if (data) {
             this.listaIntervinientes = data;
@@ -119,6 +119,7 @@ export class ConsultaCuentaComponent implements OnInit {
     }
   }
   getClienteByCuenta() {
+    console.log(this.cuentaIdentificacion.codCuenta);
     if(this.cuentaIdentificacion.codCuenta > 0){
       this.serviceCuenta.getInterByCuentadAPI(this.cuentaIdentificacion.codCuenta).subscribe(
         (data) => {
@@ -145,7 +146,7 @@ export class ConsultaCuentaComponent implements OnInit {
     }
   }
   restDatosUsuario() {
-    this.clienteIdentificacion.codigo = 0;
+    this.clienteIdentificacion.idCliente = '';
     this.clienteIdentificacion.nombres = '';
     this.clienteIdentificacion.razonSocial = '';
     this.clienteIdentificacion.correoElectronico = '';
@@ -155,7 +156,7 @@ export class ConsultaCuentaComponent implements OnInit {
       "estado": "",
       "pk": {
         "codCuenta": 0,
-        "codClientePersona": 0,
+        "codClientePersona": "",
       }
     }];
     this.listaCuentas = [{ 'codCuenta': 0, 'numeroCuenta': '', 'codTipoCuenta': '', 'estado': '','fechaCreacion': ''}];
@@ -173,7 +174,7 @@ export class ConsultaCuentaComponent implements OnInit {
       "estado": "",
       "pk": {
         "codCuenta": 0,
-        "codClientePersona": 0,
+        "codClientePersona": "",
       }
     }];
     this.listacliente = [{ 'apellidos': '', 'nombres': '', 'razonSocial': '', 'correoElectronico': '' }];

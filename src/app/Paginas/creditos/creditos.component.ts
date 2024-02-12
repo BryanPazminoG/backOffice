@@ -14,7 +14,7 @@ import Swal from 'sweetalert2'
 export class CreditosComponent implements OnInit {
 
   participantes = {
-    'cod_cliente': 0,
+    'cod_cliente': '',
     'numeroCuenta': '',
     'tipo_identificacion': '',
     'numero_identificacion': '',
@@ -37,7 +37,7 @@ export class CreditosComponent implements OnInit {
   };
 
   participePrincipal = {
-    'cod_cliente': 0,
+    'cod_cliente': '',
     'codCuenta': 0,
     'numeroCuenta': '',
     'tipo_identificacion': '',
@@ -59,7 +59,7 @@ export class CreditosComponent implements OnInit {
   };
   credito = {
     'codTipoCredito': 0,
-    'codCliente': 0,
+    'codCliente': '',
     'fecha_creacion': '',
     'tasaInteres': 0,
     'monto': 0,
@@ -110,7 +110,7 @@ export class CreditosComponent implements OnInit {
   }
 
   getClienteP() {
-    this.participePrincipal.cod_cliente = 0;
+    this.participePrincipal.cod_cliente = '';
     this.participePrincipal.apellidos = '';
     this.participePrincipal.nombres = '';
     this.participePrincipal.razonSocial = '';
@@ -144,7 +144,7 @@ export class CreditosComponent implements OnInit {
         this.identPValidacion = true;
         if (data) {
           this.participePrincipal = {
-            'cod_cliente': data.codigo,
+            'cod_cliente': data.idCliente,
             'codCuenta': 0,
             'numeroCuenta': '',
             'tipo_identificacion': data.tipoIdentificacion,
@@ -152,8 +152,8 @@ export class CreditosComponent implements OnInit {
             'apellidos': data.apellidos,
             'nombres': data.nombres,
             'razonSocial': data.razonSocial,
-            'direccion': data.direccion,
-            'telefono': data.telefono,
+            'direccion': data.direcciones[0].linea1,
+            'telefono': data.telefonos[0].numero,
             'correo_electronico': data.correoElectronico,
           }
           this.getCuentaByClienteAPI("PRI");
@@ -169,7 +169,7 @@ export class CreditosComponent implements OnInit {
     );
   }
   getClienteS() {
-    this.participantes['cod_cliente'] = 0;
+    this.participantes['cod_cliente'] = '';
     this.participantes['apellidos'] = '';
     this.participantes['nombres'] = '';
     this.participantes['razonSocial'] = '';
@@ -181,7 +181,7 @@ export class CreditosComponent implements OnInit {
         this.identSFirst = false;
         this.identSValidacion = true;
         if (data) {
-          this.participantes['cod_cliente'] = data.codigo;
+          this.participantes['cod_cliente'] = data.idCliente;
           this.participantes['tipo_identificacion'] = data.tipoIdentificacion;
           this.participantes['numero_identificacion'] = data.numeroIdentificacion;
           this.participantes['apellidos'] = data.apellidos;
@@ -261,7 +261,7 @@ export class CreditosComponent implements OnInit {
         row.appendChild(cell5);
         tableBody.appendChild(row);
 
-        this.participantes['cod_cliente'] = 0;
+        this.participantes['cod_cliente'] = '';
         this.participantes['tipo_identificacion'] = '';
         this.participantes['numero_identificacion'] = '';
         this.participantes['apellidos'] = '';
@@ -333,7 +333,7 @@ export class CreditosComponent implements OnInit {
   }
   getByIdTasaInt() {
     const valorSeleccionado = this.tipoCredito.codTasaInteres;
-
+    console.log(valorSeleccionado);
     if (valorSeleccionado != "") {
       this.serviceCredito.getByIdTasaIntAPI(valorSeleccionado).subscribe(
         (data) => {
@@ -348,10 +348,11 @@ export class CreditosComponent implements OnInit {
     }
   }
   getCuentaByClienteAPI(tipoParticipante: string) {
-    let idCliente = 0;
+    let idCliente = '';
+    console.log(this.participantes);
     if (tipoParticipante == "PRI") idCliente = this.participePrincipal.cod_cliente;
     else idCliente = this.participantes.cod_cliente;
-    if (idCliente != 0) {
+    if (idCliente != '') {
       this.serviceCuenta.getInterByClienteAPI(idCliente).subscribe(
         (data) => {
           if (data) {
@@ -425,7 +426,7 @@ export class CreditosComponent implements OnInit {
     return fechaFormateada;
   }
   restValorClienteP() {
-    this.participePrincipal.cod_cliente = 0;
+    this.participePrincipal.cod_cliente = '';
     this.participePrincipal.codCuenta = 0;
     this.participePrincipal.numeroCuenta = "";
     //this.participePrincipal.numero_identificacion = "";
@@ -451,7 +452,7 @@ export class CreditosComponent implements OnInit {
     }];
   }
   restValorClienteS() {
-    this.participantes.cod_cliente = 0;
+    this.participantes.cod_cliente = '';
     this.participantes.numeroCuenta = "";
     //this.participantes.numero_identificacion = "";
     this.participantes.apellidos = "";
