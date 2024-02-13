@@ -8,18 +8,25 @@ import { Observable } from 'rxjs';
 export class CuentaService {
 
   private getCuentaByClienteApi: string = "http://34.125.120.215:8080/cuenta/obtenerCuentasCliente/";
-  private getCuentaByNumeroApi: string = " http://localhost:8082/api/v1/cuentas/numero/";
+  
+  private getCuentaByNumeroApi: string = " http://35.192.152.130:8089/api/v1/cuentas/numero/";
+  
   private postCuentaSaveApi: string = "http://34.125.120.215:8080/cuenta/save";
   
-  private getTipoCuentaAllApi: string = "http://localhost:8082/api/v1/tiposcuentas"
-  private getTipoCuentaByIdApi: string = "http://localhost:8082/api/v1/tiposcuentas/"
-  private postCuentaApi: string = "http://localhost:8082/api/v1/cuentas"
-  private postCuentaParticipantesApi: string = "http://localhost:8082/api/v1/cuentaintervinientes"
-  private getInterByClienteApi: string = "http://localhost:8082/api/v1/cuentaintervinientes/clientes/"
-  private getCuentaByIdApi: string = "http://localhost:8082/api/v1/cuentas/";
-  private getInterByCuentadApi: string = "http://localhost:8082/api/v1/cuentaintervinientes/cuentas/"
   
-  private postTransaccionApi: string = "http://localhost:8082/api/v1/transacciones"
+
+
+  private getTipoCuentaAllApi: string = "http://35.192.152.130:8089/api/v1/tiposcuentas"
+  private getTipoCuentaByIdApi: string = "http://35.192.152.130:8089/api/v1/tiposcuentas/"
+  private postCuentaApi: string = "http://35.192.152.130:8089/api/v1/cuentas"
+  private postCuentaParticipantesApi: string = "http://35.192.152.130:8089/api/v1/cuentaintervinientes"
+  
+  private getInterByClienteApi: string = "http://35.192.152.130:8089/api/v1/cuentaintervinientes/clientes/"
+  
+  private getCuentaByIdApi: string = "http://35.192.152.130:8089/api/v1/cuentas/";
+  private getInterByCuentadApi: string = "http://35.192.152.130:8089/api/v1/cuentaintervinientes/cuentas/"
+  
+  private postTransaccionApi: string = "http://35.192.152.130:8089/api/v1/transacciones"
 
   constructor(private http: HttpClient) { }
 

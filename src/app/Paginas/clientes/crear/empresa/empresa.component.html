@@ -17,7 +17,7 @@
         <!-- Aquí puedes colocar el contenido principal -->
         <div class="p-4 flex-grow-1" style="background-color: #DBD8D8;">
             <div class="container">
-                <div class="container-fluid">
+                <div class="container-fluid p-0">
                     <div class="row title mt-5">
                         <h4>Nuevo Cliente</h4>
                     </div>
@@ -68,11 +68,15 @@
                                         </div>
 
                                         <div class="col-11 mt-1">
-                                            <select class="form-select" name="tipoSeleccionado" [(ngModel)]="tipoSeleccionado" >
+                                            <select class="form-select" name="tipoSeleccionado" [(ngModel)]="tipoSeleccionado">
                                                 <option value="">Tipo de Relacion</option>
-                                                <option *ngFor="let tipo of tiposRelacion" [value]="tipo.codigo">{{ tipo.nombre }}</option>
+                                                <option value="Represenante Legal">Represenante Legal</option>
+                                                <option value="Laboral">Laboral</option>
+                                                <option value="Cliente">Cliente</option>
+                                                <option value="Proveedor">Proveedor</option>
+                                                <option value="Otro">Otro</option>
                                             </select>
-                                        </div>
+                                        </div>                                        
                                         
                                         <div class="col-1 text-center d-flex align-items-center">
                                             <a type="button" class="btn btn-dark" (click)="agregarParticipante()">
@@ -101,7 +105,7 @@
                                                 <td>{{ i + 1 }}</td>
                                                 <td>{{ participante.relacion }}</td>
                                                 <td>{{ participante.tipoIdentificacion }}</td>
-                                                <td>{{ participante.identificacion }}</td>
+                                                <td>{{ participante.idCliente }}</td>
                                                 <td>{{ participante.nombres }}</td>
                                                 </tr>
                                             </tbody>

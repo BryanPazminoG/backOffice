@@ -69,11 +69,13 @@ export class EmpresaComponent {
   agregarParticipante(): void {
     // Aquí puedes construir el objeto con la información del formulario
     const nuevoParticipante = {
-      relacion: this.tipoSeleccionado,
+      idCliente: this.numeroIdentificacion,
       tipoIdentificacion: this.tipoIdentificacion,
-      identificacion: this.numeroIdentificacion,
+      relacion: this.tipoSeleccionado,
       nombres: this.clienteEncontrado.apellidos + ' ' + this.clienteEncontrado.nombres
     };
+
+    console.log(nuevoParticipante);
 
     // Agregar el nuevo participante al arreglo para la tabla
     this.participantes.push(nuevoParticipante);
@@ -90,51 +92,50 @@ export class EmpresaComponent {
 
   enviarDatosEmpresa(): void{
     const datosCliente = {
-      codigo : 0,
-      tipoCliente: "JUR",
-      tipoIdentificacion: "RUC",
       numeroIdentificacion: this.identificacion,
-      apellidos: null,
-      nombres: null,
-      fechaNacimiento: null,
-      fechaConstitucion: this.fechaConstitucion,
+      fechaConstitucion: this.fechaConstitucion,      
       razonSocial: this.razonSocial,
       nombreComercial: this.nombreComercial,
       direccion: this.direccion,
-      correoElectronico: this.correoElectronico,
       telefono: this.telefono,
-      fechaModificacion: "2023-12-26T00:00:00", 
-      version: 1
+      correoElectronico: this.correoElectronico,
     };
 
+    console.log(datosCliente);
 
-    this.clienteService.enviarDatosEmpresa(datosCliente).subscribe(
-      (response) => {
-        console.log('Datos empresa con exito: ', response);
-        this.participantes.forEach((participante) => {
-          this.enviarClientesAsociadosEmpresa(response.codigo, participante.tipoIdentificacion, participante.identificacion, participante.relacion);
-          this.mensajeAprobado();
-        });
-      },
-      (error) => {
-        console.error('Error al enviar empresa:', error);
-      }
-    )
+    // this.participantes.forEach((participante) => {
+    //       this.enviarClientesAsociadosEmpresa(response.codigo, participante.tipoIdentificacion, participante.identificacion, participante.relacion);
+    //       this.mensajeAprobado();
+    // });
+
+
+    // this.clienteService.enviarDatosEmpresa(datosCliente).subscribe(
+    //   (response) => {
+    //     console.log('Datos empresa con exito: ', response);
+    //     this.participantes.forEach((participante) => {
+    //       this.enviarClientesAsociadosEmpresa(response.codigo, participante.tipoIdentificacion, participante.identificacion, participante.relacion);
+    //       this.mensajeAprobado();
+    //     });
+    //   },
+    //   (error) => {
+    //     console.error('Error al enviar empresa:', error);
+    //   }
+    // )
   }
 
 
-  enviarClientesAsociadosEmpresa(codigoEmpresa: number, tipoIdentificacion: string, numeroIdentificacion: string, tipoRelacion: string){
-    this.clienteService.crearRelacionClientePersona(codigoEmpresa, tipoIdentificacion, numeroIdentificacion, tipoRelacion)
-    .subscribe(
-      (respuesta) => {
-        console.log('Datos enviados con éxito:', respuesta);
-      },
-      (error) => {
-        // Manejar errores si la solicitud falla
-        console.error('Error al enviar datos:', error);
-      }
-    );
-  }
+  // enviarClientesAsociadosEmpresa(codigoEmpresa: number, tipoIdentificacion: string, numeroIdentificacion: string, tipoRelacion: string){
+  //   this.clienteService.crearRelacionClientePersona(codigoEmpresa, tipoIdentificacion, numeroIdentificacion, tipoRelacion)
+  //   .subscribe(
+  //     (respuesta) => {
+  //       console.log('Datos enviados con éxito:', respuesta);
+  //     },
+  //     (error) => {
+  //       // Manejar errores si la solicitud falla
+  //       console.error('Error al enviar datos:', error);
+  //     }
+  //   );
+  // }
 
   mensajeAprobado() {
     Swal.fire({

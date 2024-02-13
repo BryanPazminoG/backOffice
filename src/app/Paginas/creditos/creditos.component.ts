@@ -347,6 +347,7 @@ export class CreditosComponent implements OnInit {
       );
     }
   }
+  
   getCuentaByClienteAPI(tipoParticipante: string) {
     let idCliente = '';
     console.log(this.participantes);
