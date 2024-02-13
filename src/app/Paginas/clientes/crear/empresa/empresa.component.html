@@ -36,7 +36,20 @@
                                 <input type="date" class="form-control my-2" placeholder="Fecha Constitución" name="fechaConstitucion" [(ngModel)]="fechaConstitucion">
                                 <input type="text" class="form-control my-2" placeholder="Razon Social" name="apellidos" [(ngModel)]="razonSocial">
                                 <input type="text" class="form-control my-2" placeholder="Nombre Comercial" name="nombres" [(ngModel)]="nombreComercial">
-                                <input type="text" class="form-control my-2" placeholder="Direccion" name="direccion" [(ngModel)]="direccion">
+                                <div class="row">
+    
+                                    <div class="col-3">    
+                                        <select class="form-select my-2" name="tipoDireccion" [(ngModel)]="tipoDireccion">
+                                            <option value="Matriz">Matriz</option>
+                                            <option value="Extensión">Extensión</option>
+                                        </select>
+                                    </div>
+                                
+                                    <div class="col-3"><input type="text" class="form-control my-2" placeholder="Linea 1" name="linea1" [(ngModel)]="linea1"></div>
+                                    <div class="col-3"><input type="text" class="form-control my-2" placeholder="Linea 2" name="linea2" [(ngModel)]="linea2"></div>
+                                    <div class="col-3"><input type="text" class="form-control my-2" placeholder="Código Postal" name="codigoPostal" [(ngModel)]="codigoPostal"></div>
+
+                                </div>
                                 <input type="text" class="form-control my-2" placeholder="Correo Electronico" name="correoElectronico" [(ngModel)]="correoElectronico">
                                 <input type="text" class="form-control my-2" placeholder="Telefono" name="telefono" [(ngModel)]="telefono">
                             </div>
@@ -62,9 +75,17 @@
                                             <button type="submit" class="btn btn-success" >Validar</button>
                                         </div>
                                     </div>
+
+
                                     <div class="row">
                                         <div class="col-12">
                                             <input type="text" class="form-control my-1" placeholder="____________" value="{{clienteEncontrado.apellidos}} {{clienteEncontrado.nombres}}" readonly>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12  my-1">
+                                                <input type="date" class="form-control" name="fechaInicio" [(ngModel)]="fechaInicio" placeholder="Fecha de Inicio">
+                                            </div>
                                         </div>
 
                                         <div class="col-11 mt-1">
@@ -98,15 +119,17 @@
                                                 <th scope="col">Tipo Identificacion</th>
                                                 <th scope="col">Nro. Identificacion</th>
                                                 <th scope="col">Nombres</th>
+                                                <th scope="col">Fecha Inicio Rel.</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let participante of participantes; let i = index">
                                                 <td>{{ i + 1 }}</td>
-                                                <td>{{ participante.relacion }}</td>
+                                                <td>{{ participante.tipoRelacion }}</td>
                                                 <td>{{ participante.tipoIdentificacion }}</td>
-                                                <td>{{ participante.idCliente }}</td>
+                                                <td>{{ participante.cedula }}</td>
                                                 <td>{{ participante.nombres }}</td>
+                                                <td>{{ participante.fechaInicio }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

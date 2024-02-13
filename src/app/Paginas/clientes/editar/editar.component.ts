@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 })
 export class EditarComponent {
   datosCliente: any;
+  formattedDate: string = '';
 
   constructor(
     private flujoDatosService: FlujoDatosService,
@@ -19,7 +20,16 @@ export class EditarComponent {
   ngOnInit() {
     this.datosCliente = this.flujoDatosService.getDatos(); // Obtener datos del servicio
     console.log('Datos del cliente:', this.datosCliente);
+    // Formatear la fecha
+    this.formattedDate = this.formatDate(this.datosCliente.fechaNacimiento);
   }
+
+  formatDate(dateString: string): string {
+    // Extraer la parte de la fecha (YYYY-MM-DD) del formato completo
+    const datePart = dateString.split('T')[0];
+    return datePart;
+}
+
   mensajeAprobado() {
     Swal.fire({
       title: 'Actualización Exitosa',
@@ -32,7 +42,7 @@ export class EditarComponent {
   actualizarDatosCliente() {
     const datosActualizados = {
       // Construye un objeto con los datos actualizados que deseas enviar al servidor
-      codigo: this.datosCliente.codigo,
+      idCliente: this.datosCliente.idCliente,
       tipoCliente: this.datosCliente.tipoCliente,
       tipoIdentificacion: this.datosCliente.tipoIdentificacion,
       numeroIdentificacion: this.datosCliente.numeroIdentificacion,
@@ -41,11 +51,21 @@ export class EditarComponent {
       version: this.datosCliente.version,
 
       // Actualizables
-      fechaNacimiento: this.datosCliente.fechaNacimiento,
-      direccion: this.datosCliente.direccion,
+      fechaNacimiento: this.formattedDate,
+      direcciones: [{
+        tipo: this.datosCliente.direcciones[0].tipo,
+        linea1: this.datosCliente.direcciones[0].linea1,
+        linea2: this.datosCliente.direcciones[0].linea2,
+        estado: this.datosCliente.direcciones[0].estado,
+        codigo_postal: this.datosCliente.direcciones[0].codigoPostal
+      }],
       correoElectronico: this.datosCliente.correoElectronico,
-      telefono: this.datosCliente.telefono,
-      fechaModificacion: "2023-12-27T00:00:00",
+      telefonos: [{
+        tipo: this.datosCliente.telefonos[0].tipo,
+        estado: this.datosCliente.telefonos[0].estado,
+        numero: this.datosCliente.telefonos[0].numero
+      }],
+      fechaModificacion: new Date(),
     };
     this.clienteService.actualizarCliente(datosActualizados)
       .subscribe(
@@ -59,5 +79,6 @@ export class EditarComponent {
           // Manejar el error adecuadamente
         }
       );
+
   }
 }

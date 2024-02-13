@@ -14,7 +14,7 @@ export class EmpresaComponent {
   numeroIdentificacion: string = '';
   clienteEncontrado: any = '';
   participantes: any[] = [];
-  //tipoSeleccionado: any = '';
+  fechaInicio: any = '';
 
   tipoCliente: string = '';
 
@@ -28,10 +28,9 @@ export class EmpresaComponent {
 
   ngOnInit() {
     this.tipoCliente = this.flujoDatosService.getDatos();
-    this.obtenerTiposRelacion();
   }
 
-  usuario: string = 'BryanP98';
+  //usuario: string = 'BryanP98';
   identificacion: string = '';
   fechaConstitucion: Date | null = null;
   razonSocial: string = '';
@@ -41,20 +40,6 @@ export class EmpresaComponent {
   telefono: string = '';
 
 
-
-  obtenerTiposRelacion(): void {
-    this.clienteService.obtenerTiposRelacion()
-      .subscribe(
-        data => {
-          this.tiposRelacion = data;
-        },
-        error => {
-          console.error('Error al obtener los tipos de relación:', error);
-        }
-      );
-  }
-
-  
   buscarCliente(): void {
     this.clienteService.buscarClientePorParametros(this.tipoIdentificacion, this.numeroIdentificacion).subscribe(
       (data) => {
@@ -67,12 +52,16 @@ export class EmpresaComponent {
   }
 
   agregarParticipante(): void {
-    // Aquí puedes construir el objeto con la información del formulario
     const nuevoParticipante = {
-      idCliente: this.numeroIdentificacion,
       tipoIdentificacion: this.tipoIdentificacion,
-      relacion: this.tipoSeleccionado,
-      nombres: this.clienteEncontrado.apellidos + ' ' + this.clienteEncontrado.nombres
+      cedula: this.numeroIdentificacion,
+      tipoRelacion: this.tipoSeleccionado,
+      fechaInicio: this.fechaInicio, // Esto genera la fecha actual en formato ISO
+      fechaFin: null,
+      estado: 'ACT',
+      fechaUltimoCambio: new Date().toISOString(),
+      nombres: this.clienteEncontrado.apellidos + ' ' + this.clienteEncontrado.nombres,
+      idCliente: this.clienteEncontrado.idCliente
     };
 
     console.log(nuevoParticipante);
@@ -85,42 +74,55 @@ export class EmpresaComponent {
     this.numeroIdentificacion = '';
     this.clienteEncontrado.apellidos = '';
     this.clienteEncontrado.nombres = '';
-    // Lógica para limpiar el objeto clienteEncontrado y el campo de tipo de relación si es necesario
-
-    // También puedes llamar a un método para enviar los datos al servicio aquí si es necesario
   }
 
+  tipoDireccion: string = ''; 
+  linea1: string = '';
+  linea2: string = '';
+  codigoPostal: string = '';
+
   enviarDatosEmpresa(): void{
+
+    const listaDeParticipantes = this.participantes.map((participante) => {
+        return {
+            idCliente: participante.idCliente,
+            tipoRelacion: participante.tipoRelacion,
+            fechaInicio: participante.fechaInicio,
+            fechaFin: participante.fechaFin,
+            estado: participante.estado,
+            fechaUltimoCambio: participante.fechaUltimoCambio
+        };
+    });
+
+
     const datosCliente = {
       numeroIdentificacion: this.identificacion,
       fechaConstitucion: this.fechaConstitucion,      
       razonSocial: this.razonSocial,
       nombreComercial: this.nombreComercial,
-      direccion: this.direccion,
+      direccion: 
+        {
+            tipo: this.tipoDireccion, // Usa el valor seleccionado en el campo tipoDireccion
+            linea1: this.linea1,
+            linea2: this.linea2,
+            codigoPostal: this.codigoPostal
+        }
+      ,
       telefono: this.telefono,
       correoElectronico: this.correoElectronico,
+      miembros: listaDeParticipantes
     };
 
-    console.log(datosCliente);
+    this.clienteService.enviarDatosEmpresa(datosCliente).subscribe(
+      (response) => {
+        console.log('Datos empresa con exito: ', response);
+      },
+      (error) => {
+        console.error('Error al enviar empresa:', error);
+      }
+    )
 
-    // this.participantes.forEach((participante) => {
-    //       this.enviarClientesAsociadosEmpresa(response.codigo, participante.tipoIdentificacion, participante.identificacion, participante.relacion);
-    //       this.mensajeAprobado();
-    // });
 
-
-    // this.clienteService.enviarDatosEmpresa(datosCliente).subscribe(
-    //   (response) => {
-    //     console.log('Datos empresa con exito: ', response);
-    //     this.participantes.forEach((participante) => {
-    //       this.enviarClientesAsociadosEmpresa(response.codigo, participante.tipoIdentificacion, participante.identificacion, participante.relacion);
-    //       this.mensajeAprobado();
-    //     });
-    //   },
-    //   (error) => {
-    //     console.error('Error al enviar empresa:', error);
-    //   }
-    // )
   }
 
 

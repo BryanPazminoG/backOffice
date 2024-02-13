@@ -6,27 +6,28 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CuentaService {
-
-  private getCuentaByClienteApi: string = "http://34.125.120.215:8080/cuenta/obtenerCuentasCliente/";
-  
-  private getCuentaByNumeroApi: string = " http://35.192.152.130:8089/api/v1/cuentas/numero/";
-  
-  private postCuentaSaveApi: string = "http://34.125.120.215:8080/cuenta/save";
-  
-  
-
-
-  private getTipoCuentaAllApi: string = "http://35.192.152.130:8089/api/v1/tiposcuentas"
-  private getTipoCuentaByIdApi: string = "http://35.192.152.130:8089/api/v1/tiposcuentas/"
-  private postCuentaApi: string = "http://35.192.152.130:8089/api/v1/cuentas"
-  private postCuentaParticipantesApi: string = "http://35.192.152.130:8089/api/v1/cuentaintervinientes"
-  
-  private getInterByClienteApi: string = "http://35.192.152.130:8089/api/v1/cuentaintervinientes/clientes/"
-  
-  private getCuentaByIdApi: string = "http://35.192.152.130:8089/api/v1/cuentas/";
-  private getInterByCuentadApi: string = "http://35.192.152.130:8089/api/v1/cuentaintervinientes/cuentas/"
-  
-  private postTransaccionApi: string = "http://35.192.152.130:8089/api/v1/transacciones"
+  //Gateway
+  // private getCuentaByClienteApi: string =        "http://34.176.119.102:9090/api/v1/cuentas/clientes/";
+  // private getCuentaByNumeroApi: string =         "http://34.176.119.102:9090/api/v1/cuentas/numero/";
+  // private postCuentaApi: string =                "http://34.176.119.102:9090/api/v1/cuentas"
+  // private getTipoCuentaAllApi: string =          "http://34.176.119.102:9090/api/v1/tiposcuentas"
+  // private getTipoCuentaByIdApi: string =         "http://34.176.119.102:9090/api/v1/tiposcuentas/"
+  // private postCuentaParticipantesApi: string =    "http://34.176.119.102:9090/api/v1/cuentaintervinientes"
+  // private getInterByClienteApi: string =        "http://34.176.119.102:9090/api/v1/cuentaintervinientes/clientes/"
+  // private getCuentaByIdApi: string =            "http://34.176.119.102:9090/api/v1/cuentas/";
+  // private getInterByCuentadApi: string =        "http://34.176.119.102:9090/api/v1/cuentaintervinientes/cuentas/"
+  // private postTransaccionApi: string =          "http://34.176.119.102:9090/api/v1/transacciones"
+  //Back
+  private getCuentaByClienteApi: string =       "http://34.125.120.215:8080/cuenta/obtenerCuentasCliente/";
+  private getCuentaByNumeroApi: string =        "http://35.192.152.130:8089/api/v1/cuentas/numero/";
+  private postCuentaApi: string =               "http://35.192.152.130:8089/api/v1/cuentas"
+  private getTipoCuentaAllApi: string =         "http://35.192.152.130:8089/api/v1/tiposcuentas"
+  private getTipoCuentaByIdApi: string =        "http://35.192.152.130:8089/api/v1/tiposcuentas/"
+  private postCuentaParticipantesApi: string =  "http://35.192.152.130:8089/api/v1/cuentaintervinientes"
+  private getInterByClienteApi: string =        "http://35.192.152.130:8089/api/v1/cuentaintervinientes/clientes/"
+  private getCuentaByIdApi: string =            "http://35.192.152.130:8089/api/v1/cuentas/";
+  private getInterByCuentadApi: string =        "http://35.192.152.130:8089/api/v1/cuentaintervinientes/cuentas/"
+  private postTransaccionApi: string =          "http://35.192.152.130:8089/api/v1/transacciones"
 
   constructor(private http: HttpClient) { }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SegUsuarioService } from 'src/app/Servicios/seg-usuario.service';
 import { Router } from '@angular/router';
 import { FlujoDatosService } from 'src/app/Servicios/flujo-datos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +35,17 @@ export class LoginComponent implements OnInit{
       (data) => {
         if(data){
           this.flujoDatos.setValidacionLogin(this.credenciales.usuario);
-          this.router.navigate(["/clientes"]);
+          if(data.acceso == "BackOffice"){
+            this.router.navigate(["/clientes"]);
+          } else {
+            Swal.fire({
+              title: 'Error de acceso',
+              text: 'No tiene acceso al BackOffice',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+          
         }else{
           this.accesoValidacion = false;
         }

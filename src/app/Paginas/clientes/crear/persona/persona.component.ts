@@ -31,6 +31,14 @@ export class PersonaComponent {
   direccion: string = '';
   correoElectronico: string = '';
   telefono: string = '';
+  tipoDireccion: string = '';
+  linea1: string = '';
+  linea2: string = '';
+  codigoPostal: string = '';
+  tipoTelefono: string = '';
+  estadoTelefono: string = '';
+  numeroTelefono: string = '';
+
 
   mensajeAprobado() {
     Swal.fire({
@@ -53,18 +61,18 @@ export class PersonaComponent {
       fechaUltimoCambio: null,
       direcciones: [
           {
-              "tipo": "Casa",
-              "linea1": this.direccion,
-              "linea2": "Juan Camacaro",
-              "codigoPostal": "171100",
-              "estado": "ACT"
+              tipo: this.tipoDireccion,
+              linea1: this.linea1,
+              linea2: this.linea2,
+              codigoPostal: this.codigoPostal,
+              estado: "ACT"
           }
       ],
       telefonos: [
           {
-              "tipo": "Personal",
-              "numero": this.telefono,
-              "estado": "ACT"
+              tipo: this.tipoTelefono,
+              numero: this.numeroTelefono,
+              estado: "ACT"
           }
       ]
   }

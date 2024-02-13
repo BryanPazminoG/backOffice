@@ -7,14 +7,24 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CreditoService {
-  private getAllTipoCreApi: string = "http://104.154.60.233:8091/api/v1/tipoCreditos";
-  private getByIdTipoCreApi: string = "http://104.154.60.233:8091/api/v1/tipoCreditos/";
-  private getByIdTasaIntApi: string = "http://104.154.60.233:8091/api/v1/tasainteres/";
-  private getCalculoTasaIntApi: string = "http://104.154.60.233:8091/api/v1/tasainteres/";
-  private getPreTablaPagoApi: string = "http://104.154.60.233:8091/api/v1/pagos/";
-  private postCreditoApi: string = "http://104.154.60.233:8091/api/v1/creditos";
-  private postCredIntApi: string = "http://104.154.60.233:8091/api/v1/intervinientes";
-  private postTablaPagApi: string = "http://104.154.60.233:8091/api/v1/pagos";
+  //Gateway
+  // private getAllTipoCreApi: string =      "http://34.176.119.102:9090/api/v1/tipoCreditos";
+  // private getByIdTipoCreApi: string =     "http://34.176.119.102:9090/api/v1/tipoCreditos/";
+  // private getByIdTasaIntApi: string =     "http://34.176.119.102:9090/api/v1/tasainteres/";
+  // private getCalculoTasaIntApi: string =  "http://34.176.119.102:9090/api/v1/tasainteres/";
+  // private getPreTablaPagoApi: string =    "http://34.176.119.102:9090/api/v1/pagos/";
+  // private postCreditoApi: string =        "http://34.176.119.102:9090/api/v1/creditos";
+  // private postCredIntApi: string =        "http://34.176.119.102:9090/api/v1/intervinientes";
+  // private postTablaPagApi: string =       "http://34.176.119.102:9090/api/v1/pagos";
+  // Back
+  private getAllTipoCreApi: string =      "http://104.154.60.233:8091/api/v1/tipoCreditos";
+  private getByIdTipoCreApi: string =     "http://104.154.60.233:8091/api/v1/tipoCreditos/";
+  private getByIdTasaIntApi: string =     "http://104.154.60.233:8091/api/v1/tasainteres/";
+  private getCalculoTasaIntApi: string =  "http://104.154.60.233:8091/api/v1/tasainteres/";
+  private getPreTablaPagoApi: string =    "http://104.154.60.233:8091/api/v1/pagos/";
+  private postCreditoApi: string =        "http://104.154.60.233:8091/api/v1/creditos";
+  private postCredIntApi: string =        "http://104.154.60.233:8091/api/v1/intervinientes";
+  private postTablaPagApi: string =       "http://104.154.60.233:8091/api/v1/pagos";
 
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
 

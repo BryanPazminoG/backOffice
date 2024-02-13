@@ -37,6 +37,7 @@ export class UsuariosComponent implements OnInit {
       "codPerBan":0
     }
   }
+
   idModulos = {
     "codPersonalBancario": 0,
   }
@@ -103,7 +104,6 @@ export class UsuariosComponent implements OnInit {
     this.servicioRoles.buscarRol().subscribe(
       (data) => {
         if (data) {
-          console.log(data);
           this.rolesUsuario = data;
         }
       },
@@ -114,18 +114,42 @@ export class UsuariosComponent implements OnInit {
 
   }
 
+  
+
   personalBanco() {
+    const codRolSeleccionado = this.accesoPBRol.pk.codRol;
+    const codRolSeleccionadoEntero = typeof codRolSeleccionado === 'string' ? parseInt(codRolSeleccionado) : codRolSeleccionado;
+    const rolesConCodRolSeleccionado = this.rolesUsuario.filter(rol => rol.codRol === codRolSeleccionadoEntero);
+    const nombresRoles = rolesConCodRolSeleccionado.map(rol => rol.nombreRol);
+    
+    
     const fecha = this.fechaActual();
-    this.personalBancario.acceso = "1";
-    this.personalBancario.fechaCreacion = "" + fecha;
+    this.personalBancario.acceso =  String(codRolSeleccionado);
     this.personalBancario.fechaUltimaModificacion = "" + fecha;
-    console.log(this.personalBancario);
-    this.servicioRoles.crearPersonalBancario(this.personalBancario).subscribe(
+    const nombreRol = nombresRoles.length > 0 ? nombresRoles[0] : null;
+    
+    const nombres = this.accesoPBRol.nombre;
+    
+    const datosUsuario = {
+      usuario: this.personalBancario.usuario,
+      clave: this.personalBancario.clave,
+      acceso: nombreRol,
+      fechaCreacion: "" + fecha,
+      fechaUltimaModificacion: "" + fecha
+    }
+
+    this.servicioRoles.crearPersonalBancario(datosUsuario).subscribe(
       (data) => {
         if (data) {
-          this.accesoPBRol.pk.codPerBan = data.codPersonalBancario;
-          this.personalBancario = data;
-          this.accesoPB();
+          const relacionPersonalRol = {
+            codRol: codRolSeleccionado,
+            codPerBan: data.codPersonalBancario,
+            nombre: nombres,
+            estado: "ACT",
+            intentosError: 0,
+            fechaUltimaModificacion: "" + fecha
+          }
+          this.accesoPB(relacionPersonalRol);
         }
       },
       (error) => {
@@ -134,18 +158,12 @@ export class UsuariosComponent implements OnInit {
     );
   }
 
-  accesoPB() {
-    const fecha = this.fechaActual();
-    this.accesoPBRol.estado = "ACT";
-    this.accesoPBRol.fechaCreacion = ""+fecha;
-    this.accesoPBRol.fechaUltimaModificacion=""+fecha;
-    console.log(this.accesoPBRol);
-    this.servicioRoles.crearAccesoPB(this.accesoPBRol).subscribe(
+  accesoPB(datosAcceso: any) {
+    this.servicioRoles.crearAccesoPB(datosAcceso).subscribe(
       (data) => {
-        if (data) {
+        if (data == null) {
           this.mensajeAprobado();
           this.resetDatos();
-          
         }
       },
       (error) => {

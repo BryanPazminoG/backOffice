@@ -8,28 +8,27 @@ import { FlujoDatosService } from './flujo-datos.service';
 })
 export class SegUsuarioService {
 
-  private loginUsuarioApi: string = "http://34.173.172.59:80932/user/";
   
+  // Localhost
+  private accesoUsuario: string =   "http://34.173.172.59:8093/api/v1/empleados/sesiones";
+  private crearPersonal: string =   "http://34.173.172.59:8093/api/v1/empleados";
+  private buscarRoles: string =     "http://34.173.172.59:8093/api/v1/roles";
+  private accesoP: string =         "http://34.173.172.59:8093/api/v1/accesos";
 
-  private buscarRoles: string = "http://34.173.172.59:80932/rol/buscar-todos/";
-  private personal: string = "http://34.173.172.59:80932/personal-bancario/create";
-  private accesoP: string = "http://34.173.172.59:80932/accesoPbRol/createAcceso";
-  private accesoUsuario: string = "http://34.173.172.59:8093/api/v1/empleados/sesiones";
-
+  // Gateway
+  // private accesoUsuario: string =   "http://34.176.119.102:9090/api/v1/empleados/sesiones";
+  // private crearPersonal: string =   "http://34.176.119.102:9090/api/v1/empleados";
+  // private buscarRoles: string =     "http://34.176.119.102:9090/api/v1/roles";
+  // private accesoP: string =         "http://34.176.119.102:9090/api/v1/accesos";
 
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
-
-  loguearUsuarioAPI(usuario: string, clave: string): Observable<any> {
-    let params = new HttpParams().set('usuario', usuario).set('clave', clave);
-    return this.http.get<any>(this.loginUsuarioApi, { params: params });
-  }
 
   buscarRol(): Observable<any> {
     return this.http.get<any>(this.buscarRoles);
   }
 
   crearPersonalBancario(Datos: any): Observable<any> {
-    return this.http.post<any>(this.personal, Datos);
+    return this.http.post<any>(this.crearPersonal, Datos);
   }
 
   crearAccesoPB(accPB: any): Observable<any> {

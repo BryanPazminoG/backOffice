@@ -118,6 +118,7 @@ export class ConsultaCuentaComponent implements OnInit {
       );
     }
   }
+  
   getClienteByCuenta() {
     console.log(this.cuentaIdentificacion.codCuenta);
     if(this.cuentaIdentificacion.codCuenta > 0){
@@ -145,6 +146,7 @@ export class ConsultaCuentaComponent implements OnInit {
       );
     }
   }
+
   restDatosUsuario() {
     this.clienteIdentificacion.idCliente = '';
     this.clienteIdentificacion.nombres = '';

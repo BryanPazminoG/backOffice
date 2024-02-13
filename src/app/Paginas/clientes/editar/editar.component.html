@@ -28,10 +28,25 @@
                                 <input type="text" class="form-control my-2" placeholder="Apellidos" [value]="datosCliente?.apellidos" disabled>
                                 <input type="text" class="form-control my-2" placeholder="Nombres" [value]="datosCliente?.nombres" disabled>
                                 
-                                <input type="date" class="form-control my-2" placeholder="Fecha Nacimineto" name="fechaNacimiento" [(ngModel)]="datosCliente.fechaNacimiento">
-                                <input type="text" class="form-control my-2" placeholder="Direccion" name="direccion" [(ngModel)]="datosCliente.direccion">
+                                <input type="date" class="form-control my-2" placeholder="Fecha Nacimineto" name="fechaNacimiento" [(ngModel)]="formattedDate">
+                                
+                                <div class="row">
+                                    <div class="col-3"><input type="text" class="form-control my-2" placeholder="Tipo Direccion" name="tipoDireccion" [(ngModel)]="datosCliente.direcciones[0].tipo"></div>
+                                    <div class="col-3"><input type="text" class="form-control my-2" placeholder="Linea 1" name="linea1" [(ngModel)]="datosCliente.direcciones[0].linea1"></div>
+                                    <div class="col-3"><input type="text" class="form-control my-2" placeholder="Linea 2" name="linea2" [(ngModel)]="datosCliente.direcciones[0].linea2"></div>
+                                    <div class="col-3"><input type="text" class="form-control my-2" placeholder="Código Postal" name="codigoPostal" [(ngModel)]="datosCliente.direcciones[0].codigoPostal"></div>
+                                    <div class="col-3"><input type="text" class="form-control my-2" placeholder="Estado" name="estadoDireccion" [(ngModel)]="datosCliente.direcciones[0].estado"></div>
+                                </div>
+
+                                
+
                                 <input type="text" class="form-control my-2" placeholder="Correo Electronico" name="correoElectronico" [(ngModel)]="datosCliente.correoElectronico">
-                                <input type="text" class="form-control my-2" placeholder="Telefono" name="telefono" [(ngModel)]="datosCliente.telefono">
+
+                                <div class="row">
+                                    <div class="col-4"><input type="text" class="form-control my-2" placeholder="Tipo Telefono" name="tipoTelefono" [(ngModel)]="datosCliente.telefonos[0].tipo"></div>
+                                    <div class="col-4"><input type="text" class="form-control my-2" placeholder="Numero" name="numeroTelefono" [(ngModel)]="datosCliente.telefonos[0].numero"></div>
+                                </div>
+                                
                             </div>
                         </form>
                         <div class="px-4 mt-3">
