@@ -8,21 +8,18 @@ import { Observable } from 'rxjs';
 
 export class ClienteService {
   //Gateway
-  // private crearClientePersonaApi =       "http://34.176.119.102:9090/api/v1/clientes";
-  // private crearClienteEmpresaApi =       "http://34.176.119.102:9090/api/v1/empresas";
-  // private buscarClienteApi =             "http://34.176.119.102:9090/api/v1/clientes/";
-  // private actualizarClientePersonaApi =  "http://34.176.119.102:9090/api/v1/clientes";
-  // private clienteByIdApi =               'http://34.176.119.102:9090/api/v1/clientes/';
+  private crearClientePersonaApi =       "http://34.176.119.102:9090/api/v1/clientes";
+  private crearClienteEmpresaApi =       "http://34.176.119.102:9090/api/v1/empresas";
+  private buscarClienteApi =             "http://34.176.119.102:9090/api/v1/clientes/";
+  private actualizarClientePersonaApi =  "http://34.176.119.102:9090/api/v1/clientes";
+  private clienteByIdApi =               'http://34.176.119.102:9090/api/v1/clientes/';
 
   //Back
-  private crearClientePersonaApi =      "http://35.192.130.249:8081/api/v1/clientes";
-  private crearClienteEmpresaApi =      "http://35.192.130.249:8081/api/v1/empresas";
-  private buscarClienteApi =            "http://35.192.130.249:8081/api/v1/clientes/";
-  private actualizarClientePersonaApi = "http://35.192.130.249:8081/api/v1/clientes";
-  private clienteByIdApi =              'http://35.192.130.249:8081/api/v1/clientes/';
-
-  
-
+  // private crearClientePersonaApi =      "http://35.192.130.249:8081/api/v1/clientes";
+  // private crearClienteEmpresaApi =      "http://35.192.130.249:8081/api/v1/empresas";
+  // private buscarClienteApi =            "http://35.192.130.249:8081/api/v1/clientes/";
+  // private actualizarClientePersonaApi = "http://35.192.130.249:8081/api/v1/clientes";
+  // private clienteByIdApi =              'http://35.192.130.249:8081/api/v1/clientes/';
 
   constructor(private http: HttpClient) { }
 
