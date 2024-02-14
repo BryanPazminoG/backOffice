@@ -107,16 +107,12 @@ export class TablaAmortizacionComponent implements OnInit {
       timer: 2500
     }).then((result) => {
       if (result.dismiss === Swal.DismissReason.timer) {
-        //this.router.navigate(["creditos"]);
+        this.router.navigate(["creditos"]);
       }
     });
 
-    /******************************************************/
-
-    //var numeroOperacion = Math.floor(Math.random() * 100000000).toString().padStart(8, '0');
-
     let transaccionCredito = {
-      "codCuentaOrigen": 59,
+      "codCuentaOrigen": 1,
       "codCuentaDestino": this.participePrincipal.codCuenta,
       "codUnico": this.generarCadenaAlfanumerica(64),
       "tipoAfectacion": "C",
