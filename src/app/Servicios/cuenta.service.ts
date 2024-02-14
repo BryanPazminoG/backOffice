@@ -16,7 +16,7 @@ export class CuentaService {
   // private getInterByClienteApi: string =        "http://34.176.119.102:9090/api/v1/cuentaintervinientes/clientes/"
   // private getCuentaByIdApi: string =            "http://34.176.119.102:9090/api/v1/cuentas/";
   // private getInterByCuentadApi: string =        "http://34.176.119.102:9090/api/v1/cuentaintervinientes/cuentas/"
-  // private postTransaccionApi: string =          "http://34.176.119.102:9090/api/v1/transacciones"
+  // private postTransaccionApi: string =          "http://34.176.119.102:9090/api/v1/transacciones/transferencias"
   //Back
   private getCuentaByClienteApi: string =       "http://34.125.120.215:8080/cuenta/obtenerCuentasCliente/";
   private getCuentaByNumeroApi: string =        "http://35.192.152.130:8089/api/v1/cuentas/numero/";
@@ -27,7 +27,7 @@ export class CuentaService {
   private getInterByClienteApi: string =        "http://35.192.152.130:8089/api/v1/cuentaintervinientes/clientes/"
   private getCuentaByIdApi: string =            "http://35.192.152.130:8089/api/v1/cuentas/";
   private getInterByCuentadApi: string =        "http://35.192.152.130:8089/api/v1/cuentaintervinientes/cuentas/"
-  private postTransaccionApi: string =          "http://35.192.152.130:8089/api/v1/transacciones"
+  private postTransaccionApi: string =          "http://35.192.152.130:8089/api/v1/transacciones/transferencias"
 
   constructor(private http: HttpClient) { }
 
@@ -59,6 +59,6 @@ export class CuentaService {
     return this.http.get<any>(this.getInterByClienteApi + id);
   }
   postTransaccionAPI(registroTransaccion: any): Observable<any> {
-    return this.http.post<any>(this.postTransaccionApi, registroTransaccion);
+    return this.http.put<any>(this.postTransaccionApi, registroTransaccion);
   }
 }
