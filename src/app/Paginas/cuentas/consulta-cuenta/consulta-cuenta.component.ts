@@ -10,7 +10,7 @@ import { CuentaService } from 'src/app/Servicios/cuenta.service';
 })
 export class ConsultaCuentaComponent implements OnInit {
   clienteIdentificacion = {
-    'idCliente': "",
+    'codCliente': "",
     'tipoIdentificacion': '',
     'numeroIdentificacion': '',
     'apellidos': '', 
@@ -92,8 +92,8 @@ export class ConsultaCuentaComponent implements OnInit {
     }
   }
   getCuentaByClienteAPI() {
-    if (this.clienteIdentificacion.idCliente) {
-      this.serviceCuenta.getInterByClienteAPI(this.clienteIdentificacion.idCliente).subscribe(
+    if (this.clienteIdentificacion.codCliente) {
+      this.serviceCuenta.getInterByClienteAPI(this.clienteIdentificacion.codCliente).subscribe(
         (data) => {
           if (data) {
             this.listaIntervinientes = data;
@@ -125,24 +125,19 @@ export class ConsultaCuentaComponent implements OnInit {
         (data) => {
           if (data) {
             this.listaIntervinientes = data;
-            /****************  BORRRAR ESTO *************/
-            this.listacliente.push(
-              { 'apellidos': 'rICKY', 'nombres': 'GARCIA', 'razonSocial': 'ESPE',  'correoElectronico': 'KIKI' }
-            );
-            /*********** DESCOMENTAR ESTO ************************/
             
-            // this.listaIntervinientes.forEach((interviniente) => {
-            //   this.serviceCliente.getClienteByIdAPI(interviniente.codCliente).subscribe(
-            //     (data) => {
-            //       if(data){
-            //         this.listacliente.push(data);
-            //       }
-            //     },
-            //     (error) => {
-            //       console.error('Error al hacer la solicitud:', error);
-            //     }
-            //   );
-            // });
+            this.listaIntervinientes.forEach((interviniente) => {
+              this.serviceCliente.getClienteByIdAPI(interviniente.codCliente).subscribe(
+                (data) => {
+                  if(data){
+                    this.listacliente.push(data);
+                  }
+                },
+                (error) => {
+                  console.error('Error al hacer la solicitud:', error);
+                }
+              );
+            });
           }
         },
         (error) => {
@@ -153,7 +148,7 @@ export class ConsultaCuentaComponent implements OnInit {
   }
 
   restDatosUsuario() {
-    this.clienteIdentificacion.idCliente = '';
+    this.clienteIdentificacion.codCliente = '';
     this.clienteIdentificacion.nombres = '';
     this.clienteIdentificacion.razonSocial = '';
     this.clienteIdentificacion.correoElectronico = '';

@@ -89,32 +89,18 @@ export class TablaAmortizacionComponent implements OnInit {
     // }
 
     let transaccionCreditoOrigen = {
-      "codCuentaOrigen": 1,
-      "codCuentaDestino": this.participePrincipal.codCuenta,
+      "codCuenta": this.participePrincipal.codCuenta,
       "valorDebe": this.credito.monto,
-      "valorHaber": 0,
-      "tipoTransaccion": "TEN",
-      "detalle": "PRESTAMO BANQUITO " + new Date(),
-      "fechaCreacion": new Date(),
-    }
-    let transaccionCreditoDestino = {
-      "codCuentaOrigen": this.participePrincipal.codCuenta,
-      "codCuentaDestino": 1,
-      "valorDebe": 0,
-      "valorHaber": this.credito.monto,
-      "tipoTransaccion": "TEN",
-      "detalle": "PRESTAMO BANQUITO " + new Date(),
-      "fechaCreacion": new Date(),
+      "canal": "BOF"
     }
 
-
-    // this.cuentaService.postTransaccionAPI(transaccionCreditoOrigen).subscribe(
-    //   (data) => {
+    this.cuentaService.postTransaccionAPI(transaccionCreditoOrigen).subscribe(
+      (data) => {
     //     this.cuentaService.postTransaccionAPI(transaccionCreditoDestino).subscribe(
     //       (data) => {
             let registroCredito = {
               "codTipoCredito": this.credito.codTipoCredito,
-              "codTransaccion": "asd",
+              "codTransaccion": "1568Sasdw1854",
               "codCliente": this.participePrincipal.numero_identificacion,
               "numeroCuenta": this.participePrincipal.numeroCuenta,
               "monto": this.credito.monto,
@@ -188,6 +174,8 @@ export class TablaAmortizacionComponent implements OnInit {
                 console.error('Error al hacer la solicitud:', error);
               }
             );
+          }
+        );
   }
   generarCadenaAlfanumerica(longitud: number) {
     const caracteres = "0123456789abcdefABCDEF";
@@ -203,7 +191,7 @@ export class TablaAmortizacionComponent implements OnInit {
     Swal.fire({
       icon: "success",
       title: "Listo",
-      text: "El credito se ha creado satisfactoriamente",
+      text: "Tabla de amortizacion impresa",
       showConfirmButton: false,
       timer: 2500
     }).then((result) => {

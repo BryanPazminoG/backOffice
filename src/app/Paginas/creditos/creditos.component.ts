@@ -139,7 +139,7 @@ export class CreditosComponent implements OnInit {
         this.identPValidacion = true;
         if (data) {
           this.participePrincipal = {
-            'codCliente': data.idCliente,
+            'codCliente': data.codCliente,
             'codCuenta': 0,
             'numeroCuenta': '',
             'tipo_identificacion': data.tipoIdentificacion,
@@ -176,7 +176,7 @@ export class CreditosComponent implements OnInit {
         this.identSFirst = false;
         this.identSValidacion = true;
         if (data) {
-          this.participantes['codCliente'] = data.idCliente;
+          this.participantes['codCliente'] = data.codCliente;
           this.participantes['tipo_identificacion'] = data.tipoIdentificacion;
           this.participantes['numero_identificacion'] = data.numeroIdentificacion;
           this.participantes['apellidos'] = data.apellidos;
@@ -304,6 +304,7 @@ export class CreditosComponent implements OnInit {
       (data) => {
         if (data) {
           this.listaTipoCredito = data;
+          this.listaTipoCredito.pop();
         }
       },
       (error) => {
@@ -452,30 +453,17 @@ export class CreditosComponent implements OnInit {
     this.listaIntervinientes.pop();
   }
   continuar() {
-    //*********************************** CAMBIAR ESTO A TRUE
-    if (this.participePrincipal.apellidos != "" && this.credito.monto > 0 && this.credito.plazo > 0 && this.participePrincipal.numeroCuenta != "" || true) {
+
+    if (this.participePrincipal.apellidos != "" && this.credito.monto > 0 && this.credito.plazo > 0 && this.participePrincipal.numeroCuenta != "") {
       this.credito.codTipoCredito = this.tipoCredito.codTipoCredito;
-      // this.credito.codCliente = this.participePrincipal.cod_cliente;
-      this.credito.codCliente = "this.participePrincipal.cod_cliente";
+      this.credito.codCliente = this.participePrincipal.codCliente;
       this.credito.fechaCreacion = this.fechaActual();
 
-      // const cuenta = this.cuentasClienteP.find(objeto => objeto.numeroCuenta === this.participePrincipal.numeroCuenta);
-      // if(cuenta){
-      //   this.participePrincipal.codCuenta = cuenta.codCuenta;
-      // }
-      this.participePrincipal = {
-        'codCliente': 'asdasd',
-        'codCuenta': 2,
-        'numeroCuenta': '1568123',
-        'tipo_identificacion': 'CED',
-        'numero_identificacion': '1726183278',
-        'apellidos': 'GARCIA',
-        'nombres': 'RICKY',
-        'razonSocial': 'ESPE',
-        'direccion': 'SANGOLQUI',
-        'telefono': '0979678308',
-        'correo_electronico': 'ragarcia',
-      };
+      const cuenta = this.cuentasClienteP.find(objeto => objeto.numeroCuenta === this.participePrincipal.numeroCuenta);
+      if(cuenta){
+        this.participePrincipal.codCuenta = cuenta.codCuenta;
+      }
+
       this.flujoDatosService.setParticipePrincipal(this.participePrincipal);
       this.participeSecundario.splice(0, 1);
       this.flujoDatosService.setParticipeSecundario(this.participeSecundario);

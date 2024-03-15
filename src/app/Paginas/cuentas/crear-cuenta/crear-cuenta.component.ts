@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class CrearCuentaComponent implements OnInit {
   clienteIdentificacion = {
-    'idCliente': "",
+    'codCliente': "",
     'tipoIdentificacion': '',
     'numeroIdentificacion': '',
     'apellidos': '',
@@ -20,7 +20,7 @@ export class CrearCuentaComponent implements OnInit {
     'razonSocial': '',
   };
   cliente = [{
-    'idCliente': "",
+    'codCliente': "",
     'tipoIdentificacion': '',
     'numeroIdentificacion': '',
     'apellidos': '',
@@ -160,7 +160,7 @@ export class CrearCuentaComponent implements OnInit {
         tableBody.appendChild(row);
 
         this.clienteIdentificacion = {
-          'idCliente': '',
+          'codCliente': '',
           'tipoIdentificacion': '',
           'numeroIdentificacion': '',
           'apellidos': '',
@@ -199,7 +199,7 @@ export class CrearCuentaComponent implements OnInit {
 
   restDatosClientes() {
     this.identValidacion = true;
-    this.clienteIdentificacion.idCliente = '';
+    this.clienteIdentificacion.codCliente = '';
     this.clienteIdentificacion.apellidos = '';
     this.clienteIdentificacion.nombres = '';
     this.clienteIdentificacion.razonSocial = '';
@@ -215,23 +215,14 @@ export class CrearCuentaComponent implements OnInit {
     return fechaFormateada;
   }
   crearCuenta() {
-    if (this.cliente.length > 0 && this.tipoCuenta.codTipoCuenta != "" || true) { //CAMBIAR ESTO ****************
+    console.log(this.cliente);
+    if (this.cliente.length > 0 && this.tipoCuenta.codTipoCuenta != "") {
       let nuevaCuenta = 
       {
         "codTipoCuenta": this.tipoCuenta.codTipoCuenta,
-        "codCliente": "this.cliente[0].idCliente", ///CODIGO DEL CLIENTE HAY QUE CAMBIAR ***********************
+        "codCliente": this.cliente[0].codCliente,
         "montoMaximoRetiro": 3000,
       }
-
-      /*************Borrar esto******************/
-      this.cliente.push({
-        'idCliente': "this.cliente[0].idCliente",
-        'tipoIdentificacion': 'asd',
-        'numeroIdentificacion': 'asd',
-        'apellidos': 'asd',
-        'nombres': 'asd',
-        'razonSocial': 'asd',
-      });
 
       this.serviceCuenta.postCuentaAPI(nuevaCuenta).subscribe(
         (data) => {
@@ -241,7 +232,7 @@ export class CrearCuentaComponent implements OnInit {
               let cuentaIntervinientes = 
               {
                 "codCuenta": data.codCuenta,
-                "codCliente": "this.cliente[0].idCliente", /***********************BORRAR ESTO ****************/
+                "codCliente": this.cliente[0].codCliente,
                 "tipoInterviniente": tipoInterviniente,
                 "estado": "ACT"
               } 

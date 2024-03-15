@@ -17,12 +17,12 @@ export class CreditoService {
   // private postCredIntApi: string =        "http://34.176.119.102:9090/api/v1/intervinientes";
   // private postTablaPagApi: string =       "http://34.176.119.102:9090/api/v1/pagos";
   // Back
-  private getAllTipoCreApi: string =      "http://localhost:8081/api/v1/tipoCreditos";
-  private getByIdTipoCreApi: string =     "http://localhost:8081/api/v1/tipoCreditos/";
-  private getByIdTasaIntApi: string =     "http://localhost:8081/api/v1/tasaInteres/";
-  private postCreditoApi: string =        "http://localhost:8081/api/v1/creditos";
-  private postCredIntApi: string =        "http://localhost:8081/api/v1/intervinientes";
-  private postTablaPagApi: string =       "http://localhost:8081/api/v1/tablaAmortizacion";
+  private getAllTipoCreApi: string =      "http://34.72.172.227:8080/api/v1/tipoCreditos";
+  private getByIdTipoCreApi: string =     "http://34.72.172.227:8080/api/v1/tipoCreditos/";
+  private getByIdTasaIntApi: string =     "http://34.72.172.227:8080/api/v1/tasaInteres/";
+  private postCreditoApi: string =        "http://34.72.172.227:8080/api/v1/creditos";
+  private postCredIntApi: string =        "http://34.72.172.227:8080/api/v1/intervinientes";
+  private postTablaPagApi: string =       "http://34.72.172.227:8080/api/v1/tablaAmortizacion";
 
   constructor(private http: HttpClient, private flujoDatosService: FlujoDatosService) { }
 
