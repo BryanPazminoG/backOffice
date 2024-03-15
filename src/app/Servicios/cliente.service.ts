@@ -8,18 +8,18 @@ import { Observable } from 'rxjs';
 
 export class ClienteService {
   //Local
-  private crearClientePersonaApi =       "http://localhost:8080/api/v1/clientes/naturales";
-  private crearClienteEmpresaApi =       "http://localhost:8080/api/v1/clientes/empresas";
-  private buscarClienteApi =             "http://localhost:8080/api/v1/clientes/naturales/";
-  private actualizarClientePersonaApi =  "http://localhost:8080/api/v1/clientes/naturales";
-  private clienteByIdApi =               'http://localhost:8080/api/v1/clientes/naturales/';
+  // private crearClientePersonaApi =       "http://localhost:8080/api/v1/clientes/naturales";
+  // private crearClienteEmpresaApi =       "http://localhost:8080/api/v1/clientes/empresas";
+  // private buscarClienteApi =             "http://localhost:8080/api/v1/clientes/naturales/";
+  // private actualizarClientePersonaApi =  "http://localhost:8080/api/v1/clientes/naturales";
+  // private clienteByIdApi =               'http://localhost:8080/api/v1/clientes/naturales/';
 
   //Back
-  // private crearClientePersonaApi =      "http://35.192.130.249:8081/api/v1/clientes";
-  // private crearClienteEmpresaApi =      "http://35.192.130.249:8081/api/v1/empresas";
-  // private buscarClienteApi =            "http://35.192.130.249:8081/api/v1/clientes/";
-  // private actualizarClientePersonaApi = "http://35.192.130.249:8081/api/v1/clientes";
-  // private clienteByIdApi =              'http://35.192.130.249:8081/api/v1/clientes/';
+  private crearClientePersonaApi =       "http://34.123.168.16:8080/api/v1/clientes/naturales";
+  private crearClienteEmpresaApi =       "http://34.123.168.16:8080/api/v1/clientes/empresas";
+  private buscarClienteApi =             "http://34.123.168.16:8080/api/v1/clientes/naturales/";
+  private actualizarClientePersonaApi =  "http://34.123.168.16:8080/api/v1/clientes/naturales";
+  private clienteByIdApi =               'http://34.123.168.16:8080/api/v1/clientes/naturales/';
 
   
 
