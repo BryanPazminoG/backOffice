@@ -13,7 +13,8 @@ export class LoginComponent implements OnInit{
 
   credenciales = {
     "usuario": "",
-    "clave": ""
+    "clave": "",
+    "tipo" : "BackOffice"
   }
   primeraVisita = true;
   accesoValidacion = false;
@@ -35,18 +36,16 @@ export class LoginComponent implements OnInit{
       (data) => {
         if(data){
           this.flujoDatos.setValidacionLogin(this.credenciales.usuario);
-          if(data.acceso == "BackOffice"){
-            this.router.navigate(["/clientes"]);
-          } else {
-            Swal.fire({
-              title: 'Error de acceso',
-              text: 'No tiene acceso al BackOffice',
-              icon: 'error',
-              confirmButtonText: 'Aceptar'
-            });
-          }
-          
+          this.router.navigate(["/clientes"]);
+
+
         }else{
+          Swal.fire({
+            title: 'Error de acceso',
+            text: 'No tiene acceso al BackOffice',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          });
           this.accesoValidacion = false;
         }
 
