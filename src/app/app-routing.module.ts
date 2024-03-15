@@ -18,25 +18,42 @@ import { ConsultaCuentaComponent } from './Paginas/cuentas/consulta-cuenta/consu
 import { CrearCuentaComponent } from './Paginas/cuentas/crear-cuenta/crear-cuenta.component';
 import { loginGuard } from './Guards/login.guard';
 
+// const routes: Routes = [
+//   { path:'' , component: LoginComponent },
+//   { path:'login' , component: LoginComponent },
+//   { path:'usuarios' , component : UsuariosComponent, canActivate: [loginGuard]},
+//   { path:'clientes', component: ClientesComponent, canActivate: [loginGuard]},
+//   { path: 'clientes/crear', component: CrearComponent, canActivate: [loginGuard] }, 
+//   { path: 'clientes/crear/persona', component: PersonaComponent, canActivate: [loginGuard] }, 
+//   { path: 'clientes/crear/empresa', component: EmpresaComponent, canActivate: [loginGuard] }, 
+//   { path: 'clientes/consultas', component: ConsultaComponent, canActivate: [loginGuard] }, 
+//   { path: 'clientes/editar', component: EditarComponent, canActivate: [loginGuard] }, 
+//   { path: 'clientes/estado', component: EstadoComponent, canActivate: [loginGuard] },
+//   { path:'cuentas', component: CuentasComponent, canActivate: [loginGuard]}, 
+//   { path: 'cuentas/consultas', component: ConsultaCuentaComponent, canActivate: [loginGuard] }, 
+//   { path: 'cuentas/crear', component: CrearCuentaComponent, canActivate: [loginGuard] }, 
+//   { path:'creditos', component: CreditosComponent, canActivate: [loginGuard]}, 
+//   { path:'creditos/amortizacion', component: TablaAmortizacionComponent}, 
+//   { path: '**', redirectTo: '' }
+// ];
+
 const routes: Routes = [
   { path:'' , component: LoginComponent },
   { path:'login' , component: LoginComponent },
-  { path:'usuarios' , component : UsuariosComponent, canActivate: [loginGuard]},
-  { path:'clientes', component: ClientesComponent, canActivate: [loginGuard]},
-  { path: 'clientes/crear', component: CrearComponent, canActivate: [loginGuard] }, 
-  { path: 'clientes/crear/persona', component: PersonaComponent, canActivate: [loginGuard] }, 
-  { path: 'clientes/crear/empresa', component: EmpresaComponent, canActivate: [loginGuard] }, 
-  { path: 'clientes/consultas', component: ConsultaComponent, canActivate: [loginGuard] }, 
-  { path: 'clientes/editar', component: EditarComponent, canActivate: [loginGuard] }, 
-  { path: 'clientes/estado', component: EstadoComponent, canActivate: [loginGuard] },
-  { path:'cuentas', component: CuentasComponent, canActivate: [loginGuard]}, 
-  { path: 'cuentas/consultas', component: ConsultaCuentaComponent, canActivate: [loginGuard] }, 
-  { path: 'cuentas/crear', component: CrearCuentaComponent, canActivate: [loginGuard] }, 
-  { path:'creditos', component: CreditosComponent, canActivate: [loginGuard]}, 
+  { path:'usuarios' , component : UsuariosComponent, },
+  { path:'clientes', component: ClientesComponent, },
+  { path: 'clientes/crear', component: CrearComponent,  }, 
+  { path: 'clientes/crear/persona', component: PersonaComponent,  }, 
+  { path: 'clientes/crear/empresa', component: EmpresaComponent,  }, 
+  { path: 'clientes/consultas', component: ConsultaComponent,  }, 
+  { path: 'clientes/editar', component: EditarComponent,  }, 
+  { path: 'clientes/estado', component: EstadoComponent,  },
+  { path:'cuentas', component: CuentasComponent, }, 
+  { path: 'cuentas/consultas', component: ConsultaCuentaComponent,  }, 
+  { path: 'cuentas/crear', component: CrearCuentaComponent,  }, 
+  { path:'creditos', component: CreditosComponent, }, 
   { path:'creditos/amortizacion', component: TablaAmortizacionComponent}, 
   { path: '**', redirectTo: '' }
-
-
 ];
 
 @NgModule({

@@ -30,6 +30,8 @@ export class EmpresaComponent {
     this.tipoCliente = this.flujoDatosService.getDatos();
   }
 
+  
+
   //usuario: string = 'BryanP98';
   identificacion: string = '';
   fechaConstitucion: Date | null = null;
@@ -61,7 +63,7 @@ export class EmpresaComponent {
       estado: 'ACT',
       fechaUltimoCambio: new Date().toISOString(),
       nombres: this.clienteEncontrado.apellidos + ' ' + this.clienteEncontrado.nombres,
-      idCliente: this.clienteEncontrado.idCliente
+      idCliente: this.clienteEncontrado.codCliente
     };
 
     console.log(nuevoParticipante);
@@ -85,7 +87,7 @@ export class EmpresaComponent {
 
     const listaDeParticipantes = this.participantes.map((participante) => {
         return {
-            idCliente: participante.idCliente,
+            codCliente: participante.idCliente,
             tipoRelacion: participante.tipoRelacion,
             fechaInicio: participante.fechaInicio,
             fechaFin: participante.fechaFin,
@@ -96,6 +98,7 @@ export class EmpresaComponent {
 
 
     const datosCliente = {
+      tipoIdentificacion: "RUC",
       numeroIdentificacion: this.identificacion,
       fechaConstitucion: this.fechaConstitucion,      
       razonSocial: this.razonSocial,
@@ -105,7 +108,8 @@ export class EmpresaComponent {
             tipo: this.tipoDireccion, // Usa el valor seleccionado en el campo tipoDireccion
             linea1: this.linea1,
             linea2: this.linea2,
-            codigoPostal: this.codigoPostal
+            codigoPostal: this.codigoPostal,
+            estado: "ACT"
         }
       ,
       telefono: this.telefono,
@@ -113,9 +117,12 @@ export class EmpresaComponent {
       miembros: listaDeParticipantes
     };
 
+    console.log(datosCliente);
+
     this.clienteService.enviarDatosEmpresa(datosCliente).subscribe(
       (response) => {
         console.log('Datos empresa con exito: ', response);
+        this.mensajeAprobado();
       },
       (error) => {
         console.error('Error al enviar empresa:', error);
@@ -142,7 +149,7 @@ export class EmpresaComponent {
   mensajeAprobado() {
     Swal.fire({
       title: 'Creación Exitosa',
-      text: 'Se ha creado exitosamente el usuario: '+this.nombreComercial,
+      text: 'Se ha creado exitosamente la empresa: '+this.nombreComercial,
       icon: 'success',
       confirmButtonText: 'Aceptar'
     })

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FlujoDatosService } from '../../../Servicios/flujo-datos.service';
 import { ClienteService } from '../../../Servicios/cliente.service';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-editar',
@@ -14,13 +15,13 @@ export class EditarComponent {
 
   constructor(
     private flujoDatosService: FlujoDatosService,
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private router: Router 
   ) {}
 
   ngOnInit() {
     this.datosCliente = this.flujoDatosService.getDatos(); // Obtener datos del servicio
     console.log('Datos del cliente:', this.datosCliente);
-    // Formatear la fecha
     this.formattedDate = this.formatDate(this.datosCliente.fechaNacimiento);
   }
 
@@ -41,8 +42,8 @@ export class EditarComponent {
 
   actualizarDatosCliente() {
     const datosActualizados = {
-      // Construye un objeto con los datos actualizados que deseas enviar al servidor
-      idCliente: this.datosCliente.idCliente,
+      idCliente: this.datosCliente.id,
+      codCliente: this.datosCliente.codCliente,
       tipoCliente: this.datosCliente.tipoCliente,
       tipoIdentificacion: this.datosCliente.tipoIdentificacion,
       numeroIdentificacion: this.datosCliente.numeroIdentificacion,
@@ -50,14 +51,13 @@ export class EditarComponent {
       nombres: this.datosCliente.nombres,
       version: this.datosCliente.version,
 
-      // Actualizables
       fechaNacimiento: this.formattedDate,
       direcciones: [{
         tipo: this.datosCliente.direcciones[0].tipo,
         linea1: this.datosCliente.direcciones[0].linea1,
         linea2: this.datosCliente.direcciones[0].linea2,
         estado: this.datosCliente.direcciones[0].estado,
-        codigo_postal: this.datosCliente.direcciones[0].codigoPostal
+        codigoPostal: this.datosCliente.direcciones[0].codigoPostal
       }],
       correoElectronico: this.datosCliente.correoElectronico,
       telefonos: [{
@@ -67,11 +67,15 @@ export class EditarComponent {
       }],
       fechaModificacion: new Date(),
     };
+
+    console.log(datosActualizados);
+
     this.clienteService.actualizarCliente(datosActualizados)
       .subscribe(
         (response) => {
           console.log('Cliente actualizado:', response);
           this.mensajeAprobado();
+          this.router.navigate(['/clientes']);
           // Realizar acciones adicionales si es necesario
         },
         (error) => {

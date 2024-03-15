@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FlujoDatosService } from '../../../../Servicios/flujo-datos.service';
 import { ClienteService } from '../../../../Servicios/cliente.service';
 import Swal from 'sweetalert2'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-persona',
@@ -13,7 +14,8 @@ import Swal from 'sweetalert2'
 export class PersonaComponent {
   constructor(
     private flujoDatosService: FlujoDatosService,
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private router: Router 
   ) {}
 
   tipoPersona: String = "";
@@ -51,6 +53,7 @@ export class PersonaComponent {
 
   enviarDatosCliente(): void {
 
+    
     const datosCliente = {
       tipoIdentificacion: this.selectedValue,
       numeroIdentificacion: this.identificacion,
@@ -82,6 +85,7 @@ export class PersonaComponent {
       (respuesta) => {
         console.log('Datos enviados con éxito:', respuesta);
         this.mensajeAprobado();
+        this.router.navigate(['/clientes']);
 
       },
       (error) => {
