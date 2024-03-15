@@ -38,14 +38,7 @@ export class CrearCuentaComponent implements OnInit {
     "tipoCapitalizacion": "",
     "formaCapitalizacion": "",
     "maximoNumeroIntervinientes": 0,
-    "valorTasaInteres": "",
   };
-
-  tasaInteres = {
-    "codTasaInteres": "",
-    "tasaMinima": 0.50,
-    "tasaMaxima": 2.00,
-  }
 
   identFirst = true;
   identValidacion = false;
@@ -108,21 +101,7 @@ export class CrearCuentaComponent implements OnInit {
       );
     }
   }
-  getTasaInteresById() {
-    if (this.tipoCuenta.codTasaInteres != "") {
-      this.serviceCredito.getByIdTasaIntAPI(this.tipoCuenta.codTasaInteres).subscribe(
-        (data) => {
-          if (data) {
-            this.tasaInteres = data;
-            this.tipoCuenta.valorTasaInteres = this.tasaInteres.tasaMinima + "% - " + this.tasaInteres.tasaMaxima + "%";
-          }
-        },
-        (error) => {
-          console.error('Error al hacer la solicitud:', error);
-        }
-      );
-    }
-  }
+
   addParticipante() {
 
     let tableBody = document.getElementById('tbParticipante') as HTMLTableElement;
@@ -225,12 +204,7 @@ export class CrearCuentaComponent implements OnInit {
     this.clienteIdentificacion.nombres = '';
     this.clienteIdentificacion.razonSocial = '';
   }
-  generarNumeroCuenta() {
-    const numeroAleatorio = Math.random();
-    const numeroCadena = (numeroAleatorio * 1e8).toFixed(0);
-    const numeroAleatorio10Digitos = numeroCadena.padStart(8, '0');
-    return numeroAleatorio10Digitos;
-  }
+
   fechaActual() {
     let fechaActual = new Date();
     let año = fechaActual.getFullYear();
@@ -241,28 +215,37 @@ export class CrearCuentaComponent implements OnInit {
     return fechaFormateada;
   }
   crearCuenta() {
-    if (this.cliente.length > 0 && this.tipoCuenta.codTipoCuenta != "") {
-      let numeroCuenta = this.generarNumeroCuenta();
+    if (this.cliente.length > 0 && this.tipoCuenta.codTipoCuenta != "" || true) { //CAMBIAR ESTO ****************
       let nuevaCuenta = 
       {
-        "numeroCuenta": numeroCuenta,
         "codTipoCuenta": this.tipoCuenta.codTipoCuenta,
-        "codCliente": this.cliente[0].idCliente,
-        "saldoContable": 0,
-        "saldoDisponible": 0
+        "codCliente": "this.cliente[0].idCliente", ///CODIGO DEL CLIENTE HAY QUE CAMBIAR ***********************
+        "montoMaximoRetiro": 3000,
       }
+
+      /*************Borrar esto******************/
+      this.cliente.push({
+        'idCliente': "this.cliente[0].idCliente",
+        'tipoIdentificacion': 'asd',
+        'numeroIdentificacion': 'asd',
+        'apellidos': 'asd',
+        'nombres': 'asd',
+        'razonSocial': 'asd',
+      });
+
       this.serviceCuenta.postCuentaAPI(nuevaCuenta).subscribe(
         (data) => {
           if (data) {
+            let tipoInterviniente = "TIT"
             this.cliente.forEach((participante) => {
               let cuentaIntervinientes = 
               {
-                "fechaInicio": this.fechaActual(),
-                "pk": {
-                    "codCuenta": data,
-                    "codClientePersona": participante.idCliente
-                }
+                "codCuenta": data.codCuenta,
+                "codCliente": "this.cliente[0].idCliente", /***********************BORRAR ESTO ****************/
+                "tipoInterviniente": tipoInterviniente,
+                "estado": "ACT"
               } 
+              tipoInterviniente = "COT";
               this.serviceCuenta.postCuentaParticipantesAPI(cuentaIntervinientes).subscribe(
                 (data) => {
                   console.log("Creado");
@@ -275,7 +258,7 @@ export class CrearCuentaComponent implements OnInit {
             Swal.fire({
               icon: "success",
               title: "Listo",
-              text: "La cuenta se ha creado satisfactoriamente NUMERO DE CUENTA: " + numeroCuenta,
+              text: "La cuenta se ha creado satisfactoriamente NUMERO DE CUENTA: " + data.numeroCuenta,
               showConfirmButton: true,
             }).then((result) => {
               if (result.isConfirmed) {
