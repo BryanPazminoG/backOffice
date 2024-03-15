@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SegUsuarioService } from 'src/app/Servicios/seg-usuario.service';
 import { Router } from '@angular/router';
+import { FlujoDatosService } from 'src/app/Servicios/flujo-datos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -10,29 +12,48 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit{
 
   credenciales = {
-    usuario: '',
-    clave: ''
+    "usuario": "",
+    "contrasena": "",
+    "tipo":""
   }
   primeraVisita = true;
   accesoValidacion = false;
 
-  constructor(private segUsuarioService: SegUsuarioService, private router: Router){}
+  constructor(private segUsuarioService: SegUsuarioService, private router: Router, private flujoDatos: FlujoDatosService){}
 
   ngOnInit(): void {
+    localStorage.clear();
   }
 
   loginUser(){
-    this.segUsuarioService.loguearUsuarioAPI(this.credenciales.usuario, this.credenciales.clave).subscribe( 
+    if(this.credenciales.usuario != '' && this.credenciales.contrasena  != '')
+      this.primeraVisita = false;
+    this.accesoValidacion = true;
+
+    console.log(this.credenciales);
+
+    this.segUsuarioService.validarUsuarioLogin(this.credenciales).subscribe(
       (data) => {
-        this.router.navigate(["/clientes"]);
-        this.accesoValidacion = true;
+        if(data){
+          this.router.navigate(["/clientes"]);
+        } else {
+          Swal.fire({
+            title: 'Error de acceso',
+            text: 'No tiene acceso al BackOffice',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          });
+          this.accesoValidacion = false;
+        }
+
+
+
+
       },
       (error) => {
         console.error('Error al hacer la solicitud:', error);
+        this.accesoValidacion = false;
       }
     );
-    this.primeraVisita = false;
-    this.accesoValidacion = false;
-    this.router.navigate(["/clientes"]);
   }
 }
