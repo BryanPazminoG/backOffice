@@ -27,10 +27,9 @@ export class ConsultaCuentaComponent implements OnInit {
   };
   listaIntervinientes = [{
     "estado": "",
-    "pk": {
-      "codCuenta": 0,
-      "codClientePersona": "",
-    }
+    "codCuenta": 0,
+    "codCliente": "",
+      
   }];
   listacliente = [{ 'apellidos': '', 'nombres': '', 'razonSocial': '',  'correoElectronico': '' }];
   listaCuentas = [{ 'codCuenta': 0, 'numeroCuenta': '', 'codTipoCuenta': '', 'estado': '','fechaCreacion': ''}];
@@ -99,7 +98,7 @@ export class ConsultaCuentaComponent implements OnInit {
           if (data) {
             this.listaIntervinientes = data;
             this.listaIntervinientes.forEach((interviniente) => {
-              this.serviceCuenta.getCuentaByIdAPI(interviniente.pk.codCuenta).subscribe(
+              this.serviceCuenta.getCuentaByIdAPI(interviniente.codCuenta).subscribe(
                 (data) => {
                   if(data){
                     this.listaCuentas.push(data);
@@ -126,18 +125,24 @@ export class ConsultaCuentaComponent implements OnInit {
         (data) => {
           if (data) {
             this.listaIntervinientes = data;
-            this.listaIntervinientes.forEach((interviniente) => {
-              this.serviceCliente.getClienteByIdAPI(interviniente.pk.codClientePersona).subscribe(
-                (data) => {
-                  if(data){
-                    this.listacliente.push(data);
-                  }
-                },
-                (error) => {
-                  console.error('Error al hacer la solicitud:', error);
-                }
-              );
-            });
+            /****************  BORRRAR ESTO *************/
+            this.listacliente.push(
+              { 'apellidos': 'rICKY', 'nombres': 'GARCIA', 'razonSocial': 'ESPE',  'correoElectronico': 'KIKI' }
+            );
+            /*********** DESCOMENTAR ESTO ************************/
+            
+            // this.listaIntervinientes.forEach((interviniente) => {
+            //   this.serviceCliente.getClienteByIdAPI(interviniente.codCliente).subscribe(
+            //     (data) => {
+            //       if(data){
+            //         this.listacliente.push(data);
+            //       }
+            //     },
+            //     (error) => {
+            //       console.error('Error al hacer la solicitud:', error);
+            //     }
+            //   );
+            // });
           }
         },
         (error) => {
@@ -156,10 +161,8 @@ export class ConsultaCuentaComponent implements OnInit {
     this.identValidacionCliente = false;
     this.listaIntervinientes = [{
       "estado": "",
-      "pk": {
-        "codCuenta": 0,
-        "codClientePersona": "",
-      }
+      "codCuenta": 0,
+      "codCliente": "",
     }];
     this.listaCuentas = [{ 'codCuenta': 0, 'numeroCuenta': '', 'codTipoCuenta': '', 'estado': '','fechaCreacion': ''}];
     this.listaCuentas.pop();
@@ -174,10 +177,8 @@ export class ConsultaCuentaComponent implements OnInit {
     this.identValidacionCuenta = false;
     this.listaIntervinientes = [{
       "estado": "",
-      "pk": {
-        "codCuenta": 0,
-        "codClientePersona": "",
-      }
+      "codCuenta": 0,
+      "codCliente": "",
     }];
     this.listacliente = [{ 'apellidos': '', 'nombres': '', 'razonSocial': '', 'correoElectronico': '' }];
     this.listacliente.pop();

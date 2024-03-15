@@ -49,7 +49,7 @@
                                         <div class="col-4">
                                             <div>
                                                 <strong>FECHA:</strong>
-                                                {{credito.fecha_creacion}}
+                                                {{credito.fechaCreacion}}
                                                 <br><br>
                                             </div>
                                             <div>
@@ -88,12 +88,12 @@
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let fila of preTablaPagos">
-                                                <th scope="row">{{fila.periodo}}</th>
-                                                <td>{{formatoFecha(fila.fechaPlanificadoPago)}}</td>
-                                                <td>{{fila.cuota}}</td>
-                                                <td>{{fila.interesPeriodo}}</td>
-                                                <td>{{fila.amortizacionPeriodo}}</td>
-                                                <td>{{fila.capitalPendiente}}</td>
+                                                <th scope="row">{{fila.codCuota}}</th>
+                                                <td>{{formatoFecha(fila.fechaPlanificadaPago)}}</td>
+                                                <td>{{fila.capital}}</td>
+                                                <td>{{fila.interes}}</td>
+                                                <td>{{fila.montoCuota}}</td>
+                                                <td>{{fila.capitalRestante}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
