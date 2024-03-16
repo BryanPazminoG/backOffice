@@ -138,6 +138,7 @@ export class CreditosComponent implements OnInit {
         this.identPFirst = false;
         this.identPValidacion = true;
         if (data) {
+          console.log(data);
           this.participePrincipal = {
             'codCliente': data.codCliente,
             'codCuenta': 0,

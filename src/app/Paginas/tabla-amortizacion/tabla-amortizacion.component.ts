@@ -15,7 +15,7 @@ import { CuentaService } from 'src/app/Servicios/cuenta.service';
 export class TablaAmortizacionComponent implements OnInit {
 
   participePrincipal = {
-    'cod_cliente': 0,
+    'codCliente': 0,
     'codCuenta': '',
     'numeroCuenta': '',
     'tipo_identificacion': '',
@@ -28,7 +28,7 @@ export class TablaAmortizacionComponent implements OnInit {
     'correo_electronico': '',
   };
   participeSecundario = [{
-    'cod_cliente': '',
+    'codCliente': '',
     'numeroCuenta': '',
     'numero_identificacion': '',
     'apellidos': '',
@@ -91,9 +91,10 @@ export class TablaAmortizacionComponent implements OnInit {
     let transaccionCreditoOrigen = {
       "codCuenta": this.participePrincipal.codCuenta,
       "valorDebe": this.credito.monto,
-      "canal": "BOF"
+      "canal": "BWE"
     }
 
+    console.log(transaccionCreditoOrigen);
     this.cuentaService.postTransaccionAPI(transaccionCreditoOrigen).subscribe(
       (data) => {
     //     this.cuentaService.postTransaccionAPI(transaccionCreditoDestino).subscribe(
@@ -122,7 +123,7 @@ export class TablaAmortizacionComponent implements OnInit {
                   let creditoIntRegistroP = {
                     "tipo": "PRI",
                     "codCredito": idCredito,
-                    "codCliente": registroCredito.codCliente,
+                    "codCliente": this.participePrincipal.codCliente,
                   }
                   this.creditoService.postCredIntAPI(creditoIntRegistroP).subscribe(
                     (data) => {
@@ -138,7 +139,7 @@ export class TablaAmortizacionComponent implements OnInit {
                     let creditoIntRegistroS = {
                       "tipo": "SEC",
                       "codCredito": idCredito,
-                      "codCliente": participante.cod_cliente,
+                      "codCliente": participante.codCliente,
                     }
                     this.creditoService.postCredIntAPI(creditoIntRegistroS).subscribe(
                       (data) => {
