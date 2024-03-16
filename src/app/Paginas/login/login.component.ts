@@ -26,37 +26,37 @@ export class LoginComponent implements OnInit{
   }
 
   loginUser(){
-    this.router.navigate(["/clientes"]);
-    // if(this.credenciales.usuario != '' && this.credenciales.clave  != '')
-    // this.primeraVisita = false;
-    // this.accesoValidacion = true;
+  //  this.router.navigate(["/clientes"]);
+    if(this.credenciales.usuario != '' && this.credenciales.clave  != '')
+     this.primeraVisita = false;
+     this.accesoValidacion = true;
 
-    // console.log(this.credenciales);
-
-    
-
-    // this.segUsuarioService.validarUsuarioLogin(this.credenciales).subscribe(
-    //   (data) => {
-    //     if(data){
-    //       this.flujoDatos.setValidacionLogin(this.credenciales.usuario);
-    //       this.router.navigate(["/clientes"]);
+     console.log(this.credenciales);
 
 
-    //     }else{
-    //       Swal.fire({
-    //         title: 'Error de acceso',
-    //         text: 'No tiene acceso al BackOffice',
-    //         icon: 'error',
-    //         confirmButtonText: 'Aceptar'
-    //       });
-    //       this.accesoValidacion = false;
-    //     }
 
-    //   },
-    //   (error) => {
-    //     console.error('Error al hacer la solicitud:', error);
-    //     this.accesoValidacion = false;
-    //   }
-    // );
+     this.segUsuarioService.validarUsuarioLogin(this.credenciales).subscribe(
+       (data) => {
+         if(data){
+          this.flujoDatos.setValidacionLogin(this.credenciales.usuario);
+           this.router.navigate(["/clientes"]);
+
+
+         }else{
+           Swal.fire({
+            title: 'Error de acceso',
+             text: 'No tiene acceso al BackOffice',
+             icon: 'error',
+            confirmButtonText: 'Aceptar'
+           });
+           this.accesoValidacion = false;
+         }
+
+      },
+       (error) => {
+         console.error('Error al hacer la solicitud:', error);
+         this.accesoValidacion = false;
+       }
+    );
   }
 }

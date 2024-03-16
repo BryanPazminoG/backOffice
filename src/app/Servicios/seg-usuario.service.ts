@@ -10,7 +10,7 @@ export class SegUsuarioService {
 
 
   // Localhost
-  private accesoUsuario: string =   "http://localhost:8096/api/v1/accesos/login";
+  private accesoUsuario: string =   "http://localhost:8080/api/v1/accesos/login";
   private crearPersonal: string =   "http://34.173.172.59:8093/api/v1/empleados";
   private buscarRoles: string =     "http://34.173.172.59:8093/api/v1/roles";
   private accesoP: string =         "http://34.173.172.59:8093/api/v1/accesos";
